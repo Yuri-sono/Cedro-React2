@@ -1,0 +1,219 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
+/* Global Styles */
+:root {
+    --primary-color: #2e7d32;
+    --secondary-color: #1b5e20;
+    --accent-color: #43a047;
+    --light-color: #f8f9fa;
+    --dark-color: #212529;
+    --gray-color: #6c757d;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    color: var(--dark-color);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Navbar */
+.navbar {
+    background-color: var(--primary-color) !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand i {
+    color: #ffffff;
+}
+
+/* Hero Section */
+.hero-section {
+    background: linear-gradient(rgba(46, 125, 50, 0.9), rgba(27, 94, 32, 0.9));
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+}
+
+/* Sections */
+section {
+    overflow: hidden;
+}
+
+/* Cards */
+.card {
+    transition: all 0.3s ease;
+    border-radius: 10px;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.icon-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Testimonials */
+.testimonial-item {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+/* Back to Top Button */
+.back-to-top {
+    position: fixed;
+    right: 15px;
+    bottom: 15px;
+    z-index: 99;
+    background: var(--primary-color);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    color: #fff;
+    transition: all 0.4s;
+    text-decoration: none;
+    display: none;
+}
+
+.back-to-top:hover {
+    background: var(--secondary-color);
+    color: #fff;
+}
+
+.back-to-top i {
+    font-size: 24px;
+    line-height: 0;
+}
+
+/* Animation */
+.animate-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.animate-on-scroll.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Ajuda Section */
+.ajuda-section {
+    background: linear-gradient(rgba(46, 125, 50, 0.9), rgba(27, 94, 32, 0.9));
+}
+
+/* Chat Styles */
+.chat-section {
+    background-color: #f8f9fa;
+    min-height: 80vh;
+}
+
+.chat-container {
+    max-height: 400px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+}
+
+.chat-message {
+    display: flex;
+    margin-bottom: 15px;
+}
+
+.chat-message.user {
+    justify-content: flex-end;
+}
+
+.message-content {
+    max-width: 80%;
+    padding: 12px 15px;
+    border-radius: 15px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.chat-message.bot .message-content {
+    background-color: #e9ecef;
+    color: #212529;
+    border-top-left-radius: 5px;
+}
+
+.chat-message.user .message-content {
+    background-color: #2e7d32;
+    color: white;
+    border-top-right-radius: 5px;
+}
+
+.response-options button {
+    text-align: left;
+    transition: all 0.2s ease;
+}
+
+.response-options button:hover {
+    transform: translateY(-2px);
+}
+
+.breathing-exercise {
+    background-color: #e8f5e9;
+    border-radius: 10px;
+    padding: 15px;
+    margin: 20px 0;
+    text-align: center;
+}
+
+.breathing-circle {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: #2e7d32;
+    margin: 0 auto 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 14px;
+    transition: transform 4s ease-in-out, background-color 4s ease-in-out;
+}
+
+.breathing-circle.inhale {
+    transform: scale(1.5);
+    background-color: #43a047;
+}
+
+.breathing-circle.exhale {
+    transform: scale(1);
+    background-color: #2e7d32;
+}
+
+.grounding-exercise {
+    background-color: #e3f2fd;
+    border-radius: 10px;
+    padding: 15px;
+    margin: 20px 0;
+}
+
+.grounding-item {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.grounding-item i {
+    margin-right: 10px;
+    color: #2e7d32;
+}
+
+.emergency-contact {
+    border-top: 1px solid #dee2e6;
+    padding-top: 20px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .hero-section {
+        min-height: 60vh;
+    }
+}
