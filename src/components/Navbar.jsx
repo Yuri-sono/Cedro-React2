@@ -34,6 +34,12 @@ const Navbar = () => {
             <li className="nav-item">
               <a className="nav-link" href="/#contato">Contato</a>
             </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/perfil">
+                <i className="bi bi-person-circle me-1"></i>
+                Perfil
+              </Link>
+            </li>
           </ul>
           <a href="/#ajuda" className="btn btn-light ms-3">Preciso de Ajuda</a>
         </div>

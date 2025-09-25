@@ -1,16 +1,17 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
-import BackToTop from './components/BackToTop';
-import Home from './pages/Home';
-import ChatEmergencia from './pages/ChatEmergencia';
-import TerapiaIndividual from './pages/TerapiaIndividual';
-import TerapiaGrupo from './pages/TerapiaGrupo';
-import AtendimentoOnline from './pages/AtendimentoOnline';
-import MeditacoesGuiadas from './pages/MeditacoesGuiadas';
-import Ebooks from './pages/Ebooks';
-import Webinars from './pages/Webinars';
+import Navbar from './components/Navbar.jsx';
+import Footer from './components/Footer.jsx';
+import BackToTop from './components/BackToTop.jsx';
+import Home from './pages/Home.jsx';
+import ChatEmergencia from './pages/ChatEmergencia.jsx';
+import TerapiaIndividual from './pages/TerapiaIndividual.jsx';
+import TerapiaGrupo from './pages/TerapiaGrupo.jsx';
+import AtendimentoOnline from './pages/AtendimentoOnline.jsx';
+import MeditacoesGuiadas from './pages/MeditacoesGuiadas.jsx';
+import Ebooks from './pages/Ebooks.jsx';
+import Webinars from './pages/Webinars.jsx';
+import Perfil from './pages/Perfil.jsx';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path="/meditacoes-guiadas" element={<MeditacoesGuiadas />} />
           <Route path="/ebooks" element={<Ebooks />} />
           <Route path="/webinars" element={<Webinars />} />
+          <Route path="/perfil" element={<Perfil />} />
         </Routes>
         <Footer />
         <BackToTop />
