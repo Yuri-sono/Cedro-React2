@@ -211,9 +211,28 @@ section {
     padding-top: 20px;
 }
 
+/* Perfil Styles */
+.perfil-section {
+    background-color: #f8f9fa;
+    min-height: 100vh;
+}
+
+.profile-photo-container {
+    position: relative;
+    display: inline-block;
+}
+
+.profile-photo-container i {
+    font-size: 6rem;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .hero-section {
         min-height: 60vh;
+    }
+    
+    .profile-photo-container i {
+        font-size: 4rem;
     }
 }
