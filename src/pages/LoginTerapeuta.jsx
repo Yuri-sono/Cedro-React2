@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext.jsx';
+import axios from 'axios';
 
 const LoginTerapeuta = () => {
   const [formData, setFormData] = useState({
     email: '',
     senha: ''
   });
+  const [loading, setLoading] = useState(false);
+  const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleInputChange = (e) => {
@@ -13,22 +17,33 @@ const LoginTerapeuta = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Simular login
-    localStorage.setItem('terapeutaLogado', JSON.stringify({
-      id: 1,
-      nome: 'Dr. João Silva',
-      email: formData.email,
-      crp: '06/123456'
-    }));
-    window.dispatchEvent(new CustomEvent('showNotification', {
-      detail: {
-        message: '👨‍⚕️ Login realizado com sucesso! Bem-vindo, Dr. João Silva!',
-        type: 'success'
+    setLoading(true);
+    
+    try {
+      const response = await axios.post('http://localhost:3001/api/auth/login', formData);
+      
+      if (response.data.usuario.tipo_usuario === 'terapeuta') {
+        login(response.data.usuario, response.data.token);
+        localStorage.setItem('terapeutaLogado', JSON.stringify(response.data.usuario));
+        
+        window.dispatchEvent(new CustomEvent('showNotification', {
+          detail: {
+            message: `👨‍⚕️ Login realizado com sucesso! Bem-vindo, ${response.data.usuario.nome}!`,
+            type: 'success'
+          }
+        }));
+        
+        navigate('/terapeuta/dashboard');
+      } else {
+        alert('Este login é apenas para terapeutas.');
       }
-    }));
-    navigate('/terapeuta/dashboard');
+    } catch (error) {
+      alert(error.response?.data?.error || 'Erro no login');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -68,8 +83,8 @@ const LoginTerapeuta = () => {
                     />
                   </div>
 
-                  <button type="submit" className="btn btn-primary w-100 mb-3">
-                    Entrar
+                  <button type="submit" className="btn btn-primary w-100 mb-3" disabled={loading}>
+                    {loading ? 'Carregando...' : 'Entrar'}
                   </button>
 
                   <div className="text-center">

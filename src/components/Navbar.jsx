@@ -1,7 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext.jsx';
 
 const Navbar = () => {
+  const { user, logout, isAuthenticated } = useAuth();
   return (
     <nav className="navbar navbar-expand-lg navbar-dark sticky-top">
       <div className="container">
@@ -37,39 +39,41 @@ const Navbar = () => {
             <li className="nav-item">
               <a className="nav-link" href="/#contato">Contato</a>
             </li>
-            <li className="nav-item dropdown">
-              <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                <div className="profile-avatar-small">
-                  <i className="bi bi-person-fill"></i>
-                </div>
-                <span className="ms-2">Perfil</span>
-              </a>
-              <ul className="dropdown-menu">
-                <li><Link className="dropdown-item" to="/perfil">
-                  <i className="bi bi-person-circle"></i>Meu Perfil
-                </Link></li>
-                <li><Link className="dropdown-item" to="/configuracoes">
-                  <i className="bi bi-gear"></i>Configurações
-                </Link></li>
-                <li><Link className="dropdown-item" to="/historico">
-                  <i className="bi bi-clock-history"></i>Histórico
-                </Link></li>
-                <li><hr className="dropdown-divider" /></li>
-                <li><Link className="dropdown-item" to="/logout">
-                  <i className="bi bi-box-arrow-right"></i>Sair
-                </Link></li>
-              </ul>
-            </li>
-            <li className="nav-item dropdown">
-              <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                <i className="bi bi-box-arrow-in-right me-1"></i>
-                Login
-              </a>
-              <ul className="dropdown-menu">
-                <li><Link className="dropdown-item" to="/login">Paciente</Link></li>
-                <li><Link className="dropdown-item" to="/login-terapeuta">Terapeuta</Link></li>
-              </ul>
-            </li>
+            {isAuthenticated ? (
+              <li className="nav-item dropdown">
+                <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                  <div className="profile-avatar-small">
+                    <i className="bi bi-person-fill"></i>
+                  </div>
+                  <span className="ms-2">{user?.nome || 'Usuário'}</span>
+                </a>
+                <ul className="dropdown-menu">
+                  <li><Link className="dropdown-item" to="/perfil">
+                    <i className="bi bi-person-circle"></i>Meu Perfil
+                  </Link></li>
+                  {user?.tipo_usuario === 'terapeuta' && (
+                    <li><Link className="dropdown-item" to="/terapeuta/dashboard">
+                      <i className="bi bi-speedometer2"></i>Dashboard
+                    </Link></li>
+                  )}
+                  <li><hr className="dropdown-divider" /></li>
+                  <li><button className="dropdown-item" onClick={logout}>
+                    <i className="bi bi-box-arrow-right"></i>Sair
+                  </button></li>
+                </ul>
+              </li>
+            ) : (
+              <li className="nav-item dropdown">
+                <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                  <i className="bi bi-box-arrow-in-right me-1"></i>
+                  Login
+                </a>
+                <ul className="dropdown-menu">
+                  <li><Link className="dropdown-item" to="/login">Paciente</Link></li>
+                  <li><Link className="dropdown-item" to="/login-terapeuta">Terapeuta</Link></li>
+                </ul>
+              </li>
+            )}
           </ul>
           <a href="/#ajuda" className="btn btn-light ms-3">Preciso de Ajuda</a>
         </div>

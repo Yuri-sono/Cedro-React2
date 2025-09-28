@@ -1,15 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useAuth } from '../contexts/AuthContext.jsx';
+import axios from 'axios';
 
 const Perfil = () => {
+  const { user } = useAuth();
   const [usuario, setUsuario] = useState({
-    nome: 'João Silva',
-    email: 'joao@email.com',
-    telefone: '(11) 99999-9999',
-    dataNascimento: '1990-05-15',
-    genero: 'masculino',
-    endereco: 'São Paulo, SP',
-    bio: 'Buscando bem-estar mental e equilíbrio na vida.'
+    nome: '',
+    email: '',
+    telefone: '',
+    dataNascimento: '',
+    genero: '',
+    endereco: '',
+    bio: ''
   });
+
+  useEffect(() => {
+    if (user) {
+      setUsuario({
+        nome: user.nome || '',
+        email: user.email || '',
+        telefone: user.telefone || '',
+        dataNascimento: user.data_nascimento || '',
+        genero: user.genero || '',
+        endereco: user.endereco || '',
+        bio: user.bio || 'Buscando bem-estar mental e equilíbrio na vida.'
+      });
+    }
+  }, [user]);
 
   const [editando, setEditando] = useState(false);
   const [senhaAtual, setSenhaAtual] = useState('');
@@ -24,22 +41,51 @@ const Perfil = () => {
     }));
   };
 
-  const handleSalvar = () => {
-    setEditando(false);
-    // Aqui você adicionaria a lógica para salvar no backend
-    alert('Perfil atualizado com sucesso!');
+  const handleSalvar = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      await axios.put('http://localhost:3001/api/auth/perfil', {
+        nome: usuario.nome,
+        telefone: usuario.telefone,
+        data_nascimento: usuario.dataNascimento,
+        genero: usuario.genero,
+        endereco: usuario.endereco,
+        bio: usuario.bio
+      }, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      
+      setEditando(false);
+      alert('Perfil atualizado com sucesso!');
+    } catch (error) {
+      console.error('Erro ao salvar perfil:', error);
+      alert('Erro ao salvar perfil. Tente novamente.');
+    }
   };
 
-  const handleAlterarSenha = () => {
+  const handleAlterarSenha = async () => {
     if (novaSenha !== confirmarSenha) {
       alert('As senhas não coincidem!');
       return;
     }
-    // Aqui você adicionaria a lógica para alterar senha no backend
-    alert('Senha alterada com sucesso!');
-    setSenhaAtual('');
-    setNovaSenha('');
-    setConfirmarSenha('');
+    
+    try {
+      const token = localStorage.getItem('token');
+      await axios.put('http://localhost:3001/api/auth/alterar-senha', {
+        senhaAtual,
+        novaSenha
+      }, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      
+      alert('Senha alterada com sucesso!');
+      setSenhaAtual('');
+      setNovaSenha('');
+      setConfirmarSenha('');
+    } catch (error) {
+      console.error('Erro ao alterar senha:', error);
+      alert('Erro ao alterar senha. Verifique a senha atual.');
+    }
   };
 
   return (
@@ -55,7 +101,9 @@ const Perfil = () => {
                 <h2 className="fw-bold mb-1">{usuario.nome}</h2>
                 <p className="text-muted mb-3">{usuario.email}</p>
                 <div className="d-flex justify-content-center gap-2 mb-4">
-                  <span className="badge bg-primary">Paciente Ativo</span>
+                  <span className="badge bg-primary">
+                    {user?.tipo_usuario === 'terapeuta' ? 'Terapeuta' : 'Paciente'} Ativo
+                  </span>
                   <span className="badge bg-success">Verificado</span>
                 </div>
               </div>

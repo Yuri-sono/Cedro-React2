@@ -24,7 +24,7 @@ const Contato = () => {
                 <div className="contact-info">
                   <div className="mb-3">
                     <h5><i className="bi bi-telephone text-success me-2"></i>Telefone</h5>
-                    <p className="mb-0">(11) 4000-0000</p>
+                    <p className="mb-0">(11) 95119-3385</p>
                     <small className="text-muted">Segunda a Sexta, 8h às 18h</small>
                   </div>
                   
