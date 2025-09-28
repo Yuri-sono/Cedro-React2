@@ -6,8 +6,15 @@ import BackToTop from './components/BackToTop.jsx';
 import EmergencyButton from './components/EmergencyButton.jsx';
 import './styles/emergency-button.css';
 import './styles/dashboard-terapeuta.css';
+import './styles/navbar-spacing.css';
+import './styles/theme.css';
+import './styles/notifications.css';
+import ThemeToggle from './components/ThemeToggle.jsx';
+import NotificationSystem from './components/NotificationSystem.jsx';
+import StreakTree from './components/StreakTree.jsx';
 import Home from './pages/Home.jsx';
 import ChatEmergencia from './pages/ChatEmergencia.jsx';
+import Contato from './pages/Contato.jsx';
 import TerapiaIndividual from './pages/TerapiaIndividual.jsx';
 import TerapiaGrupo from './pages/TerapiaGrupo.jsx';
 import AtendimentoOnline from './pages/AtendimentoOnline.jsx';
@@ -33,6 +40,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/chat-emergencia" element={<ChatEmergencia />} />
+          <Route path="/contato" element={<Contato />} />
           <Route path="/terapia-individual" element={<TerapiaIndividual />} />
           <Route path="/terapia-grupo" element={<TerapiaGrupo />} />
           <Route path="/atendimento-online" element={<AtendimentoOnline />} />
@@ -53,6 +61,9 @@ function App() {
         <Footer />
         <BackToTop />
         <EmergencyButton />
+        <ThemeToggle />
+        <NotificationSystem />
+        <StreakTree />
       </div>
     </Router>
   );

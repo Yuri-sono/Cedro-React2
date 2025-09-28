@@ -37,11 +37,28 @@ const Navbar = () => {
             <li className="nav-item">
               <a className="nav-link" href="/#contato">Contato</a>
             </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/perfil">
-                <i className="bi bi-person-circle me-1"></i>
-                Perfil
-              </Link>
+            <li className="nav-item dropdown">
+              <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                <div className="profile-avatar-small">
+                  <i className="bi bi-person-fill"></i>
+                </div>
+                <span className="ms-2">Perfil</span>
+              </a>
+              <ul className="dropdown-menu">
+                <li><Link className="dropdown-item" to="/perfil">
+                  <i className="bi bi-person-circle"></i>Meu Perfil
+                </Link></li>
+                <li><Link className="dropdown-item" to="/configuracoes">
+                  <i className="bi bi-gear"></i>Configurações
+                </Link></li>
+                <li><Link className="dropdown-item" to="/historico">
+                  <i className="bi bi-clock-history"></i>Histórico
+                </Link></li>
+                <li><hr className="dropdown-divider" /></li>
+                <li><Link className="dropdown-item" to="/logout">
+                  <i className="bi bi-box-arrow-right"></i>Sair
+                </Link></li>
+              </ul>
             </li>
             <li className="nav-item dropdown">
               <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">

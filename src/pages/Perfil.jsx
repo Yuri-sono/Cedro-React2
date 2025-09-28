@@ -47,24 +47,18 @@ const Perfil = () => {
       <div className="container">
         <div className="row justify-content-center">
           <div className="col-lg-8">
-            <div className="card shadow-sm">
-              <div className="card-header bg-primary text-white">
-                <h3 className="mb-0">
-                  <i className="bi bi-person-circle me-2"></i>
-                  Meu Perfil
-                </h3>
-              </div>
-              <div className="card-body">
-                {/* Foto do Perfil */}
-                <div className="text-center mb-4">
-                  <div className="profile-photo-container">
-                    <i className="bi bi-person-circle display-1 text-muted"></i>
-                    <button className="btn btn-sm btn-outline-primary mt-2">
-                      <i className="bi bi-camera me-1"></i>
-                      Alterar Foto
-                    </button>
-                  </div>
+            <div className="profile-card">
+              <div className="text-center mb-4">
+                <div className="profile-avatar">
+                  <i className="bi bi-person-fill"></i>
                 </div>
+                <h2 className="fw-bold mb-1">{usuario.nome}</h2>
+                <p className="text-muted mb-3">{usuario.email}</p>
+                <div className="d-flex justify-content-center gap-2 mb-4">
+                  <span className="badge bg-primary">Paciente Ativo</span>
+                  <span className="badge bg-success">Verificado</span>
+                </div>
+              </div>
 
                 {/* Informações Pessoais */}
                 <div className="row">
@@ -230,46 +224,50 @@ const Perfil = () => {
                 </button>
 
                 {/* Estatísticas do Usuário */}
-                <hr />
-                <h5 className="mb-3">
-                  <i className="bi bi-graph-up me-2"></i>
-                  Minha Jornada
-                </h5>
-                <div className="row text-center">
-                  <div className="col-md-3 mb-3">
-                    <div className="card bg-light">
-                      <div className="card-body">
-                        <h4 className="text-primary">12</h4>
-                        <small>Sessões Realizadas</small>
+                <div className="stats-section mt-4">
+                  <h5 className="mb-4 text-center">
+                    <i className="bi bi-graph-up me-2"></i>
+                    Minha Jornada
+                  </h5>
+                  <div className="row g-3">
+                    <div className="col-6 col-md-3">
+                      <div className="stat-card">
+                        <div className="stat-icon bg-primary">
+                          <i className="bi bi-calendar-check"></i>
+                        </div>
+                        <h4>12</h4>
+                        <small>Sessões</small>
                       </div>
                     </div>
-                  </div>
-                  <div className="col-md-3 mb-3">
-                    <div className="card bg-light">
-                      <div className="card-body">
-                        <h4 className="text-success">8</h4>
-                        <small>Meditações Concluídas</small>
+                    <div className="col-6 col-md-3">
+                      <div className="stat-card">
+                        <div className="stat-icon bg-success">
+                          <i className="bi bi-headphones"></i>
+                        </div>
+                        <h4>8</h4>
+                        <small>Meditações</small>
                       </div>
                     </div>
-                  </div>
-                  <div className="col-md-3 mb-3">
-                    <div className="card bg-light">
-                      <div className="card-body">
-                        <h4 className="text-info">5</h4>
-                        <small>E-books Lidos</small>
+                    <div className="col-6 col-md-3">
+                      <div className="stat-card">
+                        <div className="stat-icon bg-info">
+                          <i className="bi bi-book"></i>
+                        </div>
+                        <h4>5</h4>
+                        <small>E-books</small>
                       </div>
                     </div>
-                  </div>
-                  <div className="col-md-3 mb-3">
-                    <div className="card bg-light">
-                      <div className="card-body">
-                        <h4 className="text-warning">3</h4>
-                        <small>Webinars Assistidos</small>
+                    <div className="col-6 col-md-3">
+                      <div className="stat-card">
+                        <div className="stat-icon bg-warning">
+                          <i className="bi bi-camera-video"></i>
+                        </div>
+                        <h4>3</h4>
+                        <small>Webinars</small>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
             </div>
           </div>
         </div>
