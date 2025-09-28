@@ -1,194 +1,101 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
+import '../styles/chat-emergencia.css';
 
 const ChatEmergencia = () => {
   const [messages, setMessages] = useState([
     {
       id: 1,
-      text: "Olá, estou aqui para ajudar você a se acalmar. Vamos conversar um pouco?",
+      text: "Olá! Escolha uma das opções abaixo para receber apoio:",
       isUser: false
     }
   ]);
-  const [showOptions, setShowOptions] = useState(true);
-  const [currentOptions, setCurrentOptions] = useState([
-    "Sim, estou me sentindo ansioso(a)",
-    "Estou tendo pensamentos negativos",
-    "Estou em pânico",
-    "Preciso conversar com alguém"
-  ]);
-  const chatContainerRef = useRef(null);
+  const [currentStep, setCurrentStep] = useState('menu');
 
-  useEffect(() => {
-    if (chatContainerRef.current) {
-      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+  const questionOptions = [
+    {
+      id: 'ansiedade',
+      text: '😰 Estou sentindo ansiedade',
+      response: "Entendo que você está sentindo ansiedade. Algumas técnicas que podem ajudar:\n\n• Respiração profunda: inspire por 4 segundos, segure por 4, expire por 6\n• Técnica 5-4-3-2-1: identifique 5 coisas que vê, 4 que toca, 3 que ouve, 2 que cheira, 1 que saboreia\n• Lembre-se: este sentimento é temporário\n\nSe a ansiedade persistir, procure ajuda profissional."
+    },
+    {
+      id: 'tristeza',
+      text: '😢 Estou me sentindo triste',
+      response: "Percebo que você está passando por um momento difícil. É importante lembrar:\n\n• Você não está sozinho nessa\n• Buscar ajuda é um sinal de força, não fraqueza\n• Pequenos passos já fazem diferença\n• Este momento vai passar\n\nSe a tristeza persistir, considere conversar com um profissional."
+    },
+    {
+      id: 'panico',
+      text: '😱 Estou tendo um ataque de pânico',
+      response: "Vamos fazer um exercício para te ajudar agora:\n\n1. RESPIRE: Inspire pelo nariz (4 seg), segure (4 seg), expire pela boca (6 seg)\n2. OBSERVE: Olhe ao redor e nomeie 5 objetos que você vê\n3. LEMBRE-SE: Isso vai passar, você está seguro\n4. REPITA: Continue respirando devagar\n\nSe os ataques são frequentes, procure um médico."
+    },
+    {
+      id: 'insonia',
+      text: '😴 Não consigo dormir',
+      response: "Problemas de sono são comuns. Algumas dicas que podem ajudar:\n\n• Evite telas 1h antes de dormir\n• Mantenha o quarto escuro e fresco\n• Vá para cama sempre no mesmo horário\n• Evite cafeína após 14h\n• Pratique relaxamento antes de dormir\n\nSe a insônia persistir, consulte um médico."
+    },
+    {
+      id: 'trabalho',
+      text: '💼 Problemas no trabalho',
+      response: "O estresse no trabalho é muito comum. Estratégias que podem ajudar:\n\n• Defina limites entre trabalho e vida pessoal\n• Faça pausas regulares durante o dia\n• Priorize tarefas importantes\n• Pratique técnicas de relaxamento\n• Converse com colegas ou supervisor quando possível\n\nSe o estresse for excessivo, considere apoio profissional."
+    },
+    {
+      id: 'relacionamento',
+      text: '💔 Problemas de relacionamento',
+      response: "Relacionamentos podem ser desafiadores. Algumas dicas:\n\n• Comunique seus sentimentos com clareza\n• Ouça ativamente o outro lado\n• Estabeleça limites saudáveis\n• Lembre-se que relacionamentos envolvem reciprocidade\n• Respeite seus próprios valores\n\nSe os conflitos persistirem, terapia de casal pode ajudar."
+    },
+    {
+      id: 'autoestima',
+      text: '🪞 Problemas de autoestima',
+      response: "A autoestima é algo que podemos trabalhar. Lembre-se:\n\n• Você é único e tem valor\n• Ninguém é perfeito, e está tudo bem\n• Liste 3 coisas boas sobre você todo dia\n• Trate-se com a mesma gentileza que trataria um amigo\n• Celebre pequenas conquistas\n\nSe a baixa autoestima afetar muito sua vida, procure ajuda profissional."
+    },
+    {
+      id: 'emergencia',
+      text: '🚨 Pensamentos de autolesão',
+      response: "🚨 ATENÇÃO: Sua vida tem valor e existem pessoas que podem te ajudar AGORA:\n\n📞 CVV - 188 (24h, gratuito)\n📞 CAPS - Centro de Atenção Psicossocial\n📞 UBS - Unidade Básica de Saúde\n📞 SAMU - 192\n\nVocê não precisa passar por isso sozinho. Por favor, ligue para um desses números AGORA ou vá ao hospital mais próximo."
     }
-  }, [messages]);
+  ];
 
-  const addMessage = (text, isUser = false) => {
-    const newMessage = {
+  const handleOptionClick = (option) => {
+    // Adicionar pergunta do usuário
+    const userMessage = {
       id: Date.now(),
-      text,
-      isUser
+      text: option.text,
+      isUser: true
     };
-    setMessages(prev => [...prev, newMessage]);
-  };
-
-  const selectOption = (option) => {
-    addMessage(option, true);
-    setShowOptions(false);
-
+    
+    setMessages(prev => [...prev, userMessage]);
+    
+    // Adicionar resposta após delay
     setTimeout(() => {
-      handleResponse(option);
-    }, 500);
-  };
-
-  const handleResponse = (option) => {
-    const responses = {
-      "Sim, estou me sentindo ansioso(a)": {
-        message: "É normal sentir ansiedade às vezes. Vamos fazer um exercício de respiração juntos para ajudar a acalmar seu sistema nervoso.",
-        followUp: () => showBreathingExercise()
-      },
-      "Estou tendo pensamentos negativos": {
-        message: "Entendo que pensamentos negativos podem ser difíceis. Vamos tentar um exercício de aterramento para trazer sua mente para o momento presente.",
-        followUp: () => showGroundingExercise()
-      },
-      "Estou em pânico": {
-        message: "Sinto muito que você esteja passando por isso. Vamos tentar uma técnica rápida para reduzir os sintomas de pânico. Primeiro, respire profundamente comigo.",
-        followUp: () => showPanicHelp()
-      },
-      "Preciso conversar com alguém": {
-        message: "É importante buscar apoio quando precisamos. Além deste chat, você pode ligar para o CVV (188) a qualquer momento. Gostaria de tentar alguma técnica de relaxamento enquanto isso?",
-        options: ["Sim, por favor", "Não, preciso de contato humano"]
-      },
-      "Sim, por favor": {
-        message: "Vamos fazer um exercício de respiração simples para ajudar a relaxar.",
-        followUp: () => showBreathingExercise()
-      },
-      "Não, preciso de contato humano": {
-        message: "Compreendo completamente. O contato humano é muito importante. Recomendo ligar para o CVV (188) agora mesmo, eles estão disponíveis 24h por dia.",
-        followUp: () => showContactInfo()
-      },
-      "Melhor": {
-        message: "Fico feliz em saber que você está se sentindo melhor! Lembre-se que estamos sempre aqui para ajudar.",
-        options: ["Gostaria de mais orientações", "Encerrar o chat"]
-      },
-      "Ainda ansioso(a)": {
-        message: "Vamos tentar outra abordagem. Às vezes precisamos de diferentes técnicas para encontrar o que funciona melhor para você.",
-        options: ["Exercício de respiração", "Técnica de aterramento", "Visualização guiada"]
-      }
-    };
-
-    const response = responses[option];
-    if (response) {
-      addMessage(response.message);
+      const botMessage = {
+        id: Date.now() + 1,
+        text: option.response,
+        isUser: false
+      };
       
-      if (response.followUp) {
-        setTimeout(() => {
-          response.followUp();
-        }, 1000);
-      }
+      setMessages(prev => [...prev, botMessage]);
       
-      if (response.options) {
-        setTimeout(() => {
-          setCurrentOptions(response.options);
-          setShowOptions(true);
-        }, 1000);
+      // Mostrar opção de voltar ao menu
+      setTimeout(() => {
+        const menuMessage = {
+          id: Date.now() + 2,
+          text: "Posso te ajudar com mais alguma coisa?",
+          isUser: false,
+          showMenu: true
+        };
+        setMessages(prev => [...prev, menuMessage]);
+      }, 1000);
+    }, 1500);
+  };
+
+  const resetChat = () => {
+    setMessages([
+      {
+        id: 1,
+        text: "Olá! Escolha uma das opções abaixo para receber apoio:",
+        isUser: false
       }
-    }
-  };
-
-  const showBreathingExercise = () => {
-    setTimeout(() => {
-      addMessage("Vamos fazer um exercício de respiração 4-7-8:");
-      setTimeout(() => {
-        addMessage("1. Inspire silenciosamente pelo nariz contando até 4");
-        setTimeout(() => {
-          addMessage("2. Segure a respiração contando até 7");
-          setTimeout(() => {
-            addMessage("3. Expire completamente pela boca contando até 8");
-            setTimeout(() => {
-              addMessage("4. Repita este ciclo 4 vezes");
-              setTimeout(() => {
-                addMessage("Como você está se sentindo agora?");
-                setCurrentOptions(["Melhor", "Ainda ansioso(a)", "Quero tentar outra técnica"]);
-                setShowOptions(true);
-              }, 3000);
-            }, 2000);
-          }, 2000);
-        }, 2000);
-      }, 1000);
-    }, 500);
-  };
-
-  const showGroundingExercise = () => {
-    setTimeout(() => {
-      addMessage("Vamos praticar o exercício de aterramento 5-4-3-2-1. Observe ao seu redor e identifique:");
-      setTimeout(() => {
-        addMessage("• 5 coisas que você pode VER");
-        setTimeout(() => {
-          addMessage("• 4 coisas que você pode TOCAR");
-          setTimeout(() => {
-            addMessage("• 3 coisas que você pode OUVIR");
-            setTimeout(() => {
-              addMessage("• 2 coisas que você pode CHEIRAR");
-              setTimeout(() => {
-                addMessage("• 1 coisa que você pode PROVAR");
-                setTimeout(() => {
-                  addMessage("Este exercício ajuda a trazer sua mente para o momento presente. Como você está se sentindo?");
-                  setCurrentOptions(["Melhor", "Ainda com pensamentos negativos", "Quero tentar outra técnica"]);
-                  setShowOptions(true);
-                }, 3000);
-              }, 2000);
-            }, 2000);
-          }, 2000);
-        }, 2000);
-      }, 1000);
-    }, 500);
-  };
-
-  const showPanicHelp = () => {
-    setTimeout(() => {
-      addMessage("Vamos fazer um exercício simples para reduzir o pânico:");
-      setTimeout(() => {
-        addMessage("1. Inspire lentamente pelo nariz contando até 4");
-        setTimeout(() => {
-          addMessage("2. Segure a respiração contando até 2");
-          setTimeout(() => {
-            addMessage("3. Expire lentamente pela boca contando até 6");
-            setTimeout(() => {
-              addMessage("4. Repita este ciclo 4 vezes");
-              setTimeout(() => {
-                addMessage("Lembre-se: ataques de pânico são temporários e vão passar. Você está seguro(a).");
-                setTimeout(() => {
-                  addMessage("Como você está se sentindo agora?");
-                  setCurrentOptions(["Melhor", "Ainda em pânico", "Preciso de mais ajuda"]);
-                  setShowOptions(true);
-                }, 3000);
-              }, 2000);
-            }, 2000);
-          }, 2000);
-        }, 2000);
-      }, 1000);
-    }, 500);
-  };
-
-  const showContactInfo = () => {
-    setTimeout(() => {
-      addMessage("Aqui estão os contatos de emergência:");
-      setTimeout(() => {
-        addMessage("• CVV (Centro de Valorização da Vida): 188 (24 horas)");
-        setTimeout(() => {
-          addMessage("• SAMU: 192");
-          setTimeout(() => {
-            addMessage("• Cedro Atendimento: (11) 4000-0000 (horário comercial)");
-            setTimeout(() => {
-              addMessage("Como você está se sentindo agora?");
-              setCurrentOptions(["Melhor", "Ainda preciso de ajuda"]);
-              setShowOptions(true);
-            }, 2000);
-          }, 1000);
-        }, 1000);
-      }, 1000);
-    }, 500);
+    ]);
+    setCurrentStep('menu');
   };
 
   return (
@@ -197,38 +104,80 @@ const ChatEmergencia = () => {
         <div className="row justify-content-center">
           <div className="col-lg-8">
             <div className="card border-0 shadow">
-              <div className="card-header bg-primary text-white py-3">
-                <h2 className="h4 mb-0 text-center">Chat de Emergência</h2>
+              <div className="card-header bg-success text-white py-3">
+                <div className="d-flex align-items-center">
+                  <div className="ai-avatar me-3">
+                    <i className="bi bi-chat-heart fs-4"></i>
+                  </div>
+                  <div>
+                    <h2 className="h4 mb-0">Apoio Psicológico - Cedro</h2>
+                    <small className="opacity-75">Respostas Automáticas • Apoio Inicial</small>
+                  </div>
+                  <div className="ms-auto">
+                    <span className="badge bg-light text-success">
+                      <i className="bi bi-circle-fill me-1" style={{fontSize: '8px'}}></i>
+                      Online
+                    </span>
+                  </div>
+                </div>
               </div>
-              <div className="card-body p-4">
-                <div className="chat-container" ref={chatContainerRef}>
+              
+              <div className="card-body p-0">
+                <div className="chat-container" style={{height: '400px', overflowY: 'auto'}}>
                   {messages.map(message => (
                     <div key={message.id} className={`chat-message ${message.isUser ? 'user' : 'bot'}`}>
                       <div className="message-content">
-                        <p>{message.text}</p>
+                        <p className="mb-0" style={{whiteSpace: 'pre-line'}}>{message.text}</p>
+                        
+                        {message.showMenu && (
+                          <div className="mt-3">
+                            <button 
+                              className="btn btn-outline-success btn-sm"
+                              onClick={resetChat}
+                            >
+                              🔄 Voltar ao menu principal
+                            </button>
+                          </div>
+                        )}
                       </div>
                     </div>
                   ))}
                 </div>
                 
-                {showOptions && (
-                  <div className="response-options mt-4">
-                    {currentOptions.map((option, index) => (
-                      <button
-                        key={index}
-                        className="btn btn-outline-primary mb-2 w-100"
-                        onClick={() => selectOption(option)}
-                      >
-                        {option}
-                      </button>
+                {/* Menu de Opções */}
+                <div className="options-menu p-3 border-top bg-light">
+                  <div className="row g-2">
+                    {questionOptions.map(option => (
+                      <div key={option.id} className="col-md-6">
+                        <button 
+                          className="btn btn-outline-primary w-100 text-start"
+                          onClick={() => handleOptionClick(option)}
+                        >
+                          {option.text}
+                        </button>
+                      </div>
                     ))}
                   </div>
-                )}
-                
-                <div className="emergency-contact mt-4 text-center">
-                  <p className="mb-2">Se você estiver em uma emergência grave, por favor:</p>
+                </div>
+              </div>
+            </div>
+            
+            <div className="emergency-contact mt-4 text-center">
+              <div className="alert alert-warning">
+                <h5 className="alert-heading">
+                  <i className="bi bi-exclamation-triangle me-2"></i>
+                  Em caso de emergência grave
+                </h5>
+                <p className="mb-3">Se você estiver em risco imediato, procure ajuda profissional:</p>
+                <div className="d-flex justify-content-center gap-2 flex-wrap">
                   <a href="tel:188" className="btn btn-danger">
-                    <i className="bi bi-telephone me-2"></i> Ligue 188 (CVV)
+                    <i className="bi bi-telephone-fill me-2"></i>CVV - 188
+                  </a>
+                  <a href="tel:192" className="btn btn-warning">
+                    <i className="bi bi-ambulance me-2"></i>SAMU - 192
+                  </a>
+                  <a href="tel:190" className="btn btn-primary">
+                    <i className="bi bi-shield me-2"></i>Polícia - 190
                   </a>
                 </div>
               </div>

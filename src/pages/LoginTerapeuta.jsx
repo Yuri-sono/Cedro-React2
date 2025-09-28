@@ -22,6 +22,12 @@ const LoginTerapeuta = () => {
       email: formData.email,
       crp: '06/123456'
     }));
+    window.dispatchEvent(new CustomEvent('showNotification', {
+      detail: {
+        message: '👨‍⚕️ Login realizado com sucesso! Bem-vindo, Dr. João Silva!',
+        type: 'success'
+      }
+    }));
     navigate('/terapeuta/dashboard');
   };
 

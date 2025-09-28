@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import NavbarTerapeuta from '../components/NavbarTerapeuta.jsx';
+import SidebarTerapeuta from '../components/SidebarTerapeuta.jsx';
 
 const DashboardTerapeuta = () => {
   const [terapeuta, setTerapeuta] = useState(null);
@@ -20,67 +22,17 @@ const DashboardTerapeuta = () => {
     setTerapeuta(JSON.parse(terapeutaLogado));
   }, [navigate]);
 
-  const handleLogout = () => {
-    localStorage.removeItem('terapeutaLogado');
-    navigate('/');
-  };
+
 
   if (!terapeuta) return <div>Carregando...</div>;
 
   return (
     <div className="dashboard-terapeuta">
-      {/* Header */}
-      <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div className="container-fluid">
-          <Link className="navbar-brand fw-bold" to="/terapeuta/dashboard">
-            <i className="bi bi-tree me-2"></i>Cedro - Área do Terapeuta
-          </Link>
-          
-          <div className="navbar-nav ms-auto">
-            <div className="nav-item dropdown">
-              <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                <i className="bi bi-person-circle me-1"></i>{terapeuta.nome}
-              </a>
-              <ul className="dropdown-menu">
-                <li><Link className="dropdown-item" to="/terapeuta/perfil">Meu Perfil</Link></li>
-                <li><Link className="dropdown-item" to="/terapeuta/configuracoes">Configurações</Link></li>
-                <li><hr className="dropdown-divider" /></li>
-                <li><button className="dropdown-item" onClick={handleLogout}>Sair</button></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </nav>
+      <NavbarTerapeuta terapeuta={terapeuta} />
 
       <div className="container-fluid py-4">
         <div className="row">
-          {/* Sidebar */}
-          <div className="col-md-3 col-lg-2">
-            <div className="card border-0 shadow-sm">
-              <div className="card-body p-0">
-                <div className="list-group list-group-flush">
-                  <Link to="/terapeuta/dashboard" className="list-group-item list-group-item-action active">
-                    <i className="bi bi-speedometer2 me-2"></i>Dashboard
-                  </Link>
-                  <Link to="/terapeuta/agenda" className="list-group-item list-group-item-action">
-                    <i className="bi bi-calendar3 me-2"></i>Agenda
-                  </Link>
-                  <Link to="/terapeuta/pacientes" className="list-group-item list-group-item-action">
-                    <i className="bi bi-people me-2"></i>Pacientes
-                  </Link>
-                  <Link to="/terapeuta/consultas" className="list-group-item list-group-item-action">
-                    <i className="bi bi-clipboard-pulse me-2"></i>Consultas
-                  </Link>
-                  <Link to="/terapeuta/financeiro" className="list-group-item list-group-item-action">
-                    <i className="bi bi-graph-up me-2"></i>Financeiro
-                  </Link>
-                  <Link to="/terapeuta/relatorios" className="list-group-item list-group-item-action">
-                    <i className="bi bi-file-earmark-text me-2"></i>Relatórios
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
+          <SidebarTerapeuta />
 
           {/* Main Content */}
           <div className="col-md-9 col-lg-10">

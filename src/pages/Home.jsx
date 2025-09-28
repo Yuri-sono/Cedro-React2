@@ -33,7 +33,7 @@ const Home = () => {
               <h1 className="display-4 fw-bold mb-4">Apoio psicológico ao seu alcance</h1>
               <p className="lead mb-4">O Cedro está aqui para oferecer suporte emocional e psicológico quando você mais precisa. Dê o primeiro passo em direção ao seu bem-estar.</p>
               <div className="d-flex justify-content-center gap-3 flex-wrap">
-                <a href="#contato" className="btn btn-light btn-lg">Agendar Consulta</a>
+                <Link to="/contato" className="btn btn-light btn-lg">Agendar Consulta</Link>
                 <a href="#recursos" className="btn btn-outline-light btn-lg">Recursos Gratuitos</a>
                 <Link to="/cadastro-terapeuta" className="btn btn-success btn-lg">Sou Terapeuta</Link>
               </div>
@@ -177,64 +177,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Depoimentos */}
-      <section className="py-5 bg-light">
-        <div className="container">
-          <h2 className="text-center fw-bold mb-5">Depoimentos</h2>
-          <div className="row">
-            <div className="col-lg-8 mx-auto">
-              <div id="testimonialCarousel" className="carousel slide" data-bs-ride="carousel">
-                <div className="carousel-inner">
-                  <div className="carousel-item active">
-                    <div className="testimonial-item text-center p-4">
-                      <div className="testimonial-img mb-4">
-                        <div className="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center" style={{width: '80px', height: '80px', margin: '0 auto'}}>
-                          <span className="fw-bold fs-4">MS</span>
-                        </div>
-                      </div>
-                      <p className="testimonial-text mb-3">"O apoio que recebi do Cedro foi fundamental para minha recuperação. Os profissionais são extremamente capacitados e acolhedores."</p>
-                      <h5 className="fw-bold mb-1">Maria S.</h5>
-                      <p className="text-muted">Cliente há 1 ano</p>
-                    </div>
-                  </div>
-                  <div className="carousel-item">
-                    <div className="testimonial-item text-center p-4">
-                      <div className="testimonial-img mb-4">
-                        <div className="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center" style={{width: '80px', height: '80px', margin: '0 auto'}}>
-                          <span className="fw-bold fs-4">CR</span>
-                        </div>
-                      </div>
-                      <p className="testimonial-text mb-3">"As sessões online foram perfeitas para minha rotina agitada. Consegui cuidar da minha saúde mental sem sair de casa."</p>
-                      <h5 className="fw-bold mb-1">Carlos R.</h5>
-                      <p className="text-muted">Cliente há 6 meses</p>
-                    </div>
-                  </div>
-                  <div className="carousel-item">
-                    <div className="testimonial-item text-center p-4">
-                      <div className="testimonial-img mb-4">
-                        <div className="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center" style={{width: '80px', height: '80px', margin: '0 auto'}}>
-                          <span className="fw-bold fs-4">AP</span>
-                        </div>
-                      </div>
-                      <p className="testimonial-text mb-3">"A terapia em grupo me mostrou que não estou sozinha. Encontrei apoio e compreensão que não imaginava ser possível."</p>
-                      <h5 className="fw-bold mb-1">Ana P.</h5>
-                      <p className="text-muted">Cliente há 8 meses</p>
-                    </div>
-                  </div>
-                </div>
-                <button className="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">
-                  <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-                  <span className="visually-hidden">Anterior</span>
-                </button>
-                <button className="carousel-control-next" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next">
-                  <span className="carousel-control-next-icon" aria-hidden="true"></span>
-                  <span className="visually-hidden">Próximo</span>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+
 
       {/* Ajuda Emergencial */}
       <section id="ajuda" className="py-5 text-white ajuda-section">
@@ -282,112 +225,21 @@ const Home = () => {
       </section>
 
       {/* Contato */}
-      <section id="contato" className="py-5">
-        <div className="container">
-          <div className="row">
-            <div className="col-lg-6 mb-4 mb-lg-0 animate-on-scroll">
-              <h2 className="fw-bold mb-4">Entre em contato</h2>
-              <p className="mb-4">Estamos aqui para responder suas dúvidas e ajudar você a dar o primeiro passo em direção ao seu bem-estar emocional.</p>
-              
-              <div className="contact-info">
-                <div className="d-flex mb-3">
-                  <div className="icon-box me-3">
-                    <i className="bi bi-geo-alt text-primary fs-4"></i>
-                  </div>
-                  <div>
-                    <h3 className="h6 fw-bold mb-1">Endereço</h3>
-                    <p className="mb-0">Av. Principal, 1000 - Centro, Barueri - SP</p>
-                  </div>
-                </div>
-                
-                <div className="d-flex mb-3">
-                  <div className="icon-box me-3">
-                    <i className="bi bi-telephone text-primary fs-4"></i>
-                  </div>
-                  <div>
-                    <h3 className="h6 fw-bold mb-1">Telefone</h3>
-                    <p className="mb-0">(11) 4000-0000</p>
-                  </div>
-                </div>
-                
-                <div className="d-flex mb-3">
-                  <div className="icon-box me-3">
-                    <i className="bi bi-envelope text-primary fs-4"></i>
-                  </div>
-                  <div>
-                    <h3 className="h6 fw-bold mb-1">Email</h3>
-                    <p className="mb-0">contato@cedro.org</p>
-                  </div>
-                </div>
-                
-                <div className="d-flex">
-                  <div className="icon-box me-3">
-                    <i className="bi bi-clock text-primary fs-4"></i>
-                  </div>
-                  <div>
-                    <h3 className="h6 fw-bold mb-1">Horário de Atendimento</h3>
-                    <p className="mb-0">Segunda a Sexta: 8h às 20h<br />Sábado: 9h às 15h</p>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="social-media mt-4">
-                <h3 className="h6 fw-bold mb-3">Siga-nos nas redes sociais</h3>
-                <div className="d-flex gap-3">
-                  <a href="#" className="text-primary fs-4"><i className="bi bi-facebook"></i></a>
-                  <a href="#" className="text-primary fs-4"><i className="bi bi-instagram"></i></a>
-                  <a href="#" className="text-primary fs-4"><i className="bi bi-twitter"></i></a>
-                  <a href="#" className="text-primary fs-4"><i className="bi bi-linkedin"></i></a>
-                </div>
-              </div>
-            </div>
-            
-            <div className="col-lg-6 animate-on-scroll">
-              <div className="card border-0 shadow-sm">
-                <div className="card-body p-4">
-                  <h3 className="h4 fw-bold mb-4">Envie uma mensagem</h3>
-                  <form>
-                    <div className="row g-3">
-                      <div className="col-md-6">
-                        <label htmlFor="name" className="form-label">Nome</label>
-                        <input type="text" className="form-control" id="name" required />
-                      </div>
-                      <div className="col-md-6">
-                        <label htmlFor="email" className="form-label">Email</label>
-                        <input type="email" className="form-control" id="email" required />
-                      </div>
-                      <div className="col-12">
-                        <label htmlFor="phone" className="form-label">Telefone</label>
-                        <input type="tel" className="form-control" id="phone" />
-                      </div>
-                      <div className="col-12">
-                        <label htmlFor="subject" className="form-label">Assunto</label>
-                        <select className="form-select" id="subject" required>
-                          <option value="" disabled>Selecione uma opção</option>
-                          <option value="agendamento">Agendamento de Consulta</option>
-                          <option value="informacoes">Informações sobre Serviços</option>
-                          <option value="feedback">Feedback</option>
-                          <option value="outro">Outro</option>
-                        </select>
-                      </div>
-                      <div className="col-12">
-                        <label htmlFor="message" className="form-label">Mensagem</label>
-                        <textarea className="form-control" id="message" rows="4" required></textarea>
-                      </div>
-                      <div className="col-12">
-                        <div className="form-check">
-                          <input className="form-check-input" type="checkbox" id="privacy" required />
-                          <label className="form-check-label" htmlFor="privacy">
-                            Concordo com a <a href="#">Política de Privacidade</a>
-                          </label>
-                        </div>
-                      </div>
-                      <div className="col-12">
-                        <button type="submit" className="btn btn-primary">Enviar Mensagem</button>
-                      </div>
-                    </div>
-                  </form>
-                </div>
+      <section id="contato" className="py-5 bg-light">
+        <div className="container text-center">
+          <div className="row justify-content-center">
+            <div className="col-lg-8 animate-on-scroll">
+              <h2 className="fw-bold mb-4">Entre em Contato</h2>
+              <p className="lead mb-4">Estamos aqui para responder suas dúvidas e ajudar você a dar o primeiro passo em direção ao seu bem-estar emocional.</p>
+              <div className="d-flex justify-content-center gap-3 flex-wrap">
+                <Link to="/contato" className="btn btn-success btn-lg">
+                  <i className="bi bi-envelope me-2"></i>
+                  Fale Conosco
+                </Link>
+                <a href="tel:(11)4000-0000" className="btn btn-outline-success btn-lg">
+                  <i className="bi bi-telephone me-2"></i>
+                  (11) 4000-0000
+                </a>
               </div>
             </div>
           </div>
