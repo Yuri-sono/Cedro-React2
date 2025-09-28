@@ -29,6 +29,9 @@ const Navbar = () => {
               <a className="nav-link" href="/#servicos">Serviços</a>
             </li>
             <li className="nav-item">
+              <Link className="nav-link" to="/terapeutas">Terapeutas</Link>
+            </li>
+            <li className="nav-item">
               <a className="nav-link" href="/#recursos">Recursos</a>
             </li>
             <li className="nav-item">
@@ -39,6 +42,16 @@ const Navbar = () => {
                 <i className="bi bi-person-circle me-1"></i>
                 Perfil
               </Link>
+            </li>
+            <li className="nav-item dropdown">
+              <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                <i className="bi bi-box-arrow-in-right me-1"></i>
+                Login
+              </a>
+              <ul className="dropdown-menu">
+                <li><Link className="dropdown-item" to="/login">Paciente</Link></li>
+                <li><Link className="dropdown-item" to="/login-terapeuta">Terapeuta</Link></li>
+              </ul>
             </li>
           </ul>
           <a href="/#ajuda" className="btn btn-light ms-3">Preciso de Ajuda</a>

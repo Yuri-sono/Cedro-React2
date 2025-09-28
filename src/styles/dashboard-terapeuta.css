@@ -1,0 +1,96 @@
+.dashboard-terapeuta {
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.dashboard-terapeuta .navbar {
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.dashboard-terapeuta .list-group-item {
+  border: none;
+  padding: 12px 20px;
+  transition: all 0.3s ease;
+}
+
+.dashboard-terapeuta .list-group-item:hover {
+  background-color: #f8f9fa;
+  transform: translateX(5px);
+}
+
+.dashboard-terapeuta .list-group-item.active {
+  background-color: #0d6efd;
+  color: white;
+  border-radius: 0;
+}
+
+.dashboard-terapeuta .card {
+  transition: all 0.3s ease;
+}
+
+.dashboard-terapeuta .card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.timeline {
+  position: relative;
+  padding-left: 30px;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 15px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #dee2e6;
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.timeline-marker {
+  position: absolute;
+  left: -37px;
+  top: 5px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 0 0 2px #dee2e6;
+}
+
+.timeline-content {
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.chart-container {
+  background: linear-gradient(to top, #f8f9fa 0%, transparent 100%);
+  border-radius: 8px;
+  padding: 20px;
+}
+
+@media (max-width: 768px) {
+  .dashboard-terapeuta .container-fluid {
+    padding: 10px;
+  }
+  
+  .dashboard-terapeuta .col-md-3 {
+    margin-bottom: 20px;
+  }
+  
+  .timeline {
+    padding-left: 20px;
+  }
+  
+  .timeline-marker {
+    left: -27px;
+  }
+}
