@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const TerapiaIndividual = () => {
   return (
@@ -10,7 +11,7 @@ const TerapiaIndividual = () => {
             <div className="col-lg-6 mb-4 mb-lg-0">
               <h1 className="fw-bold mb-3">Terapia Individual</h1>
               <p className="lead mb-4">Sessões personalizadas para abordar questões específicas como ansiedade, depressão, estresse e traumas.</p>
-              <a href="#agendar" className="btn btn-primary btn-lg">Agendar Consulta</a>
+              <Link to="/terapeutas" className="btn btn-primary btn-lg">Ver Terapeutas</Link>
             </div>
             <div className="col-lg-6">
               <div className="rounded-3 shadow overflow-hidden">
@@ -209,7 +210,7 @@ const TerapiaIndividual = () => {
                         </div>
                       </div>
                       <div className="col-12 mt-4">
-                        <button type="submit" className="btn btn-primary btn-lg">Solicitar Agendamento</button>
+                        <Link to="/terapeutas" className="btn btn-primary btn-lg">Ver Terapeutas Disponíveis</Link>
                       </div>
                     </div>
                   </form>
