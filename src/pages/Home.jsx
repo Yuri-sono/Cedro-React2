@@ -236,9 +236,9 @@ const Home = () => {
                   <i className="bi bi-envelope me-2"></i>
                   Fale Conosco
                 </Link>
-                <a href="tel:(11)4000-0000" className="btn btn-outline-success btn-lg">
+                <a href="tel:11951193385" className="btn btn-outline-success btn-lg">
                   <i className="bi bi-telephone me-2"></i>
-                  (11) 4000-0000
+                  (11) 95119-3385
                 </a>
               </div>
             </div>

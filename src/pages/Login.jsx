@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext.jsx';
 import axios from 'axios';
 
 function Login() {
@@ -7,6 +9,9 @@ function Login() {
     senha: ''
   });
   const [isLogin, setIsLogin] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({
@@ -17,20 +22,25 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    
     try {
       const endpoint = isLogin ? '/api/auth/login' : '/api/auth/register';
       const response = await axios.post(`http://localhost:3001${endpoint}`, formData);
       
       if (isLogin) {
-        localStorage.setItem('token', response.data.token);
-        localStorage.setItem('usuario', JSON.stringify(response.data.usuario));
-        window.location.href = '/';
+        login(response.data.usuario, response.data.token);
+        navigate('/');
       } else {
         alert('Cadastro realizado com sucesso!');
         setIsLogin(true);
       }
     } catch (error) {
-      alert(error.response?.data?.error || 'Erro na operação');
+      console.error('Erro:', error);
+      const errorMessage = error.response?.data?.error || 'Erro na operação';
+      alert(errorMessage);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -45,17 +55,56 @@ function Login() {
             <div className="card-body">
               <form onSubmit={handleSubmit}>
                 {!isLogin && (
-                  <div className="mb-3">
-                    <label className="form-label">Nome</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      name="nome"
-                      value={formData.nome || ''}
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
+                  <>
+                    <div className="mb-3">
+                      <label className="form-label">Nome</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        name="nome"
+                        value={formData.nome || ''}
+                        onChange={handleChange}
+                        required
+                      />
+                    </div>
+                    <div className="mb-3">
+                      <label className="form-label">Data de Nascimento</label>
+                      <input
+                        type="date"
+                        className="form-control"
+                        name="data_nascimento"
+                        value={formData.data_nascimento || ''}
+                        onChange={handleChange}
+                        required
+                      />
+                    </div>
+                    <div className="mb-3">
+                      <label className="form-label">Gênero</label>
+                      <select
+                        className="form-control"
+                        name="genero"
+                        value={formData.genero || ''}
+                        onChange={handleChange}
+                        required
+                      >
+                        <option value="">Selecione</option>
+                        <option value="masculino">Masculino</option>
+                        <option value="feminino">Feminino</option>
+                        <option value="outro">Outro</option>
+                      </select>
+                    </div>
+                    <div className="mb-3">
+                      <label className="form-label">Telefone</label>
+                      <input
+                        type="tel"
+                        className="form-control"
+                        name="telefone"
+                        value={formData.telefone || ''}
+                        onChange={handleChange}
+                        required
+                      />
+                    </div>
+                  </>
                 )}
                 
                 <div className="mb-3">
@@ -71,13 +120,14 @@ function Login() {
                 </div>
                 
                 <div className="mb-3">
-                  <label className="form-label">Senha</label>
+                  <label className="form-label">Senha {!isLogin && '(mínimo 4 caracteres)'}</label>
                   <input
                     type="password"
                     className="form-control"
                     name="senha"
                     value={formData.senha}
                     onChange={handleChange}
+                    minLength={isLogin ? "1" : "4"}
                     required
                   />
                 </div>
@@ -98,8 +148,8 @@ function Login() {
                   </div>
                 )}
                 
-                <button type="submit" className="btn btn-primary w-100">
-                  {isLogin ? 'Entrar' : 'Cadastrar'}
+                <button type="submit" className="btn btn-primary w-100" disabled={loading}>
+                  {loading ? 'Carregando...' : (isLogin ? 'Entrar' : 'Cadastrar')}
                 </button>
               </form>
               

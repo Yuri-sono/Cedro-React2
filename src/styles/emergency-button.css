@@ -1,7 +1,7 @@
 .emergency-btn {
   position: fixed;
   bottom: 20px;
-  right: 20px;
+  left: 20px;
   width: 70px;
   height: 70px;
   background: linear-gradient(135deg, #dc3545, #c82333);
@@ -53,7 +53,7 @@
     width: 60px;
     height: 60px;
     bottom: 15px;
-    right: 15px;
+    left: 15px;
   }
   
   .emergency-btn i {

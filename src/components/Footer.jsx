@@ -57,8 +57,8 @@ const Footer = () => {
             <p className="mb-0">&copy; 2023 Cedro. Todos os direitos reservados.</p>
           </div>
           <div className="col-md-6 text-md-end">
-            <a href="#" className="text-white text-decoration-none me-3">Termos de Uso</a>
-            <a href="#" className="text-white text-decoration-none">Política de Privacidade</a>
+            <Link to="/termos-uso" className="text-white text-decoration-none me-3">Termos de Uso</Link>
+            <Link to="/politica-privacidade" className="text-white text-decoration-none">Política de Privacidade</Link>
           </div>
         </div>
       </div>
