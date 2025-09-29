@@ -169,7 +169,7 @@ const Home = () => {
                   </div>
                   <h3 className="h5 fw-bold">Autoavaliações</h3>
                   <p>Ferramentas para ajudar a identificar sinais de ansiedade e depressão.</p>
-                  <a href="#" className="btn btn-sm btn-primary">Realizar</a>
+                  <Link to="/autoavaliacoes" className="btn btn-sm btn-primary">Realizar</Link>
                 </div>
               </div>
             </div>
