@@ -36,7 +36,7 @@ import ConsultasTerapeuta from './pages/ConsultasTerapeuta.jsx';
 import FinanceiroTerapeuta from './pages/FinanceiroTerapeuta.jsx';
 import TermosUso from './pages/TermosUso.jsx';
 import PoliticaPrivacidade from './pages/PoliticaPrivacidade.jsx';
-import Autoavaliacao from './pages/Autoavaliacao.jsx';
+import Autoavaliacoes from './pages/Autoavaliacoes.jsx';
 
 function App() {
   return (
@@ -92,7 +92,7 @@ function App() {
             } />
             <Route path="/termos-uso" element={<TermosUso />} />
             <Route path="/politica-privacidade" element={<PoliticaPrivacidade />} />
-            <Route path="/autoavaliacao" element={<Autoavaliacao />} />
+            <Route path="/autoavaliacoes" element={<Autoavaliacoes />} />
           </Routes>
           <Footer />
           <BackToTop />
