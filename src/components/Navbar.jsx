@@ -4,6 +4,8 @@ import { useAuth } from '../contexts/AuthContext.jsx';
 
 const Navbar = () => {
   const { user, logout, isAuthenticated } = useAuth();
+  const psicologoLogado = localStorage.getItem('psicologoLogado');
+  const isPsicologoLogado = !!psicologoLogado;
   return (
     <nav className="navbar navbar-expand-lg navbar-dark sticky-top">
       <div className="container">
@@ -31,7 +33,7 @@ const Navbar = () => {
               <a className="nav-link" href="/#servicos">Serviços</a>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/terapeutas">Terapeutas</Link>
+              <Link className="nav-link" to="/psicologos">Psicólogos</Link>
             </li>
             <li className="nav-item">
               <a className="nav-link" href="/#recursos">Recursos</a>
@@ -39,13 +41,13 @@ const Navbar = () => {
             <li className="nav-item">
               <a className="nav-link" href="/#contato">Contato</a>
             </li>
-            {isAuthenticated ? (
+            {(isAuthenticated || isPsicologoLogado) ? (
               <li className="nav-item dropdown">
                 <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
                   <div className="profile-avatar-small">
                     <i className="bi bi-person-fill"></i>
                   </div>
-                  <span className="ms-2">{user?.nome || 'Usuário'}</span>
+                  <span className="ms-2">{user?.nome || (isPsicologoLogado ? JSON.parse(psicologoLogado).nome : 'Usuário')}</span>
                 </a>
                 <ul className="dropdown-menu">
                   <li><Link className="dropdown-item" to="/perfil">
@@ -53,6 +55,11 @@ const Navbar = () => {
                   </Link></li>
                   {user?.tipo_usuario === 'terapeuta' && (
                     <li><Link className="dropdown-item" to="/terapeuta/dashboard">
+                      <i className="bi bi-speedometer2"></i>Dashboard
+                    </Link></li>
+                  )}
+                  {(user?.tipo_usuario === 'psicologo' || isPsicologoLogado) && (
+                    <li><Link className="dropdown-item" to="/psicologo/dashboard">
                       <i className="bi bi-speedometer2"></i>Dashboard
                     </Link></li>
                   )}
@@ -70,7 +77,7 @@ const Navbar = () => {
                 </a>
                 <ul className="dropdown-menu">
                   <li><Link className="dropdown-item" to="/login">Paciente</Link></li>
-                  <li><Link className="dropdown-item" to="/login-terapeuta">Terapeuta</Link></li>
+                  <li><Link className="dropdown-item" to="/login-psicologo">Psicólogo</Link></li>
                 </ul>
               </li>
             )}

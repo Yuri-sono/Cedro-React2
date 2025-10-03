@@ -8,6 +8,7 @@ import BackToTop from './components/BackToTop.jsx';
 import EmergencyButton from './components/EmergencyButton.jsx';
 import './styles/emergency-button.css';
 import './styles/dashboard-terapeuta.css';
+import './styles/dashboard-psicologo.css';
 import './styles/navbar-spacing.css';
 import './styles/theme.css';
 import './styles/notifications.css';
@@ -27,13 +28,13 @@ import Webinars from './pages/Webinars.jsx';
 import Perfil from './pages/Perfil.jsx';
 import Login from './pages/Login.jsx';
 import ListaTerapeutas from './pages/ListaTerapeutas.jsx';
-import CadastroTerapeuta from './pages/CadastroTerapeuta.jsx';
-import LoginTerapeuta from './pages/LoginTerapeuta.jsx';
-import DashboardTerapeuta from './pages/DashboardTerapeuta.jsx';
-import AgendaTerapeuta from './pages/AgendaTerapeuta.jsx';
-import PacientesTerapeuta from './pages/PacientesTerapeuta.jsx';
-import ConsultasTerapeuta from './pages/ConsultasTerapeuta.jsx';
-import FinanceiroTerapeuta from './pages/FinanceiroTerapeuta.jsx';
+import CadastroPsicologo from './pages/CadastroPsicologo.jsx';
+import LoginPsicologo from './pages/LoginPsicologo.jsx';
+import DashboardPsicologo from './pages/DashboardPsicologo.jsx';
+import AgendaPsicologo from './pages/AgendaPsicologo.jsx';
+import PacientesPsicologo from './pages/PacientesPsicologo.jsx';
+import ConsultasPsicologo from './pages/ConsultasPsicologo.jsx';
+import FinanceiroPsicologo from './pages/FinanceiroPsicologo.jsx';
 import TermosUso from './pages/TermosUso.jsx';
 import PoliticaPrivacidade from './pages/PoliticaPrivacidade.jsx';
 import Autoavaliacoes from './pages/Autoavaliacoes.jsx';
@@ -62,32 +63,32 @@ function App() {
               </ProtectedRoute>
             } />
             <Route path="/login" element={<Login />} />
-            <Route path="/terapeutas" element={<ListaTerapeutas />} />
-            <Route path="/cadastro-terapeuta" element={<CadastroTerapeuta />} />
-            <Route path="/login-terapeuta" element={<LoginTerapeuta />} />
-            <Route path="/terapeuta/dashboard" element={
-              <ProtectedRoute requiredUserType="terapeuta">
-                <DashboardTerapeuta />
+            <Route path="/psicologos" element={<ListaTerapeutas />} />
+            <Route path="/cadastro-psicologo" element={<CadastroPsicologo />} />
+            <Route path="/login-psicologo" element={<LoginPsicologo />} />
+            <Route path="/psicologo/dashboard" element={
+              <ProtectedRoute requiredUserType="psicologo">
+                <DashboardPsicologo />
               </ProtectedRoute>
             } />
-            <Route path="/terapeuta/agenda" element={
-              <ProtectedRoute requiredUserType="terapeuta">
-                <AgendaTerapeuta />
+            <Route path="/psicologo/agenda" element={
+              <ProtectedRoute requiredUserType="psicologo">
+                <AgendaPsicologo />
               </ProtectedRoute>
             } />
-            <Route path="/terapeuta/pacientes" element={
-              <ProtectedRoute requiredUserType="terapeuta">
-                <PacientesTerapeuta />
+            <Route path="/psicologo/pacientes" element={
+              <ProtectedRoute requiredUserType="psicologo">
+                <PacientesPsicologo />
               </ProtectedRoute>
             } />
-            <Route path="/terapeuta/consultas" element={
-              <ProtectedRoute requiredUserType="terapeuta">
-                <ConsultasTerapeuta />
+            <Route path="/psicologo/consultas" element={
+              <ProtectedRoute requiredUserType="psicologo">
+                <ConsultasPsicologo />
               </ProtectedRoute>
             } />
-            <Route path="/terapeuta/financeiro" element={
-              <ProtectedRoute requiredUserType="terapeuta">
-                <FinanceiroTerapeuta />
+            <Route path="/psicologo/financeiro" element={
+              <ProtectedRoute requiredUserType="psicologo">
+                <FinanceiroPsicologo />
               </ProtectedRoute>
             } />
             <Route path="/termos-uso" element={<TermosUso />} />
