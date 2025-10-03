@@ -1,56 +1,32 @@
-const sqlite3 = require('sqlite3').verbose();
-const path = require('path');
+const sql = require('mssql');
+require('dotenv').config();
 
-const dbPath = path.join(__dirname, 'cedro.db');
-let db;
+const config = {
+    user: process.env.DB_USER || 'sa',
+    password: process.env.DB_PASSWORD,
+    server: process.env.DB_SERVER || 'localhost',
+    database: process.env.DB_NAME || 'CEDRO_banco',
+    options: {
+        encrypt: false,
+        trustServerCertificate: true
+    }
+};
 
-function connectDB() {
-    return new Promise((resolve, reject) => {
-        db = new sqlite3.Database(dbPath, (err) => {
-            if (err) {
-                console.error('Erro ao conectar ao SQLite:', err);
-                reject(err);
-            } else {
-                console.log('Conectado ao banco SQLite!');
-                createTables();
-                resolve();
-            }
-        });
-    });
-}
+let pool;
 
-function createTables() {
-    const createUsersTable = `
-        CREATE TABLE IF NOT EXISTS usuarios (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            nome TEXT NOT NULL,
-            email TEXT UNIQUE NOT NULL,
-            senha_hash TEXT NOT NULL,
-            tipo_usuario TEXT DEFAULT 'paciente',
-            data_nascimento DATE,
-            genero TEXT,
-            telefone TEXT,
-            endereco TEXT,
-            bio TEXT,
-            ativo INTEGER DEFAULT 1,
-            data_criacao DATETIME DEFAULT CURRENT_TIMESTAMP
-        )
-    `;
-    
-    db.run(createUsersTable, (err) => {
-        if (err) {
-            console.error('Erro ao criar tabela usuarios:', err);
-        } else {
-            console.log('Tabela usuarios criada!');
-            // Adicionar colunas se não existirem
-            db.run('ALTER TABLE usuarios ADD COLUMN endereco TEXT', () => {});
-            db.run('ALTER TABLE usuarios ADD COLUMN bio TEXT', () => {});
-        }
-    });
+async function connectDB() {
+    try {
+        pool = await sql.connect(config);
+        console.log('Conectado ao SQL Server!');
+        return pool;
+    } catch (err) {
+        console.error('Erro ao conectar ao SQL Server:', err);
+        throw err;
+    }
 }
 
 function getDB() {
-    return db;
+    return pool;
 }
 
-module.exports = { connectDB, getDB };
+module.exports = { connectDB, getDB, sql };
