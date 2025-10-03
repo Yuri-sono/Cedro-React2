@@ -35,7 +35,7 @@ const Home = () => {
               <div className="d-flex justify-content-center gap-3 flex-wrap">
                 <Link to="/contato" className="btn btn-light btn-lg">Agendar Consulta</Link>
                 <a href="#recursos" className="btn btn-outline-light btn-lg">Recursos Gratuitos</a>
-                <Link to="/cadastro-terapeuta" className="btn btn-success btn-lg">Sou Terapeuta</Link>
+                <Link to="/cadastro-psicologo" className="btn btn-success btn-lg">Sou Psicólogo</Link>
               </div>
             </div>
           </div>
