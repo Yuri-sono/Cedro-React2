@@ -10,17 +10,27 @@ Plataforma de apoio psicológico desenvolvida com React e Vite.
 
 ### Instalação
 ```bash
-# Instalar dependências
+# Instalar dependências do frontend
 npm install
 
-# Executar em modo de desenvolvimento
+# Instalar dependências do backend
+cd backend
+npm install
+
+# Configurar variáveis de ambiente
+cp backend/.env.example backend/.env
+# Edite o arquivo .env com suas configurações
+
+# Executar aplicação completa (frontend + backend)
+npm run dev:full
+
+# Ou executar separadamente:
+# Frontend (porta 3000)
 npm run dev
 
-# Build para produção
-npm run build
-
-# Preview da build de produção
-npm run preview
+# Backend (porta 3001)
+cd backend
+npm start
 ```
 
 ### Scripts disponíveis
@@ -39,8 +49,24 @@ npm run preview
 ```
 src/
 ├── components/     # Componentes reutilizáveis
-├── pages/         # Páginas da aplicação
-├── styles/        # Arquivos de estilo
-├── App.jsx        # Componente principal
-└── main.jsx       # Ponto de entrada
+├── contexts/       # Contextos React (Auth, etc)
+├── pages/          # Páginas da aplicação
+├── styles/         # Arquivos de estilo
+├── App.jsx         # Componente principal
+└── main.jsx        # Ponto de entrada
+
+backend/
+├── routes/         # Rotas da API
+├── .env.example    # Exemplo de configuração
+├── db.js           # Conexão com banco
+└── index.js        # Servidor Express
 ```
+
+## 🔒 Segurança
+
+**IMPORTANTE:** Antes de usar em produção, leia o arquivo [SECURITY.md](SECURITY.md)
+
+- Configure o arquivo `.env` com suas próprias credenciais
+- Use senhas fortes para o banco de dados
+- Configure HTTPS em produção
+- Mantenha as dependências atualizadas

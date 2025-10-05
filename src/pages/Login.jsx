@@ -45,121 +45,135 @@ function Login() {
   };
 
   return (
-    <div className="container mt-5">
-      <div className="row justify-content-center">
-        <div className="col-md-6">
-          <div className="card">
-            <div className="card-header">
-              <h3>{isLogin ? 'Login' : 'Cadastro'}</h3>
-            </div>
-            <div className="card-body">
-              <form onSubmit={handleSubmit}>
-                {!isLogin && (
-                  <>
+    <div className="login-section py-5">
+      <div className="container">
+        <div className="row justify-content-center">
+          <div className="col-md-6 col-lg-5">
+            <div className="card">
+              <div className="card-body">
+                <div className="text-center mb-4">
+                  <i className="bi bi-heart-pulse text-primary" style={{ fontSize: '3rem' }}></i>
+                  <h2 className="fw-bold mt-3">{isLogin ? 'Bem-vindo de volta' : 'Criar conta'}</h2>
+                  <p className="text-muted">{isLogin ? 'Acesse sua conta' : 'Junte-se à nossa comunidade'}</p>
+                </div>
+                
+                <form onSubmit={handleSubmit}>
+                  {!isLogin && (
+                    <>
+                      <div className="mb-3">
+                        <label className="form-label">Nome</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          name="nome"
+                          value={formData.nome || ''}
+                          onChange={handleChange}
+                          required
+                        />
+                      </div>
+                      <div className="mb-3">
+                        <label className="form-label">Data de Nascimento</label>
+                        <input
+                          type="date"
+                          className="form-control"
+                          name="data_nascimento"
+                          value={formData.data_nascimento || ''}
+                          onChange={handleChange}
+                          required
+                        />
+                      </div>
+                      <div className="mb-3">
+                        <label className="form-label">Gênero</label>
+                        <select
+                          className="form-control"
+                          name="genero"
+                          value={formData.genero || ''}
+                          onChange={handleChange}
+                          required
+                        >
+                          <option value="">Selecione</option>
+                          <option value="masculino">Masculino</option>
+                          <option value="feminino">Feminino</option>
+                          <option value="outro">Outro</option>
+                        </select>
+                      </div>
+                      <div className="mb-3">
+                        <label className="form-label">Telefone</label>
+                        <input
+                          type="tel"
+                          className="form-control"
+                          name="telefone"
+                          value={formData.telefone || ''}
+                          onChange={handleChange}
+                          required
+                        />
+                      </div>
+                    </>
+                  )}
+                  
+                  <div className="mb-3">
+                    <label className="form-label">Email</label>
+                    <input
+                      type="email"
+                      className="form-control"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+                  
+                  <div className="mb-3">
+                    <label className="form-label">Senha {!isLogin && '(mínimo 4 caracteres)'}</label>
+                    <input
+                      type="password"
+                      className="form-control"
+                      name="senha"
+                      value={formData.senha}
+                      onChange={handleChange}
+                      minLength={isLogin ? "1" : "4"}
+                      required
+                    />
+                  </div>
+
+                  {!isLogin && (
                     <div className="mb-3">
-                      <label className="form-label">Nome</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        name="nome"
-                        value={formData.nome || ''}
-                        onChange={handleChange}
-                        required
-                      />
-                    </div>
-                    <div className="mb-3">
-                      <label className="form-label">Data de Nascimento</label>
-                      <input
-                        type="date"
-                        className="form-control"
-                        name="data_nascimento"
-                        value={formData.data_nascimento || ''}
-                        onChange={handleChange}
-                        required
-                      />
-                    </div>
-                    <div className="mb-3">
-                      <label className="form-label">Gênero</label>
+                      <label className="form-label">Tipo de Usuário</label>
                       <select
                         className="form-control"
-                        name="genero"
-                        value={formData.genero || ''}
+                        name="tipo_usuario"
+                        value={formData.tipo_usuario || 'paciente'}
                         onChange={handleChange}
                         required
                       >
-                        <option value="">Selecione</option>
-                        <option value="masculino">Masculino</option>
-                        <option value="feminino">Feminino</option>
-                        <option value="outro">Outro</option>
+                        <option value="paciente">Paciente</option>
+                        <option value="terapeuta">Terapeuta</option>
                       </select>
                     </div>
-                    <div className="mb-3">
-                      <label className="form-label">Telefone</label>
-                      <input
-                        type="tel"
-                        className="form-control"
-                        name="telefone"
-                        value={formData.telefone || ''}
-                        onChange={handleChange}
-                        required
-                      />
-                    </div>
-                  </>
-                )}
-                
-                <div className="mb-3">
-                  <label className="form-label">Email</label>
-                  <input
-                    type="email"
-                    className="form-control"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
-                
-                <div className="mb-3">
-                  <label className="form-label">Senha {!isLogin && '(mínimo 4 caracteres)'}</label>
-                  <input
-                    type="password"
-                    className="form-control"
-                    name="senha"
-                    value={formData.senha}
-                    onChange={handleChange}
-                    minLength={isLogin ? "1" : "4"}
-                    required
-                  />
-                </div>
-
-                {!isLogin && (
-                  <div className="mb-3">
-                    <label className="form-label">Tipo de Usuário</label>
-                    <select
-                      className="form-control"
-                      name="tipo_usuario"
-                      value={formData.tipo_usuario || 'paciente'}
-                      onChange={handleChange}
-                      required
-                    >
-                      <option value="paciente">Paciente</option>
-                      <option value="terapeuta">Terapeuta</option>
-                    </select>
+                  )}
+                  
+                  <div className="d-grid mb-3">
+                    <button type="submit" className="btn btn-primary btn-lg" disabled={loading}>
+                      {loading ? 'Carregando...' : (isLogin ? 'Entrar' : 'Cadastrar')}
+                    </button>
                   </div>
-                )}
+                </form>
                 
-                <button type="submit" className="btn btn-primary w-100" disabled={loading}>
-                  {loading ? 'Carregando...' : (isLogin ? 'Entrar' : 'Cadastrar')}
-                </button>
-              </form>
-              
-              <div className="text-center mt-3">
-                <button
-                  className="btn btn-link"
-                  onClick={() => setIsLogin(!isLogin)}
-                >
-                  {isLogin ? 'Não tem conta? Cadastre-se' : 'Já tem conta? Faça login'}
-                </button>
+                <div className="text-center">
+                  {isLogin && (
+                    <button className="btn btn-outline-secondary mb-2" type="button">
+                      Alterar Senha
+                    </button>
+                  )}
+                  <div>
+                    <button
+                      className="btn btn-link text-decoration-none"
+                      onClick={() => setIsLogin(!isLogin)}
+                    >
+                      {isLogin ? 'Não tem conta? Cadastre-se' : 'Já tem conta? Faça login'}
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

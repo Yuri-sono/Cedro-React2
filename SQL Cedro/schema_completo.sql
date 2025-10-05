@@ -204,16 +204,3 @@ CREATE INDEX IX_avaliacoes_terapeuta ON avaliacoes(terapeuta_id);
 CREATE INDEX IX_artigos_publicado ON artigos(publicado, data_publicacao);
 GO
 
--- Trigger para atualizar data_atualizacao
-CREATE TRIGGER tr_usuarios_update
-ON usuarios
-AFTER UPDATE
-AS
-BEGIN
-    UPDATE usuarios
-    SET data_atualizacao = GETDATE()
-    WHERE id IN (SELECT id FROM inserted);
-END;
-GO
-
-PRINT 'Banco CEDRO criado com sucesso!';

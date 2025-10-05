@@ -1,7 +1,21 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const Home = () => {
+  const [showAdminAccess, setShowAdminAccess] = useState(false);
+  const adminEmails = ['pazyuri84@gmail.com', 'ainutil87@gmail.com'];
+
+  useEffect(() => {
+    // Verificar se deve mostrar acesso admin baseado no email do usuário logado
+    const userData = localStorage.getItem('usuario');
+    if (userData) {
+      const user = JSON.parse(userData);
+      if (adminEmails.includes(user.email)) {
+        setShowAdminAccess(true);
+      }
+    }
+  }, []);
+
   useEffect(() => {
     // Scroll animation
     const animateElements = document.querySelectorAll('.animate-on-scroll');
@@ -36,6 +50,12 @@ const Home = () => {
                 <Link to="/contato" className="btn btn-light btn-lg">Agendar Consulta</Link>
                 <a href="#recursos" className="btn btn-outline-light btn-lg">Recursos Gratuitos</a>
                 <Link to="/cadastro-psicologo" className="btn btn-success btn-lg">Sou Psicólogo</Link>
+                {showAdminAccess && (
+                  <Link to="/admin/login" className="btn btn-danger btn-lg">
+                    <i className="bi bi-shield-lock me-2"></i>
+                    Painel Admin
+                  </Link>
+                )}
               </div>
             </div>
           </div>

@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext.jsx';
 import axios from 'axios';
 
 const Perfil = () => {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
   const [usuario, setUsuario] = useState({
     nome: '',
     email: '',
@@ -59,7 +61,13 @@ const Perfil = () => {
       alert('Perfil atualizado com sucesso!');
     } catch (error) {
       console.error('Erro ao salvar perfil:', error);
-      alert('Erro ao salvar perfil. Tente novamente.');
+      if (error.response?.data?.expired) {
+        alert('Sessão expirada. Faça login novamente.');
+        logout();
+        navigate('/login');
+      } else {
+        alert('Erro ao salvar perfil. Tente novamente.');
+      }
     }
   };
 

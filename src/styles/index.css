@@ -226,6 +226,89 @@ section {
     font-size: 6rem;
 }
 
+/* Login e Cadastro Styles */
+.login-section, .cadastro-section {
+    background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%);
+    min-height: 100vh;
+}
+
+.login-section .card, .cadastro-section .card {
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border: none;
+}
+
+.login-section .card-body, .cadastro-section .card-body {
+    padding: 3rem;
+}
+
+.login-section .form-control, .cadastro-section .form-control {
+    border-radius: 10px;
+    border: 2px solid #e9ecef;
+    padding: 12px 15px;
+    transition: all 0.3s ease;
+}
+
+.login-section .form-control:focus, .cadastro-section .form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(46, 125, 50, 0.25);
+}
+
+.login-section .btn-primary, .cadastro-section .btn-primary {
+    background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+    border: none;
+    border-radius: 10px;
+    padding: 12px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.login-section .btn-primary:hover, .cadastro-section .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(46, 125, 50, 0.3);
+}
+
+.login-section .btn-outline-success {
+    border-radius: 10px;
+    border: 2px solid var(--accent-color);
+    color: var(--accent-color);
+}
+
+.login-section .btn-outline-success:hover {
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+}
+
+/* Admin Dashboard Styles */
+.admin-dashboard {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.admin-dashboard .card {
+    border-radius: 15px;
+    border: none;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+}
+
+.admin-dashboard .card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+.admin-icon-wrapper {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    box-shadow: 0 4px 15px rgba(46, 125, 50, 0.3);
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .hero-section {
@@ -234,5 +317,9 @@ section {
     
     .profile-photo-container i {
         font-size: 4rem;
+    }
+    
+    .login-section .card-body, .cadastro-section .card-body {
+        padding: 2rem;
     }
 }

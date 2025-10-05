@@ -21,7 +21,23 @@ app.use('/api/terapeutas', terapeutasRoutes);
 app.use('/api/sessoes', sessoesRoutes);
 
 // Conectar ao banco ao iniciar o servidor
-connectDB();
+connectDB()
+  .then(() => {
+    const PORT = process.env.PORT || 3001;
+    app.listen(PORT, () => {
+      console.log(`🚀 API Cedro rodando na porta ${PORT}`);
+      console.log(`📊 Banco: ${process.env.DB_NAME || 'CEDRO_banco'} em ${process.env.DB_SERVER || 'localhost'}`);
+    });
+  })
+  .catch(err => {
+    console.error('❌ Falha ao iniciar servidor:', err.message);
+    process.exit(1);
+  });
 
-const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => console.log(`API Cedro rodando na porta ${PORT}`));
+// Graceful shutdown
+process.on('SIGINT', async () => {
+  console.log('\n🔄 Encerrando servidor...');
+  const { closeDB } = require('./db');
+  await closeDB();
+  process.exit(0);
+});

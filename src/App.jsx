@@ -38,6 +38,8 @@ import FinanceiroPsicologo from './pages/FinanceiroPsicologo.jsx';
 import TermosUso from './pages/TermosUso.jsx';
 import PoliticaPrivacidade from './pages/PoliticaPrivacidade.jsx';
 import Autoavaliacoes from './pages/Autoavaliacoes.jsx';
+import LoginAdmin from './pages/LoginAdmin.jsx';
+import DashboardAdmin from './pages/DashboardAdmin.jsx';
 
 function App() {
   return (
@@ -49,8 +51,6 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/chat-emergencia" element={<ChatEmergencia />} />
             <Route path="/contato" element={<Contato />} />
-            <Route path="/terapia-individual" element={<TerapiaIndividual />} />
-            <Route path="/terapia-grupo" element={<TerapiaGrupo />} />
             <Route path="/terapia-individual" element={<TerapiaIndividual />} />
             <Route path="/terapia-grupo" element={<TerapiaGrupo />} />
             <Route path="/atendimento-online" element={<AtendimentoOnline />} />
@@ -94,6 +94,8 @@ function App() {
             <Route path="/termos-uso" element={<TermosUso />} />
             <Route path="/politica-privacidade" element={<PoliticaPrivacidade />} />
             <Route path="/autoavaliacoes" element={<Autoavaliacoes />} />
+            <Route path="/admin/login" element={<LoginAdmin />} />
+            <Route path="/admin/dashboard" element={<DashboardAdmin />} />
           </Routes>
           <Footer />
           <BackToTop />
