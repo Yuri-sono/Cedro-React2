@@ -30,7 +30,27 @@ const DashboardTerapeuta = () => {
     <div className="dashboard-terapeuta">
       <NavbarTerapeuta terapeuta={terapeuta} />
 
-      <div className="container-fluid py-4">
+      <div className="container-fluid py-4 terapeuta-bg">
+        <style>{`
+          .terapeuta-bg {
+            background-color: #f8f9fa;
+            min-height: calc(100vh - 56px);
+          }
+          [data-theme="dark"] .terapeuta-bg {
+            background-color: #1a1a1a;
+          }
+          [data-theme="dark"] .card {
+            background-color: #2d2d2d;
+            color: #ffffff;
+          }
+          [data-theme="dark"] .text-muted {
+            color: #aaaaaa !important;
+          }
+          [data-theme="dark"] .list-group-item {
+            background-color: transparent;
+            border-color: #444;
+          }
+        `}</style>
         <div className="row">
           <SidebarTerapeuta />
 

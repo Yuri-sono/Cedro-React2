@@ -50,7 +50,22 @@ const DashboardAdmin = () => {
         </div>
       </nav>
 
-      <div className="container-fluid py-4" style={{ backgroundColor: '#f8f9fa', minHeight: 'calc(100vh - 56px)' }}>
+      <div className="container-fluid py-4 admin-bg" style={{ minHeight: 'calc(100vh - 56px)' }}>
+        <style>{`
+          .admin-bg {
+            background-color: #f8f9fa;
+          }
+          [data-theme="dark"] .admin-bg {
+            background-color: #1a1a1a;
+          }
+          [data-theme="dark"] .card {
+            background-color: #2d2d2d;
+            color: #ffffff;
+          }
+          [data-theme="dark"] .text-muted {
+            color: #aaaaaa !important;
+          }
+        `}</style>
         {/* Cards de Estatísticas */}
         <div className="row mb-5">
           <div className="col-md-6 col-lg-3 mb-3">
