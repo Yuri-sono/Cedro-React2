@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const LoginAdmin = () => {
@@ -9,8 +9,6 @@ const LoginAdmin = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
-
-  const adminEmails = ['pazyuri84@gmail.com', 'ainutil87@gmail.com'];
 
   const handleChange = (e) => {
     setFormData({
@@ -24,27 +22,33 @@ const LoginAdmin = () => {
     setLoading(true);
     setError('');
 
-    // Verificar se email está autorizado
-    if (!adminEmails.includes(formData.email)) {
-      setError('Email não autorizado para acesso administrativo');
-      setLoading(false);
-      return;
-    }
+    try {
+      const response = await fetch('http://localhost:3001/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: formData.email, senha: formData.senha })
+      });
 
-    // Login de teste para admins
-    if (formData.senha === 'admin123') {
-      const adminData = {
-        id: 'admin_1',
-        nome: 'Administrador',
-        email: formData.email,
-        tipo_usuario: 'admin'
-      };
+      const data = await response.json();
 
-      localStorage.setItem('adminLogado', JSON.stringify(adminData));
-      localStorage.setItem('token', 'token_admin');
+      if (!response.ok) {
+        setError(data.error || 'Erro ao fazer login');
+        setLoading(false);
+        return;
+      }
+
+      // Verificar se é admin
+      if (data.usuario.tipo_usuario !== 'admin') {
+        setError('Acesso negado. Apenas administradores.');
+        setLoading(false);
+        return;
+      }
+
+      localStorage.setItem('adminLogado', JSON.stringify(data.usuario));
+      localStorage.setItem('token', data.token);
       navigate('/admin/dashboard');
-    } else {
-      setError('Senha incorreta. Use: admin123');
+    } catch (error) {
+      setError('Erro ao conectar com servidor');
     }
     
     setLoading(false);
@@ -108,20 +112,6 @@ const LoginAdmin = () => {
                     </button>
                   </div>
                 </form>
-
-                <div className="mt-4 p-3 bg-success bg-opacity-10 border border-success border-opacity-25 rounded">
-                  <div className="d-flex align-items-center mb-2">
-                    <i className="bi bi-info-circle text-success me-2"></i>
-                    <h6 className="fw-bold text-success mb-0">Credenciais de Acesso</h6>
-                  </div>
-                  <div className="small text-muted">
-                    <p className="mb-1"><strong>Emails autorizados:</strong></p>
-                    {adminEmails.map(email => (
-                      <p key={email} className="mb-1 ms-3">• {email}</p>
-                    ))}
-                    <p className="mb-0 mt-2"><strong>Senha:</strong> admin123</p>
-                  </div>
-                </div>
               </div>
             </div>
           </div>

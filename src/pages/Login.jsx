@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext.jsx';
 import axios from 'axios';
@@ -18,6 +18,50 @@ function Login() {
       ...formData,
       [e.target.name]: e.target.value
     });
+  };
+
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = 'https://accounts.google.com/gsi/client';
+    script.async = true;
+    script.defer = true;
+    document.body.appendChild(script);
+
+    script.onload = () => {
+      if (window.google) {
+        window.google.accounts.id.initialize({
+          client_id: '243940514947-0sqfkpbe7njhdp5kuuslc8m6g9rp43i1.apps.googleusercontent.com',
+          callback: handleGoogleLogin
+        });
+        
+        window.google.accounts.id.renderButton(
+          document.getElementById('googleSignInButton'),
+          { theme: 'outline', size: 'large', width: '100%', text: 'continue_with' }
+        );
+      }
+    };
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+
+  const handleGoogleLogin = async (response) => {
+    try {
+      const decoded = JSON.parse(atob(response.credential.split('.')[1]));
+      
+      const res = await axios.post('http://localhost:3001/api/auth/google/google', {
+        email: decoded.email,
+        nome: decoded.name,
+        foto_url: decoded.picture
+      });
+      
+      login(res.data.usuario, res.data.token);
+      navigate('/');
+    } catch (error) {
+      console.error('Erro no login Google:', error);
+      alert('Erro ao fazer login com Google');
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -158,6 +202,31 @@ function Login() {
                     </button>
                   </div>
                 </form>
+                
+                {isLogin && (
+                  <>
+                    <div className="position-relative my-4">
+                      <hr className="my-0" />
+                      <span className="position-absolute top-50 start-50 translate-middle bg-white px-3 text-muted small">ou continue com</span>
+                    </div>
+                    <div className="google-btn-wrapper mb-3">
+                      <div id="googleSignInButton" className="d-flex justify-content-center"></div>
+                    </div>
+                  </>
+                )}
+                
+                <style>{`
+                  .google-btn-wrapper {
+                    padding: 0;
+                  }
+                  .google-btn-wrapper > div {
+                    width: 100% !important;
+                  }
+                  .google-btn-wrapper iframe {
+                    width: 100% !important;
+                    height: 44px !important;
+                  }
+                `}</style>
                 
                 <div className="text-center">
                   {isLogin && (

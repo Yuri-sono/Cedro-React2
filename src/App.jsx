@@ -95,7 +95,11 @@ function App() {
             <Route path="/politica-privacidade" element={<PoliticaPrivacidade />} />
             <Route path="/autoavaliacoes" element={<Autoavaliacoes />} />
             <Route path="/admin/login" element={<LoginAdmin />} />
-            <Route path="/admin/dashboard" element={<DashboardAdmin />} />
+            <Route path="/admin/dashboard" element={
+              <ProtectedRoute requiredUserType="admin">
+                <DashboardAdmin />
+              </ProtectedRoute>
+            } />
           </Routes>
           <Footer />
           <BackToTop />

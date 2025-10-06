@@ -1,0 +1,82 @@
+-- ============================================
+-- Dados de Exemplo para o Banco Cedro
+-- Popula todas as tabelas com dados de teste
+-- ============================================
+
+-- IMPORTANTE: As senhas abaixo são apenas exemplos
+-- Em produção, use senhas reais hasheadas com bcrypt
+
+-- Inserir Pacientes
+INSERT INTO usuarios (nome, email, senha_hash, telefone, data_nascimento, genero, tipo_usuario, ativo)
+VALUES 
+('João Silva', 'joao@email.com', '$2b$10$exemplo1', '11999999999', '1990-05-15', 'masculino', 'paciente', 1),
+('Maria Santos', 'maria@email.com', '$2b$10$exemplo2', '11988888888', '1985-08-20', 'feminino', 'paciente', 1),
+('Pedro Costa', 'pedro@email.com', '$2b$10$exemplo3', '11977777777', '1995-03-10', 'masculino', 'paciente', 1);
+
+-- Inserir Terapeutas
+INSERT INTO usuarios (nome, email, senha_hash, telefone, tipo_usuario, especialidade, preco_sessao, avaliacao, bio, ativo)
+VALUES 
+('Dra. Ana Silva', 'ana.terapeuta@email.com', '$2b$10$exemplo4', '11966666666', 'terapeuta', 'Ansiedade e Depressão', 150.00, 4.8, 'Psicóloga com 10 anos de experiência em terapia cognitivo-comportamental.', 1),
+('Dr. Carlos Mendes', 'carlos.terapeuta@email.com', '$2b$10$exemplo5', '11955555555', 'terapeuta', 'Relacionamentos', 180.00, 4.9, 'Especialista em terapia de casais e relacionamentos.', 1),
+('Dra. Juliana Lima', 'juliana.terapeuta@email.com', '$2b$10$exemplo6', '11944444444', 'terapeuta', 'Autoestima', 120.00, 5.0, 'Focada em desenvolvimento pessoal e autoconhecimento.', 1);
+
+-- Inserir Admin
+INSERT INTO usuarios (nome, email, senha_hash, tipo_usuario, ativo)
+VALUES 
+('Administrador', 'admin@cedro.com', '$2b$10$exemplo7', 'admin', 1);
+
+-- Inserir Sessões
+INSERT INTO sessoes (paciente_id, terapeuta_id, data_sessao, valor, status_sessao)
+VALUES 
+(1, 4, '2025-02-01 10:00:00', 150.00, 'agendada'),
+(1, 4, '2025-01-25 10:00:00', 150.00, 'realizada'),
+(2, 5, '2025-02-02 14:00:00', 180.00, 'agendada'),
+(3, 6, '2025-02-03 16:00:00', 120.00, 'agendada');
+
+-- Inserir Pagamentos
+INSERT INTO pagamentos (sessao_id, valor, status_pagamento, metodo_pagamento, data_pagamento)
+VALUES 
+(2, 150.00, 'pago', 'pix', '2025-01-25 09:30:00'),
+(1, 150.00, 'pendente', 'pix', NULL);
+
+-- Inserir Avaliações
+INSERT INTO avaliacoes (sessao_id, paciente_id, terapeuta_id, nota, comentario)
+VALUES 
+(2, 1, 4, 5, 'Excelente profissional! Me ajudou muito.');
+
+-- Inserir E-books
+INSERT INTO ebooks (titulo, descricao, categoria, paginas, arquivo_url)
+VALUES 
+('Guia Completo sobre Ansiedade', 'Entenda os sintomas, causas e estratégias para lidar com a ansiedade.', 'Ansiedade', 45, '/ebooks/ansiedade.pdf'),
+('Superando a Depressão', 'Manual prático com técnicas e exercícios.', 'Depressão', 62, '/ebooks/depressao.pdf'),
+('Mindfulness para Iniciantes', 'Fundamentos da atenção plena.', 'Mindfulness', 38, '/ebooks/mindfulness.pdf'),
+('Gestão do Estresse', 'Técnicas eficazes para gerenciar o estresse.', 'Estresse', 52, '/ebooks/estresse.pdf');
+
+-- Inserir Meditações
+INSERT INTO meditacoes (titulo, descricao, duracao, nivel, audio_url)
+VALUES 
+('Respiração Consciente', 'Meditação focada na respiração.', 10, 'Iniciante', '/audios/respiracao.mp3'),
+('Body Scan Relaxante', 'Varredura corporal para relaxamento.', 15, 'Intermediário', '/audios/bodyscan.mp3'),
+('Mindfulness para Ansiedade', 'Atenção plena para ansiedade.', 12, 'Iniciante', '/audios/ansiedade.mp3'),
+('Meditação para o Sono', 'Preparação para o sono.', 20, 'Todos os níveis', '/audios/sono.mp3');
+
+-- Inserir Webinars
+INSERT INTO webinars (titulo, palestrante, data_webinar, duracao, status, vagas)
+VALUES 
+('Ansiedade: Entendendo e Controlando', 'Dra. Maria Silva', '2025-03-15 19:00:00', 90, 'agendado', 100),
+('Depressão: Sinais e Tratamentos', 'Dr. João Santos', '2025-03-22 19:00:00', 90, 'agendado', 100),
+('Mindfulness para Iniciantes', 'Psic. Ana Costa', '2025-03-29 19:00:00', 60, 'agendado', 100);
+
+-- Inserir Grupos de Terapia
+INSERT INTO grupos_terapia (nome, descricao, terapeuta_id, horario, dia_semana, vagas_total, vagas_disponiveis, preco_sessao)
+VALUES 
+('Ansiedade e Pânico', 'Grupo focado em técnicas para lidar com ansiedade.', 4, '19:00', 'Terça', 8, 3, 80.00),
+('Depressão e Autoestima', 'Apoio mútuo para superar a depressão.', 5, '18:00', 'Quinta', 8, 2, 80.00),
+('Luto e Perdas', 'Espaço seguro para elaborar perdas.', 6, '10:00', 'Sábado', 8, 4, 80.00),
+('Habilidades Sociais', 'Desenvolvimento de competências sociais.', 4, '17:00', 'Segunda', 8, 1, 80.00);
+
+-- Inserir Autoavaliações
+INSERT INTO autoavaliacoes (usuario_id, pontuacao, nivel, respostas)
+VALUES 
+(1, 8, 'Bem-estar Bom', '{"1":1,"2":2,"3":1,"4":2,"5":2}'),
+(2, 12, 'Atenção Necessária', '{"1":2,"2":3,"3":2,"4":3,"5":2}');

@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const { connectDB } = require('./db');
 const authRoutes = require('./routes/auth');
+const googleAuthRoutes = require('./routes/google-auth');
 const terapeutasRoutes = require('./routes/terapeutas');
 const sessoesRoutes = require('./routes/sessoes');
 
@@ -17,6 +18,7 @@ app.get('/', (req, res) => {
 
 // Rotas
 app.use('/api/auth', authRoutes);
+app.use('/api/auth/google', googleAuthRoutes);
 app.use('/api/terapeutas', terapeutasRoutes);
 app.use('/api/sessoes', sessoesRoutes);
 
