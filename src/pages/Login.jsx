@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext.jsx';
 import axios from 'axios';
+import API_BASE_URL from '../config.js';
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -50,7 +51,7 @@ function Login() {
     try {
       const decoded = JSON.parse(atob(response.credential.split('.')[1]));
       
-      const res = await axios.post('http://localhost:3001/api/auth/google/google', {
+      const res = await axios.post(`${API_BASE_URL}/api/auth/google/google`, {
         email: decoded.email,
         nome: decoded.name,
         foto_url: decoded.picture
@@ -70,7 +71,7 @@ function Login() {
     
     try {
       const endpoint = isLogin ? '/api/auth/login' : '/api/auth/register';
-      const response = await axios.post(`http://localhost:3001${endpoint}`, formData);
+      const response = await axios.post(`${API_BASE_URL}${endpoint}`, formData);
       
       if (isLogin) {
         login(response.data.usuario, response.data.token);

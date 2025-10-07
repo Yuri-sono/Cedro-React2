@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext.jsx';
 import axios from 'axios';
+import API_BASE_URL from '../config.js';
 
 const LoginTerapeuta = () => {
   const [formData, setFormData] = useState({
@@ -22,7 +23,7 @@ const LoginTerapeuta = () => {
     setLoading(true);
     
     try {
-      const response = await axios.post('http://localhost:3001/api/auth/login', formData);
+      const response = await axios.post(`${API_BASE_URL}/api/auth/login`, formData);
       
       if (response.data.usuario.tipo_usuario === 'terapeuta') {
         login(response.data.usuario, response.data.token);
