@@ -3,6 +3,11 @@
   background-color: #f8f9fa;
 }
 
+[data-theme="dark"] .dashboard-terapeuta {
+  background-color: #0a0a0a;
+  color: #ffffff;
+}
+
 .dashboard-terapeuta .navbar {
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
@@ -22,6 +27,22 @@
   background-color: #0d6efd;
   color: white;
   border-radius: 0;
+}
+
+[data-theme="dark"] .dashboard-terapeuta .list-group-item {
+  background-color: #141414;
+  color: #cccccc;
+  border-color: #2a2a2a;
+}
+
+[data-theme="dark"] .dashboard-terapeuta .list-group-item:hover {
+  background-color: #2a2a2a;
+  color: #ffffff;
+}
+
+[data-theme="dark"] .dashboard-terapeuta .list-group-item.active {
+  background-color: #198754;
+  color: white;
 }
 
 .dashboard-terapeuta .card {
@@ -48,6 +69,10 @@
   background: #dee2e6;
 }
 
+[data-theme="dark"] .timeline::before {
+  background: #2a2a2a;
+}
+
 .timeline-item {
   position: relative;
   margin-bottom: 20px;
@@ -64,6 +89,12 @@
   box-shadow: 0 0 0 2px #dee2e6;
 }
 
+[data-theme="dark"] .timeline-marker {
+  border-color: #141414;
+  box-shadow: 0 0 0 2px #2a2a2a;
+  background-color: #198754;
+}
+
 .timeline-content {
   background: white;
   padding: 15px;
@@ -71,10 +102,20 @@
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
+[data-theme="dark"] .timeline-content {
+  background: #141414;
+  color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+}
+
 .chart-container {
   background: linear-gradient(to top, #f8f9fa 0%, transparent 100%);
   border-radius: 8px;
   padding: 20px;
+}
+
+[data-theme="dark"] .chart-container {
+  background: linear-gradient(to top, #1a1a1a 0%, transparent 100%);
 }
 
 @media (max-width: 768px) {

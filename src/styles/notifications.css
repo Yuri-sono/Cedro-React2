@@ -316,24 +316,52 @@
 }
 
 [data-theme="dark"] .notification {
-  background: #2d2d2d;
+  background: #141414;
   color: #ffffff;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
 }
 
 [data-theme="dark"] .notification-success {
-  background: linear-gradient(135deg, #1a2e1a, #2d2d2d);
+  background: linear-gradient(135deg, #0a2e0a, #141414);
+  border-left-color: #20c997;
 }
 
 [data-theme="dark"] .notification-error {
-  background: linear-gradient(135deg, #2e1a1a, #2d2d2d);
+  background: linear-gradient(135deg, #2e0a0a, #141414);
+  border-left-color: #ff6b6b;
 }
 
 [data-theme="dark"] .notification-warning {
-  background: linear-gradient(135deg, #2e2a1a, #2d2d2d);
+  background: linear-gradient(135deg, #2e2a0a, #141414);
+  border-left-color: #ffd43b;
 }
 
 [data-theme="dark"] .notification-info {
-  background: linear-gradient(135deg, #1a2a2e, #2d2d2d);
+  background: linear-gradient(135deg, #0a2a2e, #141414);
+  border-left-color: #74c0fc;
+}
+
+[data-theme="dark"] .notification-close {
+  color: #cccccc;
+}
+
+[data-theme="dark"] .notification-close:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+[data-theme="dark"] .tree-content {
+  background: #141414;
+  border: 1px solid #2a2a2a;
+}
+
+[data-theme="dark"] .tree-body {
+  background: #141414;
+}
+
+[data-theme="dark"] .stage-item {
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
 }
 
 @media (max-width: 768px) {

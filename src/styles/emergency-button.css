@@ -48,6 +48,32 @@
   }
 }
 
+/* Modo escuro */
+[data-theme="dark"] .emergency-btn {
+  background: linear-gradient(135deg, #e74c3c, #c0392b);
+  box-shadow: 0 4px 20px rgba(231, 76, 60, 0.5);
+}
+
+[data-theme="dark"] .emergency-btn:hover {
+  box-shadow: 0 6px 25px rgba(231, 76, 60, 0.7);
+}
+
+@keyframes pulseDark {
+  0% {
+    box-shadow: 0 4px 20px rgba(231, 76, 60, 0.5);
+  }
+  50% {
+    box-shadow: 0 4px 20px rgba(231, 76, 60, 0.9);
+  }
+  100% {
+    box-shadow: 0 4px 20px rgba(231, 76, 60, 0.5);
+  }
+}
+
+[data-theme="dark"] .emergency-btn {
+  animation: pulseDark 2s infinite;
+}
+
 @media (max-width: 768px) {
   .emergency-btn {
     width: 60px;

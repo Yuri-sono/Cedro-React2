@@ -4,6 +4,11 @@
   min-height: 100vh;
 }
 
+[data-theme="dark"] .dashboard-psicologo {
+  background-color: #0a0a0a;
+  color: #ffffff;
+}
+
 .sidebar {
   position: sticky;
   top: 20px;
@@ -23,6 +28,20 @@
 
 .sidebar .nav-link.active {
   background-color: #2e7d32;
+  color: white;
+}
+
+[data-theme="dark"] .sidebar .nav-link {
+  color: #cccccc;
+}
+
+[data-theme="dark"] .sidebar .nav-link:hover {
+  background-color: #2a2a2a;
+  color: #20c997;
+}
+
+[data-theme="dark"] .sidebar .nav-link.active {
+  background-color: #198754;
   color: white;
 }
 
@@ -46,6 +65,10 @@
   background-color: #dee2e6;
 }
 
+[data-theme="dark"] .timeline::before {
+  background-color: #2a2a2a;
+}
+
 .timeline-item {
   position: relative;
   margin-bottom: 20px;
@@ -60,6 +83,12 @@
   border-radius: 50%;
   border: 2px solid #fff;
   box-shadow: 0 0 0 2px #dee2e6;
+}
+
+[data-theme="dark"] .timeline-marker {
+  border-color: #141414;
+  box-shadow: 0 0 0 2px #2a2a2a;
+  background-color: #198754;
 }
 
 .timeline-content h6 {

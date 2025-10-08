@@ -232,14 +232,32 @@ section {
     min-height: 100vh;
 }
 
+[data-theme="dark"] .login-section,
+[data-theme="dark"] .cadastro-section {
+    background: linear-gradient(135deg, #0a0a0a 0%, #111111 100%);
+}
+
 .login-section .card, .cadastro-section .card {
     border-radius: 15px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     border: none;
 }
 
+[data-theme="dark"] .login-section .card,
+[data-theme="dark"] .cadastro-section .card {
+    background-color: #141414;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    border: 1px solid #2a2a2a;
+}
+
 .login-section .card-body, .cadastro-section .card-body {
     padding: 3rem;
+}
+
+[data-theme="dark"] .login-section .card-body,
+[data-theme="dark"] .cadastro-section .card-body {
+    background-color: #141414;
+    color: #ffffff;
 }
 
 .login-section .form-control, .cadastro-section .form-control {
@@ -252,6 +270,41 @@ section {
 .login-section .form-control:focus, .cadastro-section .form-control:focus {
     border-color: var(--primary-color);
     box-shadow: 0 0 0 0.2rem rgba(46, 125, 50, 0.25);
+}
+
+[data-theme="dark"] .login-section .form-control,
+[data-theme="dark"] .cadastro-section .form-control {
+    background-color: #1a1a1a;
+    border-color: #333333;
+    color: #ffffff;
+}
+
+[data-theme="dark"] .login-section .form-control:focus,
+[data-theme="dark"] .cadastro-section .form-control:focus {
+    background-color: #1a1a1a;
+    border-color: #198754;
+    color: #ffffff;
+    box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.4);
+}
+
+[data-theme="dark"] .login-section .form-control::placeholder,
+[data-theme="dark"] .cadastro-section .form-control::placeholder {
+    color: #888888;
+}
+
+[data-theme="dark"] .login-section .form-select,
+[data-theme="dark"] .cadastro-section .form-select {
+    background-color: #1a1a1a;
+    border-color: #333333;
+    color: #ffffff;
+}
+
+[data-theme="dark"] .login-section .form-select:focus,
+[data-theme="dark"] .cadastro-section .form-select:focus {
+    background-color: #1a1a1a;
+    border-color: #198754;
+    color: #ffffff;
+    box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.4);
 }
 
 .login-section .btn-primary, .cadastro-section .btn-primary {
@@ -277,6 +330,48 @@ section {
 .login-section .btn-outline-success:hover {
     background-color: var(--accent-color);
     border-color: var(--accent-color);
+}
+
+[data-theme="dark"] .login-section .btn-outline-success,
+[data-theme="dark"] .cadastro-section .btn-outline-success {
+    border-color: #20c997;
+    color: #20c997;
+}
+
+[data-theme="dark"] .login-section .btn-outline-success:hover,
+[data-theme="dark"] .cadastro-section .btn-outline-success:hover {
+    background-color: #20c997;
+    border-color: #20c997;
+    color: #0a0a0a;
+}
+
+[data-theme="dark"] .login-section .btn-outline-secondary,
+[data-theme="dark"] .cadastro-section .btn-outline-secondary {
+    border-color: #cccccc;
+    color: #cccccc;
+}
+
+[data-theme="dark"] .login-section .btn-outline-secondary:hover,
+[data-theme="dark"] .cadastro-section .btn-outline-secondary:hover {
+    background-color: #cccccc;
+    border-color: #cccccc;
+    color: #0a0a0a;
+}
+
+[data-theme="dark"] .login-section .bg-light,
+[data-theme="dark"] .cadastro-section .bg-light {
+    background-color: #1a1a1a !important;
+    border: 1px solid #2a2a2a;
+}
+
+[data-theme="dark"] .login-section hr,
+[data-theme="dark"] .cadastro-section hr {
+    border-color: #2a2a2a;
+}
+
+[data-theme="dark"] .login-section .bg-white,
+[data-theme="dark"] .cadastro-section .bg-white {
+    background-color: #141414 !important;
 }
 
 /* Admin Dashboard Styles */
