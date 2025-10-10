@@ -51,7 +51,7 @@ function Login() {
     try {
       const decoded = JSON.parse(atob(response.credential.split('.')[1]));
       
-      const res = await axios.post(`${API_BASE_URL}/api/auth/google/google`, {
+      const res = await axios.post(`${API_BASE_URL}/api/auth/google`, {
         email: decoded.email,
         nome: decoded.name,
         foto_url: decoded.picture

@@ -13,24 +13,19 @@ Plataforma de apoio psicológico desenvolvida com React e Vite.
 # Instalar dependências do frontend
 npm install
 
-# Instalar dependências do backend
-cd backend
-npm install
-
-# Configurar variáveis de ambiente
-cp backend/.env.example backend/.env
+# Configurar variáveis de ambiente do Spring Boot
+cp backend/cedro-backend/.env.example backend/cedro-backend/.env
 # Edite o arquivo .env com suas configurações
 
-# Executar aplicação completa (frontend + backend)
-npm run dev:full
-
-# Ou executar separadamente:
-# Frontend (porta 3000)
+# Executar frontend (porta 3000)
 npm run dev
 
-# Backend (porta 3001)
-cd backend
-npm start
+# Executar backend Spring Boot (porta 3001)
+cd backend/cedro-backend
+# Windows:
+run.bat
+# Linux/Mac:
+./mvnw spring-boot:run
 ```
 
 ### Scripts disponíveis
@@ -39,11 +34,20 @@ npm start
 - `npm run preview` - Visualiza a build de produção
 
 ## 🛠️ Tecnologias
+
+### Frontend
 - React 18
 - Vite
 - React Router DOM
 - Bootstrap 5
 - Bootstrap Icons
+
+### Backend
+- Spring Boot 3.5.6
+- Spring Security
+- Spring Data JPA
+- JWT Authentication
+- SQL Server
 
 ## 📁 Estrutura do projeto
 ```
@@ -55,11 +59,16 @@ src/
 ├── App.jsx         # Componente principal
 └── main.jsx        # Ponto de entrada
 
-backend/
-├── routes/         # Rotas da API
-├── .env.example    # Exemplo de configuração
-├── db.js           # Conexão com banco
-└── index.js        # Servidor Express
+backend/cedro-backend/
+├── src/main/java/com/cedro/
+│   ├── controller/     # Controllers REST
+│   ├── service/        # Lógica de negócio
+│   ├── repository/     # Repositórios JPA
+│   ├── model/          # Entidades e DTOs
+│   ├── config/         # Configurações
+│   └── security/       # Segurança JWT
+├── .env            # Variáveis de ambiente
+└── pom.xml         # Dependências Maven
 ```
 
 ## 🔒 Segurança
