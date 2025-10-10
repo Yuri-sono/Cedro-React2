@@ -69,7 +69,7 @@ public class AuthService {
                     novoUsuario.setNome(nome);
                     novoUsuario.setEmail(email);
                     novoUsuario.setSenhaHash(passwordEncoder.encode("google_oauth_" + System.currentTimeMillis()));
-                    novoUsuario.setTipoUsuario(TipoUsuario.PACIENTE);
+                    novoUsuario.setTipoUsuario(TipoUsuario.paciente);
                     return usuarioRepository.save(novoUsuario);
                 });
         

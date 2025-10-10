@@ -49,7 +49,7 @@ public class Usuario {
     
     @Enumerated(EnumType.STRING)
     @Column(name = "tipo_usuario", nullable = false)
-    private TipoUsuario tipoUsuario = TipoUsuario.PACIENTE;
+    private TipoUsuario tipoUsuario = TipoUsuario.paciente;
     
     @Size(max = 100)
     private String especialidade;

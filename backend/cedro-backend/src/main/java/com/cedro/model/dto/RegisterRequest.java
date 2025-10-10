@@ -25,7 +25,7 @@ public class RegisterRequest {
     private LocalDate dataNascimento;
     private String genero;
     private String telefone;
-    private TipoUsuario tipoUsuario = TipoUsuario.PACIENTE;
+    private TipoUsuario tipoUsuario = TipoUsuario.paciente;
     
     public RegisterRequest() {}
     
