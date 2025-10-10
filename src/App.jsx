@@ -40,6 +40,9 @@ import PoliticaPrivacidade from './pages/PoliticaPrivacidade.jsx';
 import Autoavaliacoes from './pages/Autoavaliacoes.jsx';
 import LoginAdmin from './pages/LoginAdmin.jsx';
 import DashboardAdmin from './pages/DashboardAdmin.jsx';
+import MinhasSessoes from './pages/MinhasSessoes.jsx';
+import AgendarSessao from './pages/AgendarSessao.jsx';
+import Chat from './pages/Chat.jsx';
 
 function App() {
   return (
@@ -98,6 +101,21 @@ function App() {
             <Route path="/admin/dashboard" element={
               <ProtectedRoute requiredUserType="admin">
                 <DashboardAdmin />
+              </ProtectedRoute>
+            } />
+            <Route path="/minhas-sessoes" element={
+              <ProtectedRoute>
+                <MinhasSessoes />
+              </ProtectedRoute>
+            } />
+            <Route path="/agendar-sessao/:terapeutaId" element={
+              <ProtectedRoute>
+                <AgendarSessao />
+              </ProtectedRoute>
+            } />
+            <Route path="/chat/:userId" element={
+              <ProtectedRoute>
+                <Chat />
               </ProtectedRoute>
             } />
           </Routes>
