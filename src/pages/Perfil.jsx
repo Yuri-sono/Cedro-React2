@@ -6,7 +6,7 @@ import CustomModal from '../components/CustomModal.jsx';
 import { useModal } from '../hooks/useModal.jsx';
 
 const Perfil = () => {
-  const { user, logout } = useAuth();
+  const { user, logout, updateUser } = useAuth();
   const navigate = useNavigate();
   const { modal, showAlert, showConfirm, closeModal } = useModal();
   const [usuario, setUsuario] = useState({
@@ -66,6 +66,7 @@ const Perfil = () => {
         headers: { Authorization: `Bearer ${token}` }
       });
       
+      updateUser({ ...user, ...usuario, data_nascimento: usuario.dataNascimento });
       setEditando(false);
       await showAlert('Perfil atualizado com sucesso!', 'Sucesso', 'success');
     } catch (error) {
