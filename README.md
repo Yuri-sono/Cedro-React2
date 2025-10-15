@@ -1,6 +1,18 @@
-# Cedro - Apoio Psicológico
+# 🌳 Cedro - Apoio Psicológico
 
-Plataforma de apoio psicológico desenvolvida com React e Vite.
+Plataforma completa de apoio psicológico desenvolvida com React e Spring Boot.
+
+## ✨ Funcionalidades
+
+- ✅ Sistema de autenticação (JWT + Google OAuth)
+- ✅ Perfis de usuário (Paciente, Psicólogo, Admin)
+- ✅ Agendamento de sessões
+- ✅ Lista de psicólogos
+- ✅ Dashboard do psicólogo
+- ✅ Chat de emergência
+- ✅ Modo escuro completo
+- ✅ Recuperação de senha
+- ✅ Responsivo mobile
 
 ## 🚀 Como executar
 
@@ -41,6 +53,7 @@ run.bat
 - React Router DOM
 - Bootstrap 5
 - Bootstrap Icons
+- Axios
 
 ### Backend
 - Spring Boot 3.5.6
@@ -48,6 +61,12 @@ run.bat
 - Spring Data JPA
 - JWT Authentication
 - SQL Server
+- Maven
+
+## 🌐 Deploy
+
+- **Frontend:** Netlify - https://cedro-apoio.netlify.app
+- **Backend:** Render - https://cedro-backend-tsyg.onrender.com
 
 ## 📁 Estrutura do projeto
 ```

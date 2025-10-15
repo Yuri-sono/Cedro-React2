@@ -43,6 +43,7 @@ const Perfil = () => {
     hasNumber: false,
     hasSpecial: false
   });
+  const [loading, setLoading] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -53,6 +54,7 @@ const Perfil = () => {
   };
 
   const handleSalvar = async () => {
+    setLoading(true);
     try {
       const token = localStorage.getItem('token');
       await axios.put(`${import.meta.env.VITE_API_URL}/api/auth/perfil`, {
@@ -78,6 +80,8 @@ const Perfil = () => {
       } else {
         await showAlert('Erro ao salvar perfil. Tente novamente.', 'Erro', 'error');
       }
+    } finally {
+      setLoading(false);
     }
   };
 
