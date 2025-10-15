@@ -164,4 +164,20 @@ public class AuthService {
         
         usuarioRepository.delete(usuario);
     }
+    
+    public void recuperarSenha(String email) {
+        Usuario usuario = usuarioRepository.findByEmailAndAtivoTrue(email)
+                .orElseThrow(() -> new RuntimeException("Email não encontrado"));
+        
+        // Gera senha temporária
+        String senhaTemporaria = "Temp@" + System.currentTimeMillis() % 10000;
+        usuario.setSenhaHash(passwordEncoder.encode(senhaTemporaria));
+        usuarioRepository.save(usuario);
+        
+        System.out.println("====================================");
+        System.out.println("RECUPERAÇÃO DE SENHA");
+        System.out.println("Email: " + email);
+        System.out.println("Senha temporária: " + senhaTemporaria);
+        System.out.println("====================================");
+    }
 }

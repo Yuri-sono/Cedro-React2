@@ -20,10 +20,10 @@ const ProtectedRoute = ({ children, requiredUserType = null }) => {
   }
 
   if (requiredUserType) {
-    if (requiredUserType === 'psicologo' && user?.tipoUsuario !== 'psicologo') {
+    if (requiredUserType === 'psicologo' && user?.tipo_usuario !== 'psicologo') {
       return <Navigate to="/login-psicologo" replace />;
     }
-    if (requiredUserType !== 'psicologo' && user?.tipoUsuario !== requiredUserType) {
+    if (requiredUserType !== 'psicologo' && user?.tipo_usuario !== requiredUserType) {
       return <Navigate to="/" replace />;
     }
   }

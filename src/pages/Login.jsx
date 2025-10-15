@@ -16,6 +16,8 @@ function Login() {
     hasNumber: false,
     hasSpecial: false
   });
+  const [showRecuperarSenha, setShowRecuperarSenha] = useState(false);
+  const [emailRecuperacao, setEmailRecuperacao] = useState('');
   const { login } = useAuth();
   const navigate = useNavigate();
 
@@ -93,7 +95,15 @@ function Login() {
     
     try {
       const endpoint = isLogin ? '/api/auth/login' : '/api/auth/register';
-      const dataToSend = isLogin ? formData : { ...formData, tipo_usuario: 'paciente' };
+      const dataToSend = isLogin ? formData : { 
+        nome: formData.nome,
+        email: formData.email,
+        senha: formData.senha,
+        telefone: formData.telefone,
+        data_nascimento: formData.dataNascimento,
+        genero: formData.genero,
+        tipo_usuario: 'paciente'
+      };
       const response = await axios.post(`${API_BASE_URL}${endpoint}`, dataToSend);
       
       if (isLogin) {
@@ -255,8 +265,12 @@ function Login() {
                 
                 <div className="text-center">
                   {isLogin && (
-                    <button className="btn btn-outline-secondary mb-2" type="button">
-                      Alterar Senha
+                    <button 
+                      className="btn btn-outline-secondary mb-2" 
+                      type="button"
+                      onClick={() => setShowRecuperarSenha(true)}
+                    >
+                      Esqueci minha senha
                     </button>
                   )}
                   <div>
@@ -268,6 +282,48 @@ function Login() {
                     </button>
                   </div>
                 </div>
+                
+                {showRecuperarSenha && (
+                  <div className="modal show d-block" style={{backgroundColor: 'rgba(0,0,0,0.5)'}}>
+                    <div className="modal-dialog modal-dialog-centered">
+                      <div className="modal-content">
+                        <div className="modal-header">
+                          <h5 className="modal-title">Recuperar Senha</h5>
+                          <button type="button" className="btn-close" onClick={() => setShowRecuperarSenha(false)}></button>
+                        </div>
+                        <div className="modal-body">
+                          <p className="text-muted">Digite seu email para receber instruções de recuperação de senha.</p>
+                          <input
+                            type="email"
+                            className="form-control"
+                            placeholder="Seu email"
+                            value={emailRecuperacao}
+                            onChange={(e) => setEmailRecuperacao(e.target.value)}
+                          />
+                        </div>
+                        <div className="modal-footer">
+                          <button type="button" className="btn btn-secondary" onClick={() => setShowRecuperarSenha(false)}>Cancelar</button>
+                          <button 
+                            type="button" 
+                            className="btn btn-primary"
+                            onClick={async () => {
+                              try {
+                                await axios.post(`${API_BASE_URL}/api/auth/recuperar-senha`, { email: emailRecuperacao });
+                                alert('Senha temporária gerada! Entre em contato com o suporte.');
+                                setShowRecuperarSenha(false);
+                                setEmailRecuperacao('');
+                              } catch (error) {
+                                alert('Erro. Verifique se o email está correto.');
+                              }
+                            }}
+                          >
+                            Enviar
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>

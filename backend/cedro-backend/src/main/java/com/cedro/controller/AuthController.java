@@ -113,4 +113,21 @@ public class AuthController {
                     .body(Map.of("error", e.getMessage()));
         }
     }
+    
+    @PostMapping("/recuperar-senha")
+    public ResponseEntity<?> recuperarSenha(@RequestBody Map<String, String> request) {
+        try {
+            String email = request.get("email");
+            if (email == null || email.isEmpty()) {
+                return ResponseEntity.status(400)
+                        .body(Map.of("error", "Email é obrigatório"));
+            }
+            
+            authService.recuperarSenha(email);
+            return ResponseEntity.ok(Map.of("message", "Senha temporária gerada. Verifique o console do servidor."));
+        } catch (Exception e) {
+            return ResponseEntity.status(400)
+                    .body(Map.of("error", e.getMessage()));
+        }
+    }
 }
