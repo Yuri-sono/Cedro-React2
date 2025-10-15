@@ -1,8 +1,7 @@
 package com.cedro.controller;
 
-import com.cedro.model.dto.LoginRequest;
-import com.cedro.model.dto.LoginResponse;
-import com.cedro.model.dto.RegisterRequest;
+import com.cedro.model.dto.*;
+import com.cedro.security.JwtUtil;
 import com.cedro.service.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +17,9 @@ public class AuthController {
     
     @Autowired
     private AuthService authService;
+    
+    @Autowired
+    private JwtUtil jwtUtil;
     
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
@@ -64,5 +66,51 @@ public class AuthController {
     @GetMapping("/")
     public ResponseEntity<String> test() {
         return ResponseEntity.ok("API Cedro rodando!");
+    }
+    
+    @PutMapping("/perfil")
+    public ResponseEntity<?> updatePerfil(
+            @RequestHeader("Authorization") String authHeader,
+            @RequestBody UpdatePerfilRequest request) {
+        try {
+            String token = authHeader.replace("Bearer ", "");
+            Integer userId = jwtUtil.extractUserId(token);
+            
+            Map<String, Object> response = authService.updatePerfil(userId, request);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.status(400)
+                    .body(Map.of("error", e.getMessage()));
+        }
+    }
+    
+    @PutMapping("/alterar-senha")
+    public ResponseEntity<?> alterarSenha(
+            @RequestHeader("Authorization") String authHeader,
+            @RequestBody AlterarSenhaRequest request) {
+        try {
+            String token = authHeader.replace("Bearer ", "");
+            Integer userId = jwtUtil.extractUserId(token);
+            
+            Map<String, Object> response = authService.alterarSenha(userId, request);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.status(400)
+                    .body(Map.of("error", e.getMessage()));
+        }
+    }
+    
+    @DeleteMapping("/conta")
+    public ResponseEntity<?> excluirConta(@RequestHeader("Authorization") String authHeader) {
+        try {
+            String token = authHeader.replace("Bearer ", "");
+            Integer userId = jwtUtil.extractUserId(token);
+            
+            authService.excluirConta(userId);
+            return ResponseEntity.ok(Map.of("message", "Conta excluída com sucesso"));
+        } catch (Exception e) {
+            return ResponseEntity.status(400)
+                    .body(Map.of("error", e.getMessage()));
+        }
     }
 }

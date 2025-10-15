@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 import Navbar from './components/Navbar.jsx';
@@ -7,7 +7,7 @@ import Footer from './components/Footer.jsx';
 import BackToTop from './components/BackToTop.jsx';
 import EmergencyButton from './components/EmergencyButton.jsx';
 import './styles/emergency-button.css';
-import './styles/dashboard-terapeuta.css';
+
 import './styles/dashboard-psicologo.css';
 import './styles/navbar-spacing.css';
 import './styles/theme.css';
@@ -27,7 +27,7 @@ import Ebooks from './pages/Ebooks.jsx';
 import Webinars from './pages/Webinars.jsx';
 import Perfil from './pages/Perfil.jsx';
 import Login from './pages/Login.jsx';
-import ListaTerapeutas from './pages/ListaTerapeutas.jsx';
+import ListaPsicologos from './pages/ListaPsicologos.jsx';
 import CadastroPsicologo from './pages/CadastroPsicologo.jsx';
 import LoginPsicologo from './pages/LoginPsicologo.jsx';
 import DashboardPsicologo from './pages/DashboardPsicologo.jsx';
@@ -35,6 +35,7 @@ import AgendaPsicologo from './pages/AgendaPsicologo.jsx';
 import PacientesPsicologo from './pages/PacientesPsicologo.jsx';
 import ConsultasPsicologo from './pages/ConsultasPsicologo.jsx';
 import FinanceiroPsicologo from './pages/FinanceiroPsicologo.jsx';
+import ConfiguracoesPsicologo from './pages/ConfiguracoesPsicologo.jsx';
 import TermosUso from './pages/TermosUso.jsx';
 import PoliticaPrivacidade from './pages/PoliticaPrivacidade.jsx';
 import Autoavaliacoes from './pages/Autoavaliacoes.jsx';
@@ -43,13 +44,18 @@ import DashboardAdmin from './pages/DashboardAdmin.jsx';
 import MinhasSessoes from './pages/MinhasSessoes.jsx';
 import AgendarSessao from './pages/AgendarSessao.jsx';
 import Chat from './pages/Chat.jsx';
+import Premium from './pages/Premium.jsx';
+import AdBanner from './components/AdBanner.jsx';
 
-function App() {
+function AppContent() {
+  const location = useLocation();
+  const isPsicologoRoute = location.pathname.startsWith('/psicologo/');
+  const isAdminRoute = location.pathname.startsWith('/admin/');
+  const shouldShowNavbar = !isPsicologoRoute && !isAdminRoute;
+
   return (
-    <AuthProvider>
-      <Router>
-        <div className="App">
-          <Navbar />
+    <div className="App">
+      {shouldShowNavbar && <Navbar />}
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/chat-emergencia" element={<ChatEmergencia />} />
@@ -66,7 +72,7 @@ function App() {
               </ProtectedRoute>
             } />
             <Route path="/login" element={<Login />} />
-            <Route path="/psicologos" element={<ListaTerapeutas />} />
+            <Route path="/psicologos" element={<ListaPsicologos />} />
             <Route path="/cadastro-psicologo" element={<CadastroPsicologo />} />
             <Route path="/login-psicologo" element={<LoginPsicologo />} />
             <Route path="/psicologo/dashboard" element={
@@ -94,6 +100,11 @@ function App() {
                 <FinanceiroPsicologo />
               </ProtectedRoute>
             } />
+            <Route path="/psicologo/configuracoes" element={
+              <ProtectedRoute requiredUserType="psicologo">
+                <ConfiguracoesPsicologo />
+              </ProtectedRoute>
+            } />
             <Route path="/termos-uso" element={<TermosUso />} />
             <Route path="/politica-privacidade" element={<PoliticaPrivacidade />} />
             <Route path="/autoavaliacoes" element={<Autoavaliacoes />} />
@@ -108,7 +119,7 @@ function App() {
                 <MinhasSessoes />
               </ProtectedRoute>
             } />
-            <Route path="/agendar-sessao/:terapeutaId" element={
+            <Route path="/agendar-sessao/:psicologoId" element={
               <ProtectedRoute>
                 <AgendarSessao />
               </ProtectedRoute>
@@ -118,14 +129,23 @@ function App() {
                 <Chat />
               </ProtectedRoute>
             } />
+            <Route path="/premium" element={<Premium />} />
           </Routes>
           <Footer />
           <BackToTop />
           <EmergencyButton />
           <ThemeToggle />
           <NotificationSystem />
+          <AdBanner />
+    </div>
+  );
+}
 
-        </div>
+function App() {
+  return (
+    <AuthProvider>
+      <Router>
+        <AppContent />
       </Router>
     </AuthProvider>
   );

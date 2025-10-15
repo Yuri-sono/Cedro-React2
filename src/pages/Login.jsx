@@ -11,14 +11,28 @@ function Login() {
   });
   const [isLogin, setIsLogin] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [senhaValidacao, setSenhaValidacao] = useState({
+    minLength: false,
+    hasNumber: false,
+    hasSpecial: false
+  });
   const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleChange = (e) => {
+    const { name, value } = e.target;
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [name]: value
     });
+    
+    if (name === 'senha' && !isLogin) {
+      setSenhaValidacao({
+        minLength: value.length >= 5,
+        hasNumber: /\d/.test(value),
+        hasSpecial: /[!@#$%^&*(),.?":{}|<>]/.test(value)
+      });
+    }
   };
 
   useEffect(() => {
@@ -67,11 +81,20 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    if (!isLogin) {
+      if (!senhaValidacao.minLength || !senhaValidacao.hasNumber || !senhaValidacao.hasSpecial) {
+        alert('A senha não atende aos requisitos mínimos de segurança.');
+        return;
+      }
+    }
+    
     setLoading(true);
     
     try {
       const endpoint = isLogin ? '/api/auth/login' : '/api/auth/register';
-      const response = await axios.post(`${API_BASE_URL}${endpoint}`, formData);
+      const dataToSend = isLogin ? formData : { ...formData, tipo_usuario: 'paciente' };
+      const response = await axios.post(`${API_BASE_URL}${endpoint}`, dataToSend);
       
       if (isLogin) {
         login(response.data.usuario, response.data.token);
@@ -121,8 +144,8 @@ function Login() {
                         <input
                           type="date"
                           className="form-control"
-                          name="data_nascimento"
-                          value={formData.data_nascimento || ''}
+                          name="dataNascimento"
+                          value={formData.dataNascimento || ''}
                           onChange={handleChange}
                           required
                         />
@@ -169,33 +192,34 @@ function Login() {
                   </div>
                   
                   <div className="mb-3">
-                    <label className="form-label">Senha {!isLogin && '(mínimo 4 caracteres)'}</label>
+                    <label className="form-label">Senha</label>
                     <input
                       type="password"
                       className="form-control"
                       name="senha"
                       value={formData.senha}
                       onChange={handleChange}
-                      minLength={isLogin ? "1" : "4"}
                       required
                     />
+                    {!isLogin && formData.senha && (
+                      <div className="mt-2">
+                        <small className={senhaValidacao.minLength ? 'text-success' : 'text-danger'}>
+                          <i className={`bi bi-${senhaValidacao.minLength ? 'check-circle-fill' : 'x-circle-fill'} me-1`}></i>
+                          Mínimo 5 caracteres
+                        </small><br/>
+                        <small className={senhaValidacao.hasNumber ? 'text-success' : 'text-danger'}>
+                          <i className={`bi bi-${senhaValidacao.hasNumber ? 'check-circle-fill' : 'x-circle-fill'} me-1`}></i>
+                          Pelo menos 1 número
+                        </small><br/>
+                        <small className={senhaValidacao.hasSpecial ? 'text-success' : 'text-danger'}>
+                          <i className={`bi bi-${senhaValidacao.hasSpecial ? 'check-circle-fill' : 'x-circle-fill'} me-1`}></i>
+                          Pelo menos 1 caractere especial (!@#$%^&*)
+                        </small>
+                      </div>
+                    )}
                   </div>
 
-                  {!isLogin && (
-                    <div className="mb-3">
-                      <label className="form-label">Tipo de Usuário</label>
-                      <select
-                        className="form-control"
-                        name="tipo_usuario"
-                        value={formData.tipo_usuario || 'paciente'}
-                        onChange={handleChange}
-                        required
-                      >
-                        <option value="paciente">Paciente</option>
-                        <option value="terapeuta">Terapeuta</option>
-                      </select>
-                    </div>
-                  )}
+
                   
                   <div className="d-grid mb-3">
                     <button type="submit" className="btn btn-primary btn-lg" disabled={loading}>

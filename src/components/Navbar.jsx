@@ -4,8 +4,8 @@ import { useAuth } from '../contexts/AuthContext.jsx';
 
 const Navbar = () => {
   const { user, logout, isAuthenticated } = useAuth();
-  const psicologoLogado = localStorage.getItem('psicologoLogado');
-  const isPsicologoLogado = !!psicologoLogado;
+  const isUserLoggedIn = isAuthenticated;
+  
   return (
     <nav className="navbar navbar-expand-lg navbar-dark sticky-top">
       <div className="container">
@@ -41,24 +41,25 @@ const Navbar = () => {
             <li className="nav-item">
               <a className="nav-link" href="/#contato">Contato</a>
             </li>
-            {(isAuthenticated || isPsicologoLogado) ? (
+            <li className="nav-item">
+              <Link className="nav-link" to="/premium">
+                <i className="bi bi-star-fill text-warning me-1"></i>
+                Premium
+              </Link>
+            </li>
+            {isUserLoggedIn ? (
               <li className="nav-item dropdown">
                 <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
                   <div className="profile-avatar-small">
                     <i className="bi bi-person-fill"></i>
                   </div>
-                  <span className="ms-2">{user?.nome || (isPsicologoLogado ? JSON.parse(psicologoLogado).nome : 'Usuário')}</span>
+                  <span className="ms-2">{user?.nome || 'Usuário'}</span>
                 </a>
                 <ul className="dropdown-menu">
                   <li><Link className="dropdown-item" to="/perfil">
                     <i className="bi bi-person-circle"></i>Meu Perfil
                   </Link></li>
-                  {user?.tipo_usuario === 'terapeuta' && (
-                    <li><Link className="dropdown-item" to="/terapeuta/dashboard">
-                      <i className="bi bi-speedometer2"></i>Dashboard
-                    </Link></li>
-                  )}
-                  {(user?.tipo_usuario === 'psicologo' || isPsicologoLogado) && (
+                  {user?.tipoUsuario === 'psicologo' && (
                     <li><Link className="dropdown-item" to="/psicologo/dashboard">
                       <i className="bi bi-speedometer2"></i>Dashboard
                     </Link></li>

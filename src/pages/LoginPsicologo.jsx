@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext.jsx';
+import axios from 'axios';
+import API_BASE_URL from '../config.js';
 
 const LoginPsicologo = () => {
   const [formData, setFormData] = useState({
@@ -8,6 +11,7 @@ const LoginPsicologo = () => {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -22,34 +26,25 @@ const LoginPsicologo = () => {
     setLoading(true);
     setError('');
 
-    // Login de teste
-    if (formData.email === 'psicologo@teste.com' && formData.senha === '123456') {
-      const psicologoTeste = {
-        id: 1,
-        nome: 'Dr. João Silva',
-        email: 'psicologo@teste.com',
-        tipo_usuario: 'psicologo',
-        numero_licenca: 'CRP 06/123456',
-        especialidades: 'Ansiedade, Depressão, Terapia Cognitivo-Comportamental',
-        valor_sessao: 150.00
-      };
-
-      localStorage.setItem('psicologoLogado', JSON.stringify(psicologoTeste));
-      localStorage.setItem('token', 'token_teste_psicologo');
-      navigate('/psicologo/dashboard');
-    } else {
-      setError('Email ou senha incorretos. Use: psicologo@teste.com / 123456');
+    try {
+      const response = await axios.post(`${API_BASE_URL}/api/auth/login`, formData);
+      
+      if (response.data.usuario.tipoUsuario === 'psicologo') {
+        login(response.data.usuario, response.data.token);
+        localStorage.setItem('psicologoLogado', JSON.stringify(response.data.usuario));
+        navigate('/psicologo/dashboard');
+      } else {
+        setError('Esta conta não é de psicólogo. Use o login de paciente.');
+      }
+    } catch (error) {
+      console.error('Erro no login:', error);
+      setError('Email ou senha incorretos.');
+    } finally {
+      setLoading(false);
     }
-    
-    setLoading(false);
   };
 
-  const preencherTeste = () => {
-    setFormData({
-      email: 'psicologo@teste.com',
-      senha: '123456'
-    });
-  };
+
 
   return (
     <div className="login-section py-5" style={{ minHeight: '100vh', backgroundColor: '#f8f9fa' }}>
@@ -97,21 +92,13 @@ const LoginPsicologo = () => {
                     />
                   </div>
 
-                  <div className="d-grid gap-2 mb-3">
+                  <div className="d-grid mb-3">
                     <button 
                       type="submit" 
                       className="btn btn-primary btn-lg"
                       disabled={loading}
                     >
                       {loading ? 'Entrando...' : 'Entrar'}
-                    </button>
-                    
-                    <button 
-                      type="button" 
-                      className="btn btn-outline-success"
-                      onClick={preencherTeste}
-                    >
-                      Preencher dados de teste
                     </button>
                   </div>
                 </form>
@@ -135,11 +122,7 @@ const LoginPsicologo = () => {
                   </p>
                 </div>
 
-                <div className="mt-4 p-3 bg-light rounded">
-                  <h6 className="fw-bold">Dados de teste:</h6>
-                  <p className="mb-1"><strong>Email:</strong> psicologo@teste.com</p>
-                  <p className="mb-0"><strong>Senha:</strong> 123456</p>
-                </div>
+
               </div>
             </div>
           </div>

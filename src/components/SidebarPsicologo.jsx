@@ -9,7 +9,8 @@ const SidebarPsicologo = () => {
     { path: '/psicologo/agenda', icon: 'bi-calendar3', label: 'Agenda' },
     { path: '/psicologo/pacientes', icon: 'bi-people', label: 'Pacientes' },
     { path: '/psicologo/consultas', icon: 'bi-clipboard-pulse', label: 'Consultas' },
-    { path: '/psicologo/financeiro', icon: 'bi-graph-up', label: 'Financeiro' }
+    { path: '/psicologo/financeiro', icon: 'bi-graph-up', label: 'Financeiro' },
+    { path: '/psicologo/configuracoes', icon: 'bi-gear', label: 'Configurações' }
   ];
 
   return (

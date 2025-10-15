@@ -2,14 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import NavbarPsicologo from '../components/NavbarPsicologo.jsx';
 import SidebarPsicologo from '../components/SidebarPsicologo.jsx';
+import axios from 'axios';
 
 const DashboardPsicologo = () => {
   const [psicologo, setPsicologo] = useState(null);
   const [stats, setStats] = useState({
-    consultasHoje: 5,
-    consultasSemana: 23,
-    pacientesAtivos: 45,
-    faturamentoMes: 8500
+    consultasHoje: 0,
+    consultasSemana: 0,
+    pacientesAtivos: 0,
+    faturamentoMes: 0
   });
   const navigate = useNavigate();
 
@@ -20,7 +21,20 @@ const DashboardPsicologo = () => {
       return;
     }
     setPsicologo(JSON.parse(psicologoLogado));
+    carregarEstatisticas();
   }, [navigate]);
+  
+  const carregarEstatisticas = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.get('http://localhost:3001/api/psicologo/estatisticas', {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setStats(response.data);
+    } catch (error) {
+      console.error('Erro ao carregar estatísticas:', error);
+    }
+  };
 
   if (!psicologo) return <div>Carregando...</div>;
 

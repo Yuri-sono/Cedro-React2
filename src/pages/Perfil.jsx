@@ -2,10 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext.jsx';
 import axios from 'axios';
+import CustomModal from '../components/CustomModal.jsx';
+import { useModal } from '../hooks/useModal.jsx';
 
 const Perfil = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const { modal, showAlert, showConfirm, closeModal } = useModal();
   const [usuario, setUsuario] = useState({
     nome: '',
     email: '',
@@ -18,11 +21,12 @@ const Perfil = () => {
 
   useEffect(() => {
     if (user) {
+      const dataNasc = user.data_nascimento ? user.data_nascimento.split('T')[0] : '';
       setUsuario({
         nome: user.nome || '',
         email: user.email || '',
         telefone: user.telefone || '',
-        dataNascimento: user.data_nascimento || '',
+        dataNascimento: dataNasc,
         genero: user.genero || '',
         endereco: user.endereco || '',
         bio: user.bio || 'Buscando bem-estar mental e equilíbrio na vida.'
@@ -34,6 +38,11 @@ const Perfil = () => {
   const [senhaAtual, setSenhaAtual] = useState('');
   const [novaSenha, setNovaSenha] = useState('');
   const [confirmarSenha, setConfirmarSenha] = useState('');
+  const [senhaValidacao, setSenhaValidacao] = useState({
+    minLength: false,
+    hasNumber: false,
+    hasSpecial: false
+  });
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -58,22 +67,43 @@ const Perfil = () => {
       });
       
       setEditando(false);
-      alert('Perfil atualizado com sucesso!');
+      await showAlert('Perfil atualizado com sucesso!', 'Sucesso', 'success');
     } catch (error) {
       console.error('Erro ao salvar perfil:', error);
       if (error.response?.data?.expired) {
-        alert('Sessão expirada. Faça login novamente.');
+        await showAlert('Sessão expirada. Faça login novamente.', 'Erro', 'error');
         logout();
         navigate('/login');
       } else {
-        alert('Erro ao salvar perfil. Tente novamente.');
+        await showAlert('Erro ao salvar perfil. Tente novamente.', 'Erro', 'error');
       }
+    }
+  };
+
+  const handleExcluirConta = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      await axios.delete('http://localhost:3001/api/auth/conta', {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      
+      await showAlert('Conta excluída com sucesso.', 'Sucesso', 'success');
+      logout();
+      navigate('/');
+    } catch (error) {
+      console.error('Erro ao excluir conta:', error);
+      await showAlert('Erro ao excluir conta. Tente novamente.', 'Erro', 'error');
     }
   };
 
   const handleAlterarSenha = async () => {
     if (novaSenha !== confirmarSenha) {
-      alert('As senhas não coincidem!');
+      await showAlert('As senhas não coincidem!', 'Erro', 'error');
+      return;
+    }
+    
+    if (!senhaValidacao.minLength || !senhaValidacao.hasNumber || !senhaValidacao.hasSpecial) {
+      await showAlert('A nova senha não atende aos requisitos mínimos de segurança.', 'Erro', 'error');
       return;
     }
     
@@ -86,13 +116,13 @@ const Perfil = () => {
         headers: { Authorization: `Bearer ${token}` }
       });
       
-      alert('Senha alterada com sucesso!');
+      await showAlert('Senha alterada com sucesso!', 'Sucesso', 'success');
       setSenhaAtual('');
       setNovaSenha('');
       setConfirmarSenha('');
     } catch (error) {
       console.error('Erro ao alterar senha:', error);
-      alert('Erro ao alterar senha. Verifique a senha atual.');
+      await showAlert('Erro ao alterar senha. Verifique a senha atual.', 'Erro', 'error');
     }
   };
 
@@ -257,8 +287,29 @@ const Perfil = () => {
                       type="password"
                       className="form-control"
                       value={novaSenha}
-                      onChange={(e) => setNovaSenha(e.target.value)}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        setNovaSenha(value);
+                        setSenhaValidacao({
+                          minLength: value.length >= 5,
+                          hasNumber: /\d/.test(value),
+                          hasSpecial: /[!@#$%^&*(),.?":{}|<>]/.test(value)
+                        });
+                      }}
                     />
+                    {novaSenha && (
+                      <div className="mt-1">
+                        <small className={senhaValidacao.minLength ? 'text-success' : 'text-danger'}>
+                          <i className={`bi bi-${senhaValidacao.minLength ? 'check-circle-fill' : 'x-circle-fill'}`}></i> 5+ caracteres
+                        </small>{' '}
+                        <small className={senhaValidacao.hasNumber ? 'text-success' : 'text-danger'}>
+                          <i className={`bi bi-${senhaValidacao.hasNumber ? 'check-circle-fill' : 'x-circle-fill'}`}></i> 1 número
+                        </small>{' '}
+                        <small className={senhaValidacao.hasSpecial ? 'text-success' : 'text-danger'}>
+                          <i className={`bi bi-${senhaValidacao.hasSpecial ? 'check-circle-fill' : 'x-circle-fill'}`}></i> 1 especial
+                        </small>
+                      </div>
+                    )}
                   </div>
                   <div className="col-md-4 mb-3">
                     <label className="form-label">Confirmar Nova Senha</label>
@@ -277,6 +328,26 @@ const Perfil = () => {
                 >
                   <i className="bi bi-key me-1"></i>
                   Alterar Senha
+                </button>
+
+                {/* Excluir Conta */}
+                <hr className="mt-4" />
+                <h5 className="mb-3 text-danger">
+                  <i className="bi bi-exclamation-triangle me-2"></i>
+                  Zona de Perigo
+                </h5>
+                <p className="text-muted">Ao excluir sua conta, todos os seus dados serão permanentemente removidos.</p>
+                <button
+                  className="btn btn-danger"
+                  onClick={async () => {
+                    const confirmed = await showConfirm('Tem certeza que deseja excluir sua conta? Esta ação não pode ser desfeita!', 'Excluir Conta');
+                    if (confirmed) {
+                      handleExcluirConta();
+                    }
+                  }}
+                >
+                  <i className="bi bi-trash me-1"></i>
+                  Excluir Conta
                 </button>
 
                 {/* Estatísticas do Usuário */}
@@ -328,6 +399,14 @@ const Perfil = () => {
           </div>
         </div>
       </div>
+      <CustomModal
+        show={modal.show}
+        title={modal.title}
+        message={modal.message}
+        type={modal.type}
+        onConfirm={modal.onConfirm}
+        onCancel={closeModal}
+      />
     </div>
   );
 };

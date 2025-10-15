@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import API_BASE_URL from '../config.js';
 
 const CadastroPsicologo = () => {
   const [formData, setFormData] = useState({
@@ -8,22 +10,34 @@ const CadastroPsicologo = () => {
     senha: '',
     confirmarSenha: '',
     telefone: '',
-    numeroLicenca: '',
-    especialidades: '',
-    valorSessao: '',
-    anosExperiencia: '',
-    formacao: '',
-    abordagemTerapeutica: ''
+    dataNascimento: '',
+    genero: '',
+    especialidade: '',
+    preco_sessao: ''
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [senhaValidacao, setSenhaValidacao] = useState({
+    minLength: false,
+    hasNumber: false,
+    hasSpecial: false
+  });
   const navigate = useNavigate();
 
   const handleChange = (e) => {
+    const { name, value } = e.target;
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [name]: value
     });
+    
+    if (name === 'senha') {
+      setSenhaValidacao({
+        minLength: value.length >= 5,
+        hasNumber: /\d/.test(value),
+        hasSpecial: /[!@#$%^&*(),.?":{}|<>]/.test(value)
+      });
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -36,12 +50,25 @@ const CadastroPsicologo = () => {
       setLoading(false);
       return;
     }
+    
+    if (!senhaValidacao.minLength || !senhaValidacao.hasNumber || !senhaValidacao.hasSpecial) {
+      setError('A senha não atende aos requisitos mínimos de segurança.');
+      setLoading(false);
+      return;
+    }
 
-    // Simulação de cadastro
-    setTimeout(() => {
-      alert('Cadastro realizado com sucesso! Aguarde aprovação.');
+    try {
+      await axios.post(`${API_BASE_URL}/api/auth/register`, {
+        ...formData,
+        tipo_usuario: 'psicologo'
+      });
+      alert('Cadastro realizado com sucesso!');
       navigate('/login-psicologo');
-    }, 1000);
+    } catch (error) {
+      setError(error.response?.data?.error || 'Erro ao cadastrar');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -103,6 +130,19 @@ const CadastroPsicologo = () => {
                         onChange={handleChange}
                         required
                       />
+                      {formData.senha && (
+                        <div className="mt-1">
+                          <small className={senhaValidacao.minLength ? 'text-success' : 'text-danger'}>
+                            <i className={`bi bi-${senhaValidacao.minLength ? 'check-circle-fill' : 'x-circle-fill'}`}></i> 5+ caracteres
+                          </small>{' '}
+                          <small className={senhaValidacao.hasNumber ? 'text-success' : 'text-danger'}>
+                            <i className={`bi bi-${senhaValidacao.hasNumber ? 'check-circle-fill' : 'x-circle-fill'}`}></i> 1 número
+                          </small>{' '}
+                          <small className={senhaValidacao.hasSpecial ? 'text-success' : 'text-danger'}>
+                            <i className={`bi bi-${senhaValidacao.hasSpecial ? 'check-circle-fill' : 'x-circle-fill'}`}></i> 1 especial
+                          </small>
+                        </div>
+                      )}
                     </div>
                     <div className="col-md-6 mb-3">
                       <label htmlFor="confirmarSenha" className="form-label">Confirmar Senha *</label>
@@ -120,7 +160,7 @@ const CadastroPsicologo = () => {
 
                   <div className="row">
                     <div className="col-md-6 mb-3">
-                      <label htmlFor="telefone" className="form-label">Telefone</label>
+                      <label htmlFor="telefone" className="form-label">Telefone *</label>
                       <input
                         type="tel"
                         className="form-control"
@@ -128,88 +168,66 @@ const CadastroPsicologo = () => {
                         name="telefone"
                         value={formData.telefone}
                         onChange={handleChange}
+                        required
                       />
                     </div>
                     <div className="col-md-6 mb-3">
-                      <label htmlFor="numeroLicenca" className="form-label">Número CRP *</label>
+                      <label htmlFor="dataNascimento" className="form-label">Data de Nascimento *</label>
                       <input
-                        type="text"
+                        type="date"
                         className="form-control"
-                        id="numeroLicenca"
-                        name="numeroLicenca"
-                        placeholder="Ex: CRP 06/123456"
-                        value={formData.numeroLicenca}
+                        id="dataNascimento"
+                        name="dataNascimento"
+                        value={formData.dataNascimento}
                         onChange={handleChange}
                         required
                       />
                     </div>
                   </div>
 
-                  <div className="mb-3">
-                    <label htmlFor="especialidades" className="form-label">Especialidades</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="especialidades"
-                      name="especialidades"
-                      placeholder="Ex: Ansiedade, Depressão, Terapia Cognitivo-Comportamental"
-                      value={formData.especialidades}
-                      onChange={handleChange}
-                    />
-                  </div>
-
                   <div className="row">
                     <div className="col-md-6 mb-3">
-                      <label htmlFor="valorSessao" className="form-label">Valor da Sessão (R$)</label>
-                      <input
-                        type="number"
+                      <label htmlFor="genero" className="form-label">Gênero *</label>
+                      <select
                         className="form-control"
-                        id="valorSessao"
-                        name="valorSessao"
-                        min="0"
-                        step="0.01"
-                        value={formData.valorSessao}
+                        id="genero"
+                        name="genero"
+                        value={formData.genero}
                         onChange={handleChange}
-                      />
+                        required
+                      >
+                        <option value="">Selecione</option>
+                        <option value="masculino">Masculino</option>
+                        <option value="feminino">Feminino</option>
+                        <option value="outro">Outro</option>
+                      </select>
                     </div>
                     <div className="col-md-6 mb-3">
-                      <label htmlFor="anosExperiencia" className="form-label">Anos de Experiência</label>
+                      <label htmlFor="especialidade" className="form-label">Especialidade</label>
                       <input
-                        type="number"
+                        type="text"
                         className="form-control"
-                        id="anosExperiencia"
-                        name="anosExperiencia"
-                        min="0"
-                        value={formData.anosExperiencia}
+                        id="especialidade"
+                        name="especialidade"
+                        placeholder="Ex: Ansiedade, Depressão"
+                        value={formData.especialidade}
                         onChange={handleChange}
                       />
                     </div>
-                  </div>
-
-                  <div className="mb-3">
-                    <label htmlFor="formacao" className="form-label">Formação</label>
-                    <textarea
-                      className="form-control"
-                      id="formacao"
-                      name="formacao"
-                      rows="2"
-                      placeholder="Descreva sua formação acadêmica"
-                      value={formData.formacao}
-                      onChange={handleChange}
-                    ></textarea>
                   </div>
 
                   <div className="mb-4">
-                    <label htmlFor="abordagemTerapeutica" className="form-label">Abordagem Terapêutica</label>
-                    <textarea
+                    <label htmlFor="preco_sessao" className="form-label">Valor da Sessão (R$)</label>
+                    <input
+                      type="number"
                       className="form-control"
-                      id="abordagemTerapeutica"
-                      name="abordagemTerapeutica"
-                      rows="2"
-                      placeholder="Descreva sua abordagem terapêutica"
-                      value={formData.abordagemTerapeutica}
+                      id="preco_sessao"
+                      name="preco_sessao"
+                      min="0"
+                      step="0.01"
+                      value={formData.preco_sessao}
                       onChange={handleChange}
-                    ></textarea>
+                    />
                   </div>
 
                   <div className="d-grid mb-3">

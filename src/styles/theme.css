@@ -28,6 +28,11 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+.perfil-section {
+  background-color: var(--bg-primary);
+  min-height: 100vh;
+}
+
 [data-theme="dark"] h1,
 [data-theme="dark"] h2,
 [data-theme="dark"] h3,

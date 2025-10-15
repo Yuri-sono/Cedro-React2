@@ -17,12 +17,9 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const token = localStorage.getItem('token');
     const userData = localStorage.getItem('usuario');
-    const psicologoData = localStorage.getItem('psicologoLogado');
     
     if (token && userData) {
       setUser(JSON.parse(userData));
-    } else if (psicologoData) {
-      setUser(JSON.parse(psicologoData));
     }
     setLoading(false);
   }, []);
@@ -34,10 +31,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('usuario');
-    localStorage.removeItem('terapeutaLogado');
-    localStorage.removeItem('psicologoLogado');
+    localStorage.clear();
     setUser(null);
   };
 
