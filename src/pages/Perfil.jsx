@@ -55,7 +55,7 @@ const Perfil = () => {
   const handleSalvar = async () => {
     try {
       const token = localStorage.getItem('token');
-      await axios.put('http://localhost:3001/api/auth/perfil', {
+      await axios.put(`${import.meta.env.VITE_API_URL}/api/auth/perfil`, {
         nome: usuario.nome,
         telefone: usuario.telefone,
         data_nascimento: usuario.dataNascimento,
@@ -83,7 +83,7 @@ const Perfil = () => {
   const handleExcluirConta = async () => {
     try {
       const token = localStorage.getItem('token');
-      await axios.delete('http://localhost:3001/api/auth/conta', {
+      await axios.delete(`${import.meta.env.VITE_API_URL}/api/auth/conta`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       
@@ -109,7 +109,7 @@ const Perfil = () => {
     
     try {
       const token = localStorage.getItem('token');
-      await axios.put('http://localhost:3001/api/auth/alterar-senha', {
+      await axios.put(`${import.meta.env.VITE_API_URL}/api/auth/alterar-senha`, {
         senhaAtual,
         novaSenha
       }, {

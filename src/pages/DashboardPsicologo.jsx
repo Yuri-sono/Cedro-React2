@@ -27,7 +27,7 @@ const DashboardPsicologo = () => {
   const carregarEstatisticas = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:3001/api/psicologo/estatisticas', {
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/psicologo/estatisticas`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setStats(response.data);

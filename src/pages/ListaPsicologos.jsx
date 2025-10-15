@@ -12,7 +12,7 @@ function ListaPsicologos() {
   const fetchPsicologos = async () => {
     try {
       console.log('Buscando psicólogos...');
-      const response = await axios.get('http://localhost:3001/api/psicologos');
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/psicologos`);
       console.log('Resposta da API:', response.data);
       setPsicologos(response.data);
     } catch (error) {
@@ -32,7 +32,7 @@ function ListaPsicologos() {
     }
 
     try {
-      await axios.post('http://localhost:3001/api/sessoes', {
+      await axios.post(`${import.meta.env.VITE_API_URL}/api/sessoes`, {
         paciente_id: usuario.id,
         psicologo_id: psicologoId,
         data_sessao: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),

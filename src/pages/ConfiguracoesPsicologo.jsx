@@ -50,7 +50,7 @@ const ConfiguracoesPsicologo = () => {
   const handleSalvar = async () => {
     try {
       const token = localStorage.getItem('token');
-      await axios.put('http://localhost:3001/api/auth/perfil', config, {
+      await axios.put(`${import.meta.env.VITE_API_URL}/api/auth/perfil`, config, {
         headers: { Authorization: `Bearer ${token}` }
       });
       
@@ -78,7 +78,7 @@ const ConfiguracoesPsicologo = () => {
     
     try {
       const token = localStorage.getItem('token');
-      await axios.put('http://localhost:3001/api/auth/alterar-senha', {
+      await axios.put(`${import.meta.env.VITE_API_URL}/api/auth/alterar-senha`, {
         senhaAtual,
         novaSenha
       }, {
