@@ -29,7 +29,10 @@ body {
 
 /* Hero Section */
 .hero-section {
-    background: linear-gradient(rgba(46, 125, 50, 0.9), rgba(27, 94, 32, 0.9));
+    background: linear-gradient(rgba(46, 125, 50, 0.75), rgba(27, 94, 32, 0.75)),
+                url('/images/leaves-bg.jpg');
+    background-size: cover;
+    background-position: center;
     min-height: 80vh;
     display: flex;
     align-items: center;
