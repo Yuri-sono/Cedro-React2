@@ -1,6 +1,7 @@
 package com.cedro.model.dto;
 
 import com.cedro.model.TipoUsuario;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -22,9 +23,12 @@ public class RegisterRequest {
     @Size(min = 6)
     private String senha;
     
+    @JsonProperty("data_nascimento")
     private LocalDate dataNascimento;
     private String genero;
     private String telefone;
+    
+    @JsonProperty("tipo_usuario")
     private TipoUsuario tipoUsuario = TipoUsuario.paciente;
     
     public RegisterRequest() {}

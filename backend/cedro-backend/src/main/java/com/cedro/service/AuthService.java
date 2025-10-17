@@ -119,7 +119,7 @@ public class AuthService {
         
         if (request.getNome() != null) usuario.setNome(request.getNome());
         if (request.getTelefone() != null) usuario.setTelefone(request.getTelefone());
-        if (request.getData_nascimento() != null) usuario.setDataNascimento(request.getData_nascimento());
+        if (request.getDataNascimento() != null) usuario.setDataNascimento(request.getDataNascimento());
         if (request.getGenero() != null) usuario.setGenero(request.getGenero());
         if (request.getEndereco() != null) usuario.setEndereco(request.getEndereco());
         if (request.getBio() != null) usuario.setBio(request.getBio());

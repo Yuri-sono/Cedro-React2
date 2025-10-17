@@ -1,11 +1,15 @@
 package com.cedro.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDate;
 
 public class UpdatePerfilRequest {
     private String nome;
     private String telefone;
-    private LocalDate data_nascimento;
+    
+    @JsonProperty("data_nascimento")
+    private LocalDate dataNascimento;
+    
     private String genero;
     private String endereco;
     private String bio;
@@ -16,8 +20,8 @@ public class UpdatePerfilRequest {
     public String getTelefone() { return telefone; }
     public void setTelefone(String telefone) { this.telefone = telefone; }
     
-    public LocalDate getData_nascimento() { return data_nascimento; }
-    public void setData_nascimento(LocalDate data_nascimento) { this.data_nascimento = data_nascimento; }
+    public LocalDate getDataNascimento() { return dataNascimento; }
+    public void setDataNascimento(LocalDate dataNascimento) { this.dataNascimento = dataNascimento; }
     
     public String getGenero() { return genero; }
     public void setGenero(String genero) { this.genero = genero; }

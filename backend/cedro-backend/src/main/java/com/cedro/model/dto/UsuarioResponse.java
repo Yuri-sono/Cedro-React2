@@ -1,6 +1,7 @@
 package com.cedro.model.dto;
 
 import com.cedro.model.TipoUsuario;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDate;
 
 public class UsuarioResponse {
@@ -8,9 +9,15 @@ public class UsuarioResponse {
     private Integer id;
     private String nome;
     private String email;
+    
+    @JsonProperty("tipo_usuario")
     private TipoUsuario tipoUsuario;
+    
     private String telefone;
-    private LocalDate data_nascimento;
+    
+    @JsonProperty("data_nascimento")
+    private LocalDate dataNascimento;
+    
     private String genero;
     private String endereco;
     private String bio;
@@ -18,14 +25,14 @@ public class UsuarioResponse {
     public UsuarioResponse() {}
     
     public UsuarioResponse(Integer id, String nome, String email, TipoUsuario tipoUsuario,
-                          String telefone, LocalDate data_nascimento, String genero, 
+                          String telefone, LocalDate dataNascimento, String genero, 
                           String endereco, String bio) {
         this.id = id;
         this.nome = nome;
         this.email = email;
         this.tipoUsuario = tipoUsuario;
         this.telefone = telefone;
-        this.data_nascimento = data_nascimento;
+        this.dataNascimento = dataNascimento;
         this.genero = genero;
         this.endereco = endereco;
         this.bio = bio;
@@ -46,8 +53,8 @@ public class UsuarioResponse {
     public String getTelefone() { return telefone; }
     public void setTelefone(String telefone) { this.telefone = telefone; }
     
-    public LocalDate getData_nascimento() { return data_nascimento; }
-    public void setData_nascimento(LocalDate data_nascimento) { this.data_nascimento = data_nascimento; }
+    public LocalDate getDataNascimento() { return dataNascimento; }
+    public void setDataNascimento(LocalDate dataNascimento) { this.dataNascimento = dataNascimento; }
     
     public String getGenero() { return genero; }
     public void setGenero(String genero) { this.genero = genero; }
