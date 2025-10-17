@@ -59,8 +59,14 @@ const CadastroPsicologo = () => {
 
     try {
       await axios.post(`${API_BASE_URL}/api/auth/register`, {
-        ...formData,
-        tipo_usuario: 'psicologo'
+        nome: formData.nome,
+        email: formData.email,
+        senha: formData.senha,
+        telefone: formData.telefone,
+        dataNascimento: formData.dataNascimento,
+        genero: formData.genero,
+        especialidade: formData.especialidade,
+        tipoUsuario: 'psicologo'
       });
       alert('Cadastro realizado com sucesso!');
       navigate('/login-psicologo');

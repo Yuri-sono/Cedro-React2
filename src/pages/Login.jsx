@@ -100,9 +100,9 @@ function Login() {
         email: formData.email,
         senha: formData.senha,
         telefone: formData.telefone,
-        data_nascimento: formData.dataNascimento,
+        dataNascimento: formData.dataNascimento,
         genero: formData.genero,
-        tipo_usuario: 'paciente'
+        tipoUsuario: 'paciente'
       };
       const response = await axios.post(`${API_BASE_URL}${endpoint}`, dataToSend);
       
