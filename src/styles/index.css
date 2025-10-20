@@ -40,7 +40,7 @@ body {
 
 [data-theme="dark"] .hero-section {
     background: linear-gradient(rgba(10, 61, 31, 0.3), rgba(13, 79, 42, 0.3)),
-                url('/images/leaves-bg.jpg');
+                url('/images/leaves-bg-preto.jpg');
     background-size: cover;
     background-position: center;
 }
