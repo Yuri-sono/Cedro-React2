@@ -1,5 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
 
+@font-face {
+    font-family: 'Celtic';
+    src: url('/images/CELTG___.TTF') format('truetype');
+}
+
 /* Global Styles */
 :root {
     --primary-color: #2e7d32;
@@ -36,6 +41,11 @@ body {
     min-height: 80vh;
     display: flex;
     align-items: center;
+}
+
+.hero-section h1,
+.hero-section .display-4 {
+    font-family: 'Celtic', serif;
 }
 
 [data-theme="dark"] .hero-section {
