@@ -45,7 +45,7 @@ const Home = () => {
           <div className="row justify-content-center">
             <div className="col-lg-8 animate-on-scroll">
               <h1 className="display-4 fw-bold mb-4">Apoio psicológico ao seu alcance</h1>
-              <p className="lead mb-4">O Cedro está aqui para oferecer suporte emocional e psicológico quando você mais precisa. Dê o primeiro passo em direção ao seu bem-estar.</p>
+              <p className="lead mb-4">O <span style={{fontFamily: 'Celtic, serif'}}>Cedro</span> está aqui para oferecer suporte emocional e psicológico quando você mais precisa. Dê o primeiro passo em direção ao seu bem-estar.</p>
               <div className="d-flex justify-content-center gap-3 flex-wrap">
                 <Link to="/contato" className="btn btn-light btn-lg">Agendar Consulta</Link>
                 <a href="#recursos" className="btn btn-outline-light btn-lg">Recursos Gratuitos</a>

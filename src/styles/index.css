@@ -44,8 +44,7 @@ body {
 }
 
 .hero-section h1,
-.hero-section .display-4,
-.hero-section .lead {
+.hero-section .display-4 {
     font-family: 'Celtic', serif;
 }
 
