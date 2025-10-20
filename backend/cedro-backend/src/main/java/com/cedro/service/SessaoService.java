@@ -14,43 +14,47 @@ public class SessaoService {
     @Autowired
     private SessaoRepository sessaoRepository;
     
-    public Sessao agendarSessao(Integer pacienteId, SessaoRequest request) {
+    public List<Sessao> listarTodas() {
+        return sessaoRepository.findAll();
+    }
+    
+    public List<Sessao> listarPorPaciente(Integer pacienteId) {
+        return sessaoRepository.findByPacienteId(pacienteId);
+    }
+    
+    public List<Sessao> listarPorTerapeuta(Integer terapeutaId) {
+        return sessaoRepository.findByTerapeutaId(terapeutaId);
+    }
+    
+    public Sessao buscarPorId(Integer id) {
+        return sessaoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Sessão não encontrada"));
+    }
+    
+    public Sessao criar(SessaoRequest request) {
         Sessao sessao = new Sessao();
-        sessao.setPacienteId(pacienteId);
+        sessao.setPacienteId(request.getPacienteId());
         sessao.setTerapeutaId(request.getTerapeutaId());
         sessao.setDataSessao(request.getDataSessao());
-        sessao.setDuracao(request.getDuracao());
         sessao.setValor(request.getValor());
-        sessao.setObservacoes(request.getObservacoes());
-        
+        if (request.getDuracao() != null) sessao.setDuracao(request.getDuracao());
+        if (request.getStatusSessao() != null) sessao.setStatusSessao(request.getStatusSessao());
+        if (request.getObservacoes() != null) sessao.setObservacoes(request.getObservacoes());
         return sessaoRepository.save(sessao);
     }
     
-    public List<Sessao> listarMinhasSessoes(Integer usuarioId) {
-        return sessaoRepository.findByPacienteIdOrderByDataSessaoDesc(usuarioId);
-    }
-    
-    public List<Sessao> listarSessoesComoTerapeuta(Integer terapeutaId) {
-        return sessaoRepository.findByTerapeutaIdOrderByDataSessaoDesc(terapeutaId);
-    }
-    
-    public Sessao atualizarStatus(Integer sessaoId, String novoStatus) {
-        Sessao sessao = sessaoRepository.findById(sessaoId)
-                .orElseThrow(() -> new RuntimeException("Sessão não encontrada"));
-        
-        sessao.setStatusSessao(novoStatus);
+    public Sessao atualizar(Integer id, SessaoRequest request) {
+        Sessao sessao = buscarPorId(id);
+        if (request.getDataSessao() != null) sessao.setDataSessao(request.getDataSessao());
+        if (request.getDuracao() != null) sessao.setDuracao(request.getDuracao());
+        if (request.getValor() != null) sessao.setValor(request.getValor());
+        if (request.getStatusSessao() != null) sessao.setStatusSessao(request.getStatusSessao());
+        if (request.getObservacoes() != null) sessao.setObservacoes(request.getObservacoes());
         return sessaoRepository.save(sessao);
     }
     
-    public void cancelarSessao(Integer sessaoId, Integer usuarioId) {
-        Sessao sessao = sessaoRepository.findById(sessaoId)
-                .orElseThrow(() -> new RuntimeException("Sessão não encontrada"));
-        
-        if (!sessao.getPacienteId().equals(usuarioId) && !sessao.getTerapeutaId().equals(usuarioId)) {
-            throw new RuntimeException("Você não tem permissão para cancelar esta sessão");
-        }
-        
-        sessao.setStatusSessao("cancelada");
-        sessaoRepository.save(sessao);
+    public void deletar(Integer id) {
+        Sessao sessao = buscarPorId(id);
+        sessaoRepository.delete(sessao);
     }
 }

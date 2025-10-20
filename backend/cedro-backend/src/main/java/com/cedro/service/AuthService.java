@@ -47,7 +47,8 @@ public class AuthService {
                 usuario.getDataNascimento(),
                 usuario.getGenero(),
                 usuario.getEndereco(),
-                usuario.getBio()
+                usuario.getBio(),
+                usuario.getFotoUrl()
         );
         
         return new LoginResponse(token, usuarioResponse);
@@ -107,7 +108,8 @@ public class AuthService {
                 usuario.getDataNascimento(),
                 usuario.getGenero(),
                 usuario.getEndereco(),
-                usuario.getBio()
+                usuario.getBio(),
+                usuario.getFotoUrl()
         );
         
         return new LoginResponse(token, usuarioResponse);
@@ -179,5 +181,18 @@ public class AuthService {
         System.out.println("Email: " + email);
         System.out.println("Senha temporária: " + senhaTemporaria);
         System.out.println("====================================");
+    }
+    
+    public Map<String, Object> updateFotoPerfil(Integer userId, String fotoUrl) {
+        Usuario usuario = usuarioRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+        
+        usuario.setFotoUrl(fotoUrl);
+        usuarioRepository.save(usuario);
+        
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "Foto de perfil atualizada com sucesso");
+        response.put("foto_url", fotoUrl);
+        return response;
     }
 }

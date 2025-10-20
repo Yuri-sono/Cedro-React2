@@ -22,11 +22,14 @@ public class UsuarioResponse {
     private String endereco;
     private String bio;
     
+    @JsonProperty("foto_url")
+    private String fotoUrl;
+    
     public UsuarioResponse() {}
     
     public UsuarioResponse(Integer id, String nome, String email, TipoUsuario tipoUsuario,
                           String telefone, LocalDate dataNascimento, String genero, 
-                          String endereco, String bio) {
+                          String endereco, String bio, String fotoUrl) {
         this.id = id;
         this.nome = nome;
         this.email = email;
@@ -36,6 +39,7 @@ public class UsuarioResponse {
         this.genero = genero;
         this.endereco = endereco;
         this.bio = bio;
+        this.fotoUrl = fotoUrl;
     }
     
     public Integer getId() { return id; }
@@ -64,4 +68,7 @@ public class UsuarioResponse {
     
     public String getBio() { return bio; }
     public void setBio(String bio) { this.bio = bio; }
+    
+    public String getFotoUrl() { return fotoUrl; }
+    public void setFotoUrl(String fotoUrl) { this.fotoUrl = fotoUrl; }
 }

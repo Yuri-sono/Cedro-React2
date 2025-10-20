@@ -41,6 +41,8 @@ import PoliticaPrivacidade from './pages/PoliticaPrivacidade.jsx';
 import Autoavaliacoes from './pages/Autoavaliacoes.jsx';
 import LoginAdmin from './pages/LoginAdmin.jsx';
 import DashboardAdmin from './pages/DashboardAdmin.jsx';
+import AdminUsuarios from './pages/AdminUsuarios.jsx';
+import AdminSessoes from './pages/AdminSessoes.jsx';
 import MinhasSessoes from './pages/MinhasSessoes.jsx';
 import AgendarSessao from './pages/AgendarSessao.jsx';
 import Chat from './pages/Chat.jsx';
@@ -112,6 +114,16 @@ function AppContent() {
             <Route path="/admin/dashboard" element={
               <ProtectedRoute requiredUserType="admin">
                 <DashboardAdmin />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/usuarios" element={
+              <ProtectedRoute requiredUserType="admin">
+                <AdminUsuarios />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/sessoes" element={
+              <ProtectedRoute requiredUserType="admin">
+                <AdminSessoes />
               </ProtectedRoute>
             } />
             <Route path="/minhas-sessoes" element={

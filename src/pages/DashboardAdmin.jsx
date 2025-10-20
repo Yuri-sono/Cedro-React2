@@ -130,7 +130,7 @@ const DashboardAdmin = () => {
                 <i className="bi bi-people text-primary" style={{ fontSize: '3rem' }}></i>
                 <h5 className="mt-3">Gerenciar Usuários</h5>
                 <p className="text-muted">Visualizar, editar e remover usuários</p>
-                <button className="btn btn-primary">Acessar</button>
+                <button className="btn btn-primary" onClick={() => navigate('/admin/usuarios')}>Acessar</button>
               </div>
             </div>
           </div>
@@ -140,7 +140,7 @@ const DashboardAdmin = () => {
                 <i className="bi bi-person-badge text-success" style={{ fontSize: '3rem' }}></i>
                 <h5 className="mt-3">Gerenciar Psicólogos</h5>
                 <p className="text-muted">Aprovar, editar e remover psicólogos</p>
-                <button className="btn btn-success">Acessar</button>
+                <button className="btn btn-success" onClick={() => navigate('/admin/usuarios')}>Acessar</button>
               </div>
             </div>
           </div>
@@ -150,7 +150,7 @@ const DashboardAdmin = () => {
                 <i className="bi bi-calendar-check text-warning" style={{ fontSize: '3rem' }}></i>
                 <h5 className="mt-3">Gerenciar Sessões</h5>
                 <p className="text-muted">Visualizar e gerenciar sessões</p>
-                <button className="btn btn-warning">Acessar</button>
+                <button className="btn btn-warning" onClick={() => navigate('/admin/sessoes')}>Acessar</button>
               </div>
             </div>
           </div>

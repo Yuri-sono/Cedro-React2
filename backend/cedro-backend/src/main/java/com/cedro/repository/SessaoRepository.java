@@ -8,12 +8,7 @@ import java.util.List;
 
 @Repository
 public interface SessaoRepository extends JpaRepository<Sessao, Integer> {
-    
-    List<Sessao> findByPacienteIdOrderByDataSessaoDesc(Integer pacienteId);
-    
-    List<Sessao> findByTerapeutaIdOrderByDataSessaoDesc(Integer terapeutaId);
-    
-    List<Sessao> findByPacienteIdAndStatusSessao(Integer pacienteId, String status);
-    
-    List<Sessao> findByTerapeutaIdAndStatusSessao(Integer terapeutaId, String status);
+    List<Sessao> findByPacienteId(Integer pacienteId);
+    List<Sessao> findByTerapeutaId(Integer terapeutaId);
+    List<Sessao> findByStatusSessao(String status);
 }

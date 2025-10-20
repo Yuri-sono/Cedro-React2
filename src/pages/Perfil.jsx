@@ -16,7 +16,8 @@ const Perfil = () => {
     dataNascimento: '',
     genero: '',
     endereco: '',
-    bio: ''
+    bio: '',
+    foto_url: ''
   });
 
   useEffect(() => {
@@ -29,7 +30,8 @@ const Perfil = () => {
         dataNascimento: dataNasc,
         genero: user.genero || '',
         endereco: user.endereco || '',
-        bio: user.bio || 'Buscando bem-estar mental e equilíbrio na vida.'
+        bio: user.bio || 'Buscando bem-estar mental e equilíbrio na vida.',
+        foto_url: user.foto_url || ''
       });
     }
   }, [user]);
@@ -101,6 +103,35 @@ const Perfil = () => {
     }
   };
 
+  const handleFotoChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        showAlert('A imagem deve ter no máximo 5MB', 'Erro', 'error');
+        return;
+      }
+      const reader = new FileReader();
+      reader.onloadend = async () => {
+        const base64 = reader.result;
+        try {
+          const token = localStorage.getItem('token');
+          const response = await axios.put(
+            `${import.meta.env.VITE_API_URL}/api/auth/foto-perfil`,
+            { foto_url: base64 },
+            { headers: { Authorization: `Bearer ${token}` } }
+          );
+          setUsuario(prev => ({ ...prev, foto_url: base64 }));
+          updateUser({ ...user, foto_url: base64 });
+          await showAlert('Foto atualizada com sucesso!', 'Sucesso', 'success');
+        } catch (error) {
+          console.error('Erro ao atualizar foto:', error);
+          await showAlert('Erro ao atualizar foto', 'Erro', 'error');
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleAlterarSenha = async () => {
     if (novaSenha !== confirmarSenha) {
       await showAlert('As senhas não coincidem!', 'Erro', 'error');
@@ -138,8 +169,25 @@ const Perfil = () => {
           <div className="col-lg-8">
             <div className="profile-card">
               <div className="text-center mb-4">
-                <div className="profile-avatar">
-                  <i className="bi bi-person-fill"></i>
+                <div className="position-relative d-inline-block">
+                  <div className="profile-avatar" style={usuario.foto_url ? {
+                    backgroundImage: `url(${usuario.foto_url})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center'
+                  } : {}}>
+                    {!usuario.foto_url && <i className="bi bi-person-fill"></i>}
+                  </div>
+                  <label htmlFor="foto-upload" className="position-absolute bottom-0 end-0 btn btn-primary btn-sm rounded-circle" 
+                         style={{width: '40px', height: '40px', cursor: 'pointer'}}>
+                    <i className="bi bi-camera-fill"></i>
+                  </label>
+                  <input 
+                    type="file" 
+                    id="foto-upload" 
+                    accept="image/*" 
+                    onChange={handleFotoChange}
+                    style={{display: 'none'}}
+                  />
                 </div>
                 <h2 className="fw-bold mb-1">{usuario.nome}</h2>
                 <p className="text-muted mb-3">{usuario.email}</p>

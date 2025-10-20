@@ -1,22 +1,39 @@
 package com.cedro.controller;
 
+import com.cedro.model.TipoUsuario;
+import com.cedro.model.entity.Usuario;
+import com.cedro.repository.UsuarioRepository;
 import com.cedro.security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/psicologo")
 @CrossOrigin(origins = "http://localhost:3000")
 public class PsicologoController {
     
     @Autowired
     private JwtUtil jwtUtil;
     
-    @GetMapping("/estatisticas")
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+    
+    @GetMapping("/api/psicologos")
+    public ResponseEntity<?> listarPsicologos() {
+        try {
+            List<Usuario> psicologos = usuarioRepository.findByTipoUsuarioAndAtivo(TipoUsuario.TERAPEUTA, true);
+            return ResponseEntity.ok(psicologos);
+        } catch (Exception e) {
+            return ResponseEntity.status(500)
+                    .body(Map.of("error", "Erro ao buscar psicólogos: " + e.getMessage()));
+        }
+    }
+    
+    @GetMapping("/api/psicologo/estatisticas")
     public ResponseEntity<?> getEstatisticas(@RequestHeader("Authorization") String authHeader) {
         try {
             String token = authHeader.replace("Bearer ", "");

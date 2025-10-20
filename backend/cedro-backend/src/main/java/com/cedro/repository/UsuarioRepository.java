@@ -17,5 +17,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     
     List<Usuario> findByTipoUsuarioAndAtivoTrue(TipoUsuario tipoUsuario);
     
+    List<Usuario> findByTipoUsuarioAndAtivo(TipoUsuario tipoUsuario, boolean ativo);
+    
     List<Usuario> findByAtivoTrue();
 }

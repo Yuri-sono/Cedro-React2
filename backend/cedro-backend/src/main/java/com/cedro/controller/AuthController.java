@@ -130,4 +130,21 @@ public class AuthController {
                     .body(Map.of("error", e.getMessage()));
         }
     }
+    
+    @PutMapping("/foto-perfil")
+    public ResponseEntity<?> updateFotoPerfil(
+            @RequestHeader("Authorization") String authHeader,
+            @RequestBody Map<String, String> request) {
+        try {
+            String token = authHeader.replace("Bearer ", "");
+            Integer userId = jwtUtil.extractUserId(token);
+            String fotoUrl = request.get("foto_url");
+            
+            Map<String, Object> response = authService.updateFotoPerfil(userId, fotoUrl);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.status(400)
+                    .body(Map.of("error", e.getMessage()));
+        }
+    }
 }
