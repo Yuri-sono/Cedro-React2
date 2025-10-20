@@ -20,6 +20,29 @@ VALUES
 ('Dr. Carlos Mendes', 'carlos.terapeuta@email.com', '$2b$10$exemplo5', '11955555555', 'terapeuta', 'Relacionamentos', 180.00, 4.9, 'Especialista em terapia de casais e relacionamentos.', 1),
 ('Dra. Juliana Lima', 'juliana.terapeuta@email.com', '$2b$10$exemplo6', '11944444444', 'terapeuta', 'Autoestima', 120.00, 5.0, 'Focada em desenvolvimento pessoal e autoconhecimento.', 1);
 
+-- Inserir Psicólogos Falsos (dados mock adicionais)
+INSERT INTO usuarios (nome, email, senha_hash, telefone, tipo_usuario, especialidade, preco_sessao, avaliacao, bio, ativo)
+VALUES
+('Mariana Oliveira', 'mariana.oliveira@cedro.com', '$2b$10$exemplo8', '11933330001', 'terapeuta', 'Ansiedade e Estresse', 140.00, 4.7, 'Psicóloga com foco em terapia breve e técnicas de regulação emocional.', 1),
+('Rafael Andrade', 'rafael.andrade@cedro.com', '$2b$10$exemplo9', '11933330002', 'terapeuta', 'Casais e Família', 190.00, 4.6, 'Atuação em terapia de casais e mediação familiar.', 1),
+('Beatriz Ferreira', 'beatriz.ferreira@cedro.com', '$2b$10$exemplo10', '11933330003', 'terapeuta', 'Depressão e Luto', 130.00, 4.8, 'Atendimento empático para processos de luto e depressão.', 1),
+('Lucas Pereira', 'lucas.pereira@cedro.com', '$2b$10$exemplo11', '11933330004', 'terapeuta', 'Adolescentes e Família', 120.00, 4.5, 'Trabalho com adolescentes, dinâmica familiar e orientação escolar.', 1),
+('Carla Nogueira', 'carla.nogueira@cedro.com', '$2b$10$exemplo12', '11933330005', 'terapeuta', 'Trauma e EMDR', 200.00, 4.9, 'Especialista em trauma e protocolos de EMDR.', 1),
+('Tiago Ramos', 'tiago.ramos@cedro.com', '$2b$10$exemplo13', '11933330006', 'terapeuta', 'Mindfulness e Stress', 110.00, 4.4, 'Integra mindfulness e práticas corporais em terapia.', 1),
+('Fernanda Gomes', 'fernanda.gomes@cedro.com', '$2b$10$exemplo14', '11933330007', 'terapeuta', 'Autoestima e Desenvolvimento Pessoal', 125.00, 4.6, 'Foco em autoconhecimento, autoconfiança e metas de vida.', 1),
+('Bruno Almeida', 'bruno.almeida@cedro.com', '$2b$10$exemplo15', '11933330008', 'terapeuta', 'Dependências e Comportamento', 160.00, 4.3, 'Atuação com dependências comportamentais e substâncias.', 1),
+('Patricia Souza', 'patricia.souza@cedro.com', '$2b$10$exemplo16', '11933330009', 'terapeuta', 'Transtornos Alimentares', 170.00, 4.7, 'Especialista em transtornos alimentares e imagem corporal.', 1),
+('Roberto Martins', 'roberto.martins@cedro.com', '$2b$10$exemplo17', '11933330010', 'terapeuta', 'TOC e Fobias', 155.00, 4.8, 'Tratamento de TOC, fobias e transtornos de ansiedade.', 1),
+('Camila Ribeiro', 'camila.ribeiro@cedro.com', '$2b$10$exemplo18', '11933330011', 'terapeuta', 'Gestantes e Pós-parto', 145.00, 4.9, 'Apoio psicológico para gestantes e puérperas.', 1),
+('Eduardo Santos', 'eduardo.santos@cedro.com', '$2b$10$exemplo19', '11933330012', 'terapeuta', 'Carreira e Burnout', 165.00, 4.5, 'Orientação profissional e prevenção de burnout.', 1),
+('Marcelo Dias', 'marcelo.dias@cedro.com', '$2b$10$exemplo21', '11933330014', 'terapeuta', 'Terceira Idade', 115.00, 4.6, 'Especialista em questões da terceira idade e envelhecimento.', 1),
+('Vanessa Lima', 'vanessa.lima@cedro.com', '$2b$10$exemplo22', '11933330015', 'terapeuta', 'Sexualidade e Relacionamentos', 175.00, 4.7, 'Terapia sexual e de relacionamentos íntimos.', 1),
+('Gustavo Rocha', 'gustavo.rocha@cedro.com', '$2b$10$exemplo23', '11933330016', 'terapeuta', 'Neuropsicologia', 195.00, 4.8, 'Avaliação neuropsicológica e reabilitação cognitiva.', 1),
+('Amanda Silva', 'amanda.silva@cedro.com', '$2b$10$exemplo24', '11933330017', 'terapeuta', 'Crianças e Ludoterapia', 130.00, 4.9, 'Atendimento infantil com técnicas lúdicas.', 1),
+('Felipe Azevedo', 'felipe.azevedo@cedro.com', '$2b$10$exemplo25', '11933330018', 'terapeuta', 'Vícios e Compulsões', 180.00, 4.4, 'Tratamento de vícios, compulsões e comportamentos aditivos.', 1),
+('Larissa Moreira', 'larissa.moreira@cedro.com', '$2b$10$exemplo26', '11933330019', 'terapeuta', 'Terapia Breve', 125.00, 4.6, 'Abordagem focada em soluções e resultados rápidos.', 1),
+('Daniel Barbosa', 'daniel.barbosa@cedro.com', '$2b$10$exemplo27', '11933330020', 'terapeuta', 'Psicologia Positiva', 140.00, 4.7, 'Foco em forças pessoais e bem-estar.', 1);
+
 -- Inserir Admin
 INSERT INTO usuarios (nome, email, senha_hash, tipo_usuario, ativo)
 VALUES 
