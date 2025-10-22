@@ -23,13 +23,18 @@ public class RegisterRequest {
     @Size(min = 6)
     private String senha;
     
-    @JsonProperty("data_nascimento")
+    @JsonProperty("dataNascimento")
     private LocalDate dataNascimento;
     private String genero;
     private String telefone;
     
-    @JsonProperty("tipo_usuario")
+    @JsonProperty(value = "tipoUsuario", access = JsonProperty.Access.WRITE_ONLY)
     private TipoUsuario tipoUsuario = TipoUsuario.paciente;
+    
+    private String especialidade;
+    
+    @JsonProperty("precoSessao")
+    private java.math.BigDecimal precoSessao;
     
     public RegisterRequest() {}
     
@@ -53,4 +58,10 @@ public class RegisterRequest {
     
     public TipoUsuario getTipoUsuario() { return tipoUsuario; }
     public void setTipoUsuario(TipoUsuario tipoUsuario) { this.tipoUsuario = tipoUsuario; }
+    
+    public String getEspecialidade() { return especialidade; }
+    public void setEspecialidade(String especialidade) { this.especialidade = especialidade; }
+    
+    public java.math.BigDecimal getPrecoSessao() { return precoSessao; }
+    public void setPrecoSessao(java.math.BigDecimal precoSessao) { this.precoSessao = precoSessao; }
 }

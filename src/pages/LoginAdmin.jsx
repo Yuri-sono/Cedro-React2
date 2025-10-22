@@ -39,7 +39,8 @@ const LoginAdmin = () => {
       }
 
       // Verificar se é admin
-      if (data.usuario.tipo_usuario !== 'admin') {
+      const userType = data.usuario.tipoUsuario || data.usuario.tipo_usuario;
+      if (userType !== 'admin') {
         setError('Acesso negado. Apenas administradores.');
         setLoading(false);
         return;

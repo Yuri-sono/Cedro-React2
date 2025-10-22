@@ -12,7 +12,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/sessoes")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:5174", "http://localhost:5173", "http://localhost:3000", "https://cedro-eight.vercel.app"})
 public class SessaoController {
     
     @Autowired
@@ -33,9 +33,9 @@ public class SessaoController {
         return ResponseEntity.ok(sessaoService.listarPorPaciente(pacienteId));
     }
     
-    @GetMapping("/terapeuta/{terapeutaId}")
-    public ResponseEntity<List<Sessao>> listarPorTerapeuta(@PathVariable Integer terapeutaId) {
-        return ResponseEntity.ok(sessaoService.listarPorTerapeuta(terapeutaId));
+    @GetMapping("/psicologo/{psicologoId}")
+    public ResponseEntity<List<Sessao>> listarPorPsicologo(@PathVariable Integer psicologoId) {
+        return ResponseEntity.ok(sessaoService.listarPorPsicologo(psicologoId));
     }
     
     @PostMapping

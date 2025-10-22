@@ -76,7 +76,7 @@ function MinhasSessoes() {
         <div className="text-center py-5">
           <i className="bi bi-calendar-x" style={{ fontSize: '4rem', color: '#ccc' }}></i>
           <h4 className="mt-3 text-muted">Nenhuma sessão agendada</h4>
-          <p className="text-muted">Agende sua primeira sessão com um terapeuta</p>
+          <p className="text-muted">Agende sua primeira sessão com um psicólogo</p>
         </div>
       ) : (
         <div className="row g-4">
@@ -87,7 +87,7 @@ function MinhasSessoes() {
                   <div className="d-flex justify-content-between align-items-start mb-3">
                     <h5 className="card-title mb-0">
                       <i className="bi bi-person-circle me-2"></i>
-                      Terapeuta #{sessao.terapeutaId}
+                      Psicólogo #{sessao.psicologoId}
                     </h5>
                     <span className={`badge ${getStatusBadge(sessao.statusSessao)}`}>
                       {sessao.statusSessao}

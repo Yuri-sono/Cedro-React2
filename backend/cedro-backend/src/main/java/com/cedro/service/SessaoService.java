@@ -22,8 +22,8 @@ public class SessaoService {
         return sessaoRepository.findByPacienteId(pacienteId);
     }
     
-    public List<Sessao> listarPorTerapeuta(Integer terapeutaId) {
-        return sessaoRepository.findByTerapeutaId(terapeutaId);
+    public List<Sessao> listarPorPsicologo(Integer psicologoId) {
+        return sessaoRepository.findByPsicologoId(psicologoId);
     }
     
     public Sessao buscarPorId(Integer id) {
@@ -34,7 +34,7 @@ public class SessaoService {
     public Sessao criar(SessaoRequest request) {
         Sessao sessao = new Sessao();
         sessao.setPacienteId(request.getPacienteId());
-        sessao.setTerapeutaId(request.getTerapeutaId());
+        sessao.setPsicologoId(request.getPsicologoId());
         sessao.setDataSessao(request.getDataSessao());
         sessao.setValor(request.getValor());
         if (request.getDuracao() != null) sessao.setDuracao(request.getDuracao());

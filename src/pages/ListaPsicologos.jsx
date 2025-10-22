@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import psicologoService from '../services/psicologoService';
 
 function ListaPsicologos() {
   const [psicologos, setPsicologos] = useState([]);
@@ -11,37 +11,24 @@ function ListaPsicologos() {
 
   const fetchPsicologos = async () => {
     try {
-      console.log('Buscando psicólogos...');
-      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/psicologos`);
-      console.log('Resposta da API:', response.data);
-      setPsicologos(response.data);
+      const data = await psicologoService.listar();
+      setPsicologos(data);
     } catch (error) {
       console.error('Erro ao buscar psicólogos:', error);
-      alert('Erro ao conectar com o servidor: ' + error.message);
+      alert('Erro ao conectar com o servidor');
     } finally {
       setLoading(false);
     }
   };
 
-  const agendarSessao = async (psicologoId, valor) => {
+  const agendarSessao = (psicologoId) => {
     const usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
     if (!usuario.id) {
       alert('Faça login para agendar uma sessão');
       window.location.href = '/login';
       return;
     }
-
-    try {
-      await axios.post(`${import.meta.env.VITE_API_URL}/api/sessoes`, {
-        paciente_id: usuario.id,
-        psicologo_id: psicologoId,
-        data_sessao: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
-        valor: valor
-      });
-      alert('Sessão agendada com sucesso!');
-    } catch (error) {
-      alert('Erro ao agendar sessão');
-    }
+    window.location.href = `/agendar-sessao/${psicologoId}`;
   };
 
   if (loading) {
@@ -71,13 +58,13 @@ function ListaPsicologos() {
                        style={{
                          width: '80px', 
                          height: '80px',
-                         ...(psicologo.foto_url ? {
-                           backgroundImage: `url(${psicologo.foto_url})`,
+                         ...((psicologo.fotoUrl || psicologo.foto_url) ? {
+                           backgroundImage: `url(${psicologo.fotoUrl || psicologo.foto_url})`,
                            backgroundSize: 'cover',
                            backgroundPosition: 'center'
                          } : {})
                        }}>
-                    {!psicologo.foto_url && <i className="bi bi-person-fill text-white fs-1"></i>}
+                    {!(psicologo.fotoUrl || psicologo.foto_url) && <i className="bi bi-person-fill text-white fs-1"></i>}
                   </div>
                   <h5 className="card-title fw-bold mb-1">{psicologo.nome}</h5>
                   {psicologo.avaliacao && (
@@ -121,7 +108,7 @@ function ListaPsicologos() {
                   <div>
                     <small className="text-muted d-block">Valor da sessão</small>
                     <span className="h5 text-success mb-0 fw-bold">
-                      R$ {psicologo.preco_sessao ? parseFloat(psicologo.preco_sessao).toFixed(2) : '0.00'}
+                      R$ {(psicologo.precoSessao || psicologo.preco_sessao) ? parseFloat(psicologo.precoSessao || psicologo.preco_sessao).toFixed(2) : '0.00'}
                     </span>
                   </div>
                 </div>
@@ -129,7 +116,7 @@ function ListaPsicologos() {
               <div className="card-footer bg-transparent border-0 p-4 pt-0">
                 <button 
                   className="btn btn-success w-100 py-2"
-                  onClick={() => agendarSessao(psicologo.id, psicologo.preco_sessao)}
+                  onClick={() => agendarSessao(psicologo.id)}
                 >
                   <i className="bi bi-calendar-plus me-2"></i>
                   Agendar Sessão

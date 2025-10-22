@@ -10,19 +10,19 @@ public class UsuarioResponse {
     private String nome;
     private String email;
     
-    @JsonProperty("tipo_usuario")
+    @JsonProperty("tipoUsuario")
     private TipoUsuario tipoUsuario;
     
     private String telefone;
     
-    @JsonProperty("data_nascimento")
+    @JsonProperty("dataNascimento")
     private LocalDate dataNascimento;
     
     private String genero;
     private String endereco;
     private String bio;
     
-    @JsonProperty("foto_url")
+    @JsonProperty("fotoUrl")
     private String fotoUrl;
     
     public UsuarioResponse() {}

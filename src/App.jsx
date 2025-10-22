@@ -12,6 +12,7 @@ import './styles/dashboard-psicologo.css';
 import './styles/navbar-spacing.css';
 import './styles/theme.css';
 import './styles/notifications.css';
+import './styles/cedro-colors.css';
 
 import ThemeToggle from './components/ThemeToggle.jsx';
 import NotificationSystem from './components/NotificationSystem.jsx';
@@ -36,6 +37,7 @@ import PacientesPsicologo from './pages/PacientesPsicologo.jsx';
 import ConsultasPsicologo from './pages/ConsultasPsicologo.jsx';
 import FinanceiroPsicologo from './pages/FinanceiroPsicologo.jsx';
 import ConfiguracoesPsicologo from './pages/ConfiguracoesPsicologo.jsx';
+import PerfilPsicologo from './pages/PerfilPsicologo.jsx';
 import TermosUso from './pages/TermosUso.jsx';
 import PoliticaPrivacidade from './pages/PoliticaPrivacidade.jsx';
 import Autoavaliacoes from './pages/Autoavaliacoes.jsx';
@@ -100,6 +102,11 @@ function AppContent() {
             <Route path="/psicologo/financeiro" element={
               <ProtectedRoute requiredUserType="psicologo">
                 <FinanceiroPsicologo />
+              </ProtectedRoute>
+            } />
+            <Route path="/psicologo/perfil" element={
+              <ProtectedRoute requiredUserType="psicologo">
+                <PerfilPsicologo />
               </ProtectedRoute>
             } />
             <Route path="/psicologo/configuracoes" element={

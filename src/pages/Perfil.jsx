@@ -4,6 +4,7 @@ import { useAuth } from '../contexts/AuthContext.jsx';
 import axios from 'axios';
 import CustomModal from '../components/CustomModal.jsx';
 import { useModal } from '../hooks/useModal.jsx';
+import API_BASE_URL from '../config.js';
 
 const Perfil = () => {
   const { user, logout, updateUser } = useAuth();
@@ -22,7 +23,7 @@ const Perfil = () => {
 
   useEffect(() => {
     if (user) {
-      const dataNasc = user.data_nascimento ? user.data_nascimento.split('T')[0] : '';
+      const dataNasc = (user.dataNascimento || user.data_nascimento) ? (user.dataNascimento || user.data_nascimento).split('T')[0] : '';
       setUsuario({
         nome: user.nome || '',
         email: user.email || '',
@@ -31,7 +32,7 @@ const Perfil = () => {
         genero: user.genero || '',
         endereco: user.endereco || '',
         bio: user.bio || 'Buscando bem-estar mental e equilíbrio na vida.',
-        foto_url: user.foto_url || ''
+        foto_url: user.fotoUrl || user.foto_url || ''
       });
     }
   }, [user]);
@@ -59,10 +60,10 @@ const Perfil = () => {
     setLoading(true);
     try {
       const token = localStorage.getItem('token');
-      await axios.put(`${import.meta.env.VITE_API_URL}/api/auth/perfil`, {
+      await axios.put(`${API_BASE_URL}/api/auth/perfil`, {
         nome: usuario.nome,
         telefone: usuario.telefone,
-        data_nascimento: usuario.dataNascimento,
+        dataNascimento: usuario.dataNascimento,
         genero: usuario.genero,
         endereco: usuario.endereco,
         bio: usuario.bio
@@ -70,7 +71,7 @@ const Perfil = () => {
         headers: { Authorization: `Bearer ${token}` }
       });
       
-      updateUser({ ...user, ...usuario, data_nascimento: usuario.dataNascimento });
+      updateUser({ ...user, ...usuario, dataNascimento: usuario.dataNascimento, data_nascimento: usuario.dataNascimento });
       setEditando(false);
       await showAlert('Perfil atualizado com sucesso!', 'Sucesso', 'success');
     } catch (error) {
@@ -90,7 +91,7 @@ const Perfil = () => {
   const handleExcluirConta = async () => {
     try {
       const token = localStorage.getItem('token');
-      await axios.delete(`${import.meta.env.VITE_API_URL}/api/auth/conta`, {
+      await axios.delete(`${API_BASE_URL}/api/auth/conta`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       
@@ -115,13 +116,13 @@ const Perfil = () => {
         const base64 = reader.result;
         try {
           const token = localStorage.getItem('token');
-          const response = await axios.put(
-            `${import.meta.env.VITE_API_URL}/api/auth/foto-perfil`,
-            { foto_url: base64 },
+          await axios.put(
+            `${API_BASE_URL}/api/auth/foto-perfil`,
+            { fotoUrl: base64 },
             { headers: { Authorization: `Bearer ${token}` } }
           );
-          setUsuario(prev => ({ ...prev, foto_url: base64 }));
-          updateUser({ ...user, foto_url: base64 });
+          setUsuario(prev => ({ ...prev, foto_url: base64, fotoUrl: base64 }));
+          updateUser({ ...user, fotoUrl: base64, foto_url: base64 });
           await showAlert('Foto atualizada com sucesso!', 'Sucesso', 'success');
         } catch (error) {
           console.error('Erro ao atualizar foto:', error);
@@ -145,7 +146,7 @@ const Perfil = () => {
     
     try {
       const token = localStorage.getItem('token');
-      await axios.put(`${import.meta.env.VITE_API_URL}/api/auth/alterar-senha`, {
+      await axios.put(`${API_BASE_URL}/api/auth/alterar-senha`, {
         senhaAtual,
         novaSenha
       }, {
@@ -170,12 +171,12 @@ const Perfil = () => {
             <div className="profile-card">
               <div className="text-center mb-4">
                 <div className="position-relative d-inline-block">
-                  <div className="profile-avatar" style={usuario.foto_url ? {
-                    backgroundImage: `url(${usuario.foto_url})`,
+                  <div className="profile-avatar" style={(usuario.fotoUrl || usuario.foto_url) ? {
+                    backgroundImage: `url(${usuario.fotoUrl || usuario.foto_url})`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center'
                   } : {}}>
-                    {!usuario.foto_url && <i className="bi bi-person-fill"></i>}
+                    {!(usuario.fotoUrl || usuario.foto_url) && <i className="bi bi-person-fill"></i>}
                   </div>
                   <label htmlFor="foto-upload" className="position-absolute bottom-0 end-0 btn btn-primary btn-sm rounded-circle" 
                          style={{width: '40px', height: '40px', cursor: 'pointer'}}>
@@ -193,7 +194,7 @@ const Perfil = () => {
                 <p className="text-muted mb-3">{usuario.email}</p>
                 <div className="d-flex justify-content-center gap-2 mb-4">
                   <span className="badge bg-primary">
-                    {user?.tipo_usuario === 'terapeuta' ? 'Terapeuta' : 'Paciente'} Ativo
+                    {(user?.tipoUsuario || user?.tipo_usuario) === 'terapeuta' ? 'Terapeuta' : 'Paciente'} Ativo
                   </span>
                   <span className="badge bg-success">Verificado</span>
                 </div>

@@ -4,7 +4,7 @@ import axios from 'axios';
 import API_BASE_URL from '../config';
 
 function AgendarSessao() {
-  const { terapeutaId } = useParams();
+  const { psicologoId } = useParams();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     data: '',
@@ -31,7 +31,7 @@ function AgendarSessao() {
       const dataSessao = `${formData.data}T${formData.hora}:00`;
       
       await axios.post(`${API_BASE_URL}/api/sessoes`, {
-        terapeutaId: parseInt(terapeutaId),
+        psicologoId: parseInt(psicologoId),
         dataSessao,
         duracao: parseInt(formData.duracao),
         valor: parseFloat(formData.valor),

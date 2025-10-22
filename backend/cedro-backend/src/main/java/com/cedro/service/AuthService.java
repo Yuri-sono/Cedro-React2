@@ -3,11 +3,14 @@ package com.cedro.service;
 import com.cedro.model.dto.*;
 import com.cedro.model.TipoUsuario;
 import com.cedro.model.entity.Usuario;
+import com.cedro.repository.MensagemRepository;
+import com.cedro.repository.SessaoRepository;
 import com.cedro.repository.UsuarioRepository;
 import com.cedro.security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,8 +22,14 @@ public class AuthService {
     private UsuarioRepository usuarioRepository;
     
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private SessaoRepository sessaoRepository;
     
+    @Autowired
+    private MensagemRepository mensagemRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Autowired
     private JwtUtil jwtUtil;
     
@@ -78,6 +87,13 @@ public class AuthService {
         usuario.setGenero(request.getGenero());
         usuario.setTelefone(request.getTelefone());
         usuario.setTipoUsuario(request.getTipoUsuario());
+        
+        if (request.getEspecialidade() != null) {
+            usuario.setEspecialidade(request.getEspecialidade());
+        }
+        if (request.getPrecoSessao() != null) {
+            usuario.setPrecoSessao(request.getPrecoSessao());
+        }
         
         usuarioRepository.save(usuario);
     }
@@ -160,10 +176,15 @@ public class AuthService {
         return response;
     }
     
+    @Transactional
     public void excluirConta(Integer userId) {
         Usuario usuario = usuarioRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
-        
+
+        sessaoRepository.deleteByPacienteId(userId);
+        sessaoRepository.deleteByPsicologoId(userId);
+        mensagemRepository.deleteByRemetenteId(userId);
+        mensagemRepository.deleteByDestinatarioId(userId);
         usuarioRepository.delete(usuario);
     }
     

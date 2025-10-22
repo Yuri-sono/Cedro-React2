@@ -15,8 +15,8 @@ public class Sessao {
     @Column(name = "paciente_id", nullable = false)
     private Integer pacienteId;
     
-    @Column(name = "terapeuta_id", nullable = false)
-    private Integer terapeutaId;
+    @Column(name = "psicologo_id", nullable = false)
+    private Integer psicologoId;
     
     @Column(name = "data_sessao", nullable = false)
     private LocalDateTime dataSessao;
@@ -43,8 +43,8 @@ public class Sessao {
     public Integer getPacienteId() { return pacienteId; }
     public void setPacienteId(Integer pacienteId) { this.pacienteId = pacienteId; }
     
-    public Integer getTerapeutaId() { return terapeutaId; }
-    public void setTerapeutaId(Integer terapeutaId) { this.terapeutaId = terapeutaId; }
+    public Integer getPsicologoId() { return psicologoId; }
+    public void setPsicologoId(Integer psicologoId) { this.psicologoId = psicologoId; }
     
     public LocalDateTime getDataSessao() { return dataSessao; }
     public void setDataSessao(LocalDateTime dataSessao) { this.dataSessao = dataSessao; }

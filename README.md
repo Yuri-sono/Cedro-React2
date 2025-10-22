@@ -65,7 +65,7 @@ run.bat
 
 ## 🌐 Deploy
 
-- **Frontend:** Netlify - https://cedro-apoio.netlify.app
+- **Frontend:** Vercel - https://cedro-eight.vercel.app
 - **Backend:** Render - https://cedro-backend-tsyg.onrender.com
 
 ## 📁 Estrutura do projeto

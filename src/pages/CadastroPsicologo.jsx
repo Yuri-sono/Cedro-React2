@@ -66,6 +66,7 @@ const CadastroPsicologo = () => {
         dataNascimento: formData.dataNascimento,
         genero: formData.genero,
         especialidade: formData.especialidade,
+        precoSessao: formData.preco_sessao ? parseFloat(formData.preco_sessao) : null,
         tipoUsuario: 'psicologo'
       });
       alert('Cadastro realizado com sucesso!');

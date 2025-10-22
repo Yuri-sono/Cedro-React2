@@ -6,19 +6,19 @@ import java.time.LocalDateTime;
 
 public class SessaoRequest {
     
-    @JsonProperty("paciente_id")
+    @JsonProperty("pacienteId")
     private Integer pacienteId;
     
-    @JsonProperty("terapeuta_id")
-    private Integer terapeutaId;
+    @JsonProperty("psicologoId")
+    private Integer psicologoId;
     
-    @JsonProperty("data_sessao")
+    @JsonProperty("dataSessao")
     private LocalDateTime dataSessao;
     
     private Integer duracao;
     private BigDecimal valor;
     
-    @JsonProperty("status_sessao")
+    @JsonProperty("statusSessao")
     private String statusSessao;
     
     private String observacoes;
@@ -26,8 +26,8 @@ public class SessaoRequest {
     public Integer getPacienteId() { return pacienteId; }
     public void setPacienteId(Integer pacienteId) { this.pacienteId = pacienteId; }
     
-    public Integer getTerapeutaId() { return terapeutaId; }
-    public void setTerapeutaId(Integer terapeutaId) { this.terapeutaId = terapeutaId; }
+    public Integer getPsicologoId() { return psicologoId; }
+    public void setPsicologoId(Integer psicologoId) { this.psicologoId = psicologoId; }
     
     public LocalDateTime getDataSessao() { return dataSessao; }
     public void setDataSessao(LocalDateTime dataSessao) { this.dataSessao = dataSessao; }

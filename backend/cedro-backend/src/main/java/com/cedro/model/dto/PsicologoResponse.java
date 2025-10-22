@@ -12,12 +12,12 @@ public class PsicologoResponse {
     private String bio;
     private String especialidade;
     
-    @JsonProperty("preco_sessao")
+    @JsonProperty("precoSessao")
     private BigDecimal precoSessao;
     
     private BigDecimal avaliacao;
     
-    @JsonProperty("foto_url")
+    @JsonProperty("fotoUrl")
     private String fotoUrl;
     
     public PsicologoResponse() {}

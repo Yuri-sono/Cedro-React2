@@ -7,7 +7,7 @@ public class UpdatePerfilRequest {
     private String nome;
     private String telefone;
     
-    @JsonProperty("data_nascimento")
+    @JsonProperty("dataNascimento")
     private LocalDate dataNascimento;
     
     private String genero;

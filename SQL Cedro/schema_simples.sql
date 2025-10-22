@@ -31,7 +31,7 @@ IF OBJECT_ID('pagamentos', 'U') IS NOT NULL DROP TABLE pagamentos;
 IF OBJECT_ID('sessoes', 'U') IS NOT NULL DROP TABLE sessoes;
 IF OBJECT_ID('usuarios', 'U') IS NOT NULL DROP TABLE usuarios;
 
--- Tabela de Usuários (Pacientes, Terapeutas, Psicólogos e Admin)
+-- Tabela de Usuários (Pacientes, Psicólogos e Admin)
 CREATE TABLE usuarios (
     id INT PRIMARY KEY IDENTITY(1,1),
     nome VARCHAR(100) NOT NULL,
@@ -42,10 +42,10 @@ CREATE TABLE usuarios (
     genero VARCHAR(20),
     endereco VARCHAR(200),
     bio TEXT,
-    tipo_usuario VARCHAR(20) NOT NULL DEFAULT 'paciente', -- 'paciente', 'terapeuta', 'psicologo', 'admin'
-    especialidade VARCHAR(100), -- Apenas para terapeutas
-    preco_sessao DECIMAL(10,2), -- Apenas para terapeutas
-    avaliacao DECIMAL(3,2) DEFAULT 5.0, -- Apenas para terapeutas
+    tipo_usuario VARCHAR(20) NOT NULL DEFAULT 'paciente', -- 'paciente', 'psicologo', 'admin'
+    especialidade VARCHAR(100), -- Apenas para psicólogos
+    preco_sessao DECIMAL(10,2), -- Apenas para psicólogos
+    avaliacao DECIMAL(3,2) DEFAULT 5.0, -- Apenas para psicólogos
     foto_url VARCHAR(255),
     ativo BIT DEFAULT 1,
     data_criacao DATETIME DEFAULT GETDATE()
@@ -55,15 +55,13 @@ CREATE TABLE usuarios (
 CREATE TABLE sessoes (
     id INT PRIMARY KEY IDENTITY(1,1),
     paciente_id INT NOT NULL,
-    terapeuta_id INT NOT NULL,
+    psicologo_id INT NOT NULL,
     data_sessao DATETIME NOT NULL,
     duracao INT DEFAULT 60, -- em minutos
     valor DECIMAL(10,2) NOT NULL,
     status_sessao VARCHAR(20) DEFAULT 'agendada', -- 'agendada', 'realizada', 'cancelada'
     observacoes TEXT,
-    data_criacao DATETIME DEFAULT GETDATE(),
-    FOREIGN KEY (paciente_id) REFERENCES usuarios(id),
-    FOREIGN KEY (terapeuta_id) REFERENCES usuarios(id)
+    data_criacao DATETIME DEFAULT GETDATE()
 );
 
 -- Tabela de Pagamentos
@@ -74,8 +72,7 @@ CREATE TABLE pagamentos (
     status_pagamento VARCHAR(20) DEFAULT 'pendente', -- 'pendente', 'pago', 'cancelado'
     metodo_pagamento VARCHAR(50), -- 'pix', 'cartao', 'boleto'
     data_pagamento DATETIME,
-    data_criacao DATETIME DEFAULT GETDATE(),
-    FOREIGN KEY (sessao_id) REFERENCES sessoes(id)
+    data_criacao DATETIME DEFAULT GETDATE()
 );
 
 -- Tabela de Avaliações
@@ -83,13 +80,10 @@ CREATE TABLE avaliacoes (
     id INT PRIMARY KEY IDENTITY(1,1),
     sessao_id INT NOT NULL,
     paciente_id INT NOT NULL,
-    terapeuta_id INT NOT NULL,
+    psicologo_id INT NOT NULL,
     nota INT NOT NULL CHECK (nota >= 1 AND nota <= 5),
     comentario TEXT,
-    data_criacao DATETIME DEFAULT GETDATE(),
-    FOREIGN KEY (sessao_id) REFERENCES sessoes(id),
-    FOREIGN KEY (paciente_id) REFERENCES usuarios(id),
-    FOREIGN KEY (terapeuta_id) REFERENCES usuarios(id)
+    data_criacao DATETIME DEFAULT GETDATE()
 );
 
 -- Tabela de Mensagens (Chat)
@@ -99,9 +93,7 @@ CREATE TABLE mensagens (
     destinatario_id INT NOT NULL,
     mensagem TEXT NOT NULL,
     lida BIT DEFAULT 0,
-    data_criacao DATETIME DEFAULT GETDATE(),
-    FOREIGN KEY (remetente_id) REFERENCES usuarios(id),
-    FOREIGN KEY (destinatario_id) REFERENCES usuarios(id)
+    data_criacao DATETIME DEFAULT GETDATE()
 );
 
 -- Tabela de Autoavaliações
@@ -111,8 +103,7 @@ CREATE TABLE autoavaliacoes (
     pontuacao INT NOT NULL,
     nivel VARCHAR(50) NOT NULL,
     respostas TEXT, -- JSON com as respostas
-    data_criacao DATETIME DEFAULT GETDATE(),
-    FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+    data_criacao DATETIME DEFAULT GETDATE()
 );
 
 -- Tabela de E-books
@@ -164,9 +155,7 @@ CREATE TABLE inscricoes_webinars (
     webinar_id INT NOT NULL,
     usuario_id INT NOT NULL,
     presente BIT DEFAULT 0,
-    data_inscricao DATETIME DEFAULT GETDATE(),
-    FOREIGN KEY (webinar_id) REFERENCES webinars(id),
-    FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+    data_inscricao DATETIME DEFAULT GETDATE()
 );
 
 -- Tabela de Grupos de Terapia
@@ -174,15 +163,14 @@ CREATE TABLE grupos_terapia (
     id INT PRIMARY KEY IDENTITY(1,1),
     nome VARCHAR(100) NOT NULL,
     descricao TEXT,
-    terapeuta_id INT NOT NULL,
+    psicologo_id INT NOT NULL,
     horario VARCHAR(50),
     dia_semana VARCHAR(20),
     vagas_total INT DEFAULT 8,
     vagas_disponiveis INT DEFAULT 8,
     preco_sessao DECIMAL(10,2),
     ativo BIT DEFAULT 1,
-    data_criacao DATETIME DEFAULT GETDATE(),
-    FOREIGN KEY (terapeuta_id) REFERENCES usuarios(id)
+    data_criacao DATETIME DEFAULT GETDATE()
 );
 
 -- Tabela de Participantes de Grupos
@@ -192,9 +180,7 @@ CREATE TABLE participantes_grupos (
     usuario_id INT NOT NULL,
     status VARCHAR(20) DEFAULT 'ativo', -- 'ativo', 'inativo', 'concluido'
     data_entrada DATETIME DEFAULT GETDATE(),
-    data_saida DATETIME,
-    FOREIGN KEY (grupo_id) REFERENCES grupos_terapia(id),
-    FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+    data_saida DATETIME
 );
 
 -- Tabela de Sessões de Grupo
@@ -205,8 +191,7 @@ CREATE TABLE sessoes_grupo (
     tema VARCHAR(200),
     observacoes TEXT,
     status VARCHAR(20) DEFAULT 'agendada',
-    data_criacao DATETIME DEFAULT GETDATE(),
-    FOREIGN KEY (grupo_id) REFERENCES grupos_terapia(id)
+    data_criacao DATETIME DEFAULT GETDATE()
 );
 
 -- Tabela de Presença em Sessões de Grupo
@@ -214,9 +199,7 @@ CREATE TABLE presenca_grupo (
     id INT PRIMARY KEY IDENTITY(1,1),
     sessao_grupo_id INT NOT NULL,
     usuario_id INT NOT NULL,
-    presente BIT DEFAULT 0,
-    FOREIGN KEY (sessao_grupo_id) REFERENCES sessoes_grupo(id),
-    FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+    presente BIT DEFAULT 0
 );
 
 -- Tabela de Contatos/Mensagens de Suporte
@@ -240,9 +223,7 @@ CREATE TABLE emergencias (
     status VARCHAR(20) DEFAULT 'aberto', -- 'aberto', 'em_atendimento', 'resolvido'
     atendente_id INT,
     data_criacao DATETIME DEFAULT GETDATE(),
-    data_resolucao DATETIME,
-    FOREIGN KEY (usuario_id) REFERENCES usuarios(id),
-    FOREIGN KEY (atendente_id) REFERENCES usuarios(id)
+    data_resolucao DATETIME
 );
 
 -- Tabela de Mensagens de Emergência
@@ -251,9 +232,7 @@ CREATE TABLE mensagens_emergencia (
     emergencia_id INT NOT NULL,
     remetente_id INT NOT NULL,
     mensagem TEXT NOT NULL,
-    data_criacao DATETIME DEFAULT GETDATE(),
-    FOREIGN KEY (emergencia_id) REFERENCES emergencias(id),
-    FOREIGN KEY (remetente_id) REFERENCES usuarios(id)
+    data_criacao DATETIME DEFAULT GETDATE()
 );
 
 -- Tabela de Histórico de Downloads
@@ -261,9 +240,7 @@ CREATE TABLE downloads (
     id INT PRIMARY KEY IDENTITY(1,1),
     usuario_id INT NOT NULL,
     ebook_id INT NOT NULL,
-    data_download DATETIME DEFAULT GETDATE(),
-    FOREIGN KEY (usuario_id) REFERENCES usuarios(id),
-    FOREIGN KEY (ebook_id) REFERENCES ebooks(id)
+    data_download DATETIME DEFAULT GETDATE()
 );
 
 -- Tabela de Histórico de Reproduções
@@ -273,9 +250,7 @@ CREATE TABLE reproducoes (
     meditacao_id INT NOT NULL,
     duracao_assistida INT, -- em minutos
     concluida BIT DEFAULT 0,
-    data_reproducao DATETIME DEFAULT GETDATE(),
-    FOREIGN KEY (usuario_id) REFERENCES usuarios(id),
-    FOREIGN KEY (meditacao_id) REFERENCES meditacoes(id)
+    data_reproducao DATETIME DEFAULT GETDATE()
 );
 
 -- Índices para melhorar performance
@@ -283,13 +258,13 @@ CREATE INDEX idx_usuarios_email ON usuarios(email);
 CREATE INDEX idx_usuarios_tipo ON usuarios(tipo_usuario);
 CREATE INDEX idx_usuarios_ativo ON usuarios(ativo);
 CREATE INDEX idx_sessoes_paciente ON sessoes(paciente_id);
-CREATE INDEX idx_sessoes_terapeuta ON sessoes(terapeuta_id);
+CREATE INDEX idx_sessoes_psicologo ON sessoes(psicologo_id);
 CREATE INDEX idx_sessoes_data ON sessoes(data_sessao);
 CREATE INDEX idx_sessoes_status ON sessoes(status_sessao);
 CREATE INDEX idx_mensagens_remetente ON mensagens(remetente_id);
 CREATE INDEX idx_mensagens_destinatario ON mensagens(destinatario_id);
 CREATE INDEX idx_autoavaliacoes_usuario ON autoavaliacoes(usuario_id);
-CREATE INDEX idx_grupos_terapeuta ON grupos_terapia(terapeuta_id);
+CREATE INDEX idx_grupos_psicologo ON grupos_terapia(psicologo_id);
 CREATE INDEX idx_webinars_data ON webinars(data_webinar);
 CREATE INDEX idx_emergencias_status ON emergencias(status);
 CREATE INDEX idx_pagamentos_status ON pagamentos(status_pagamento);
