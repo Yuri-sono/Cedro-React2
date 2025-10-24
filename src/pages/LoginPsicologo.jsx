@@ -31,7 +31,6 @@ const LoginPsicologo = () => {
       
       if (response.data.usuario.tipoUsuario === 'psicologo') {
         login(response.data.usuario, response.data.token);
-        localStorage.setItem('psicologoLogado', JSON.stringify(response.data.usuario));
         navigate('/psicologo/dashboard');
       } else {
         setError('Esta conta não é de psicólogo. Use o login de paciente.');

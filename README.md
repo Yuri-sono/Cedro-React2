@@ -56,7 +56,7 @@ run.bat
 - Axios
 
 ### Backend
-- Spring Boot 3.5.6
+- Spring Boot 3.5.7
 - Spring Security
 - Spring Data JPA
 - JWT Authentication

@@ -57,7 +57,9 @@ public class AuthService {
                 usuario.getGenero(),
                 usuario.getEndereco(),
                 usuario.getBio(),
-                usuario.getFotoUrl()
+                usuario.getFotoUrl(),
+                usuario.getEspecialidade(),
+                usuario.getPrecoSessao()
         );
         
         return new LoginResponse(token, usuarioResponse);
@@ -69,13 +71,13 @@ public class AuthService {
         }
         
         String senha = request.getSenha();
-        if (senha.length() < 5) {
-            throw new RuntimeException("A senha deve ter no mínimo 5 caracteres");
+        if (senha.length() < 6) {
+            throw new RuntimeException("A senha deve ter no mínimo 6 caracteres");
         }
         if (!senha.matches(".*\\d.*")) {
             throw new RuntimeException("A senha deve conter pelo menos 1 número");
         }
-        if (!senha.matches(".*[!@#$%^&*(),.?\"':{}|<>].*")) {
+        if (!senha.matches(".*[!@#$%^&*(),.?\":{}|<>].*")) {
             throw new RuntimeException("A senha deve conter pelo menos 1 caractere especial");
         }
         
@@ -125,7 +127,9 @@ public class AuthService {
                 usuario.getGenero(),
                 usuario.getEndereco(),
                 usuario.getBio(),
-                usuario.getFotoUrl()
+                usuario.getFotoUrl(),
+                usuario.getEspecialidade(),
+                usuario.getPrecoSessao()
         );
         
         return new LoginResponse(token, usuarioResponse);
@@ -141,6 +145,8 @@ public class AuthService {
         if (request.getGenero() != null) usuario.setGenero(request.getGenero());
         if (request.getEndereco() != null) usuario.setEndereco(request.getEndereco());
         if (request.getBio() != null) usuario.setBio(request.getBio());
+        if (request.getEspecialidade() != null) usuario.setEspecialidade(request.getEspecialidade());
+        if (request.getPrecoSessao() != null) usuario.setPrecoSessao(request.getPrecoSessao());
         
         usuarioRepository.save(usuario);
         
@@ -158,13 +164,13 @@ public class AuthService {
         }
         
         String novaSenha = request.getNovaSenha();
-        if (novaSenha.length() < 5) {
-            throw new RuntimeException("A senha deve ter no mínimo 5 caracteres");
+        if (novaSenha.length() < 6) {
+            throw new RuntimeException("A senha deve ter no mínimo 6 caracteres");
         }
         if (!novaSenha.matches(".*\\d.*")) {
             throw new RuntimeException("A senha deve conter pelo menos 1 número");
         }
-        if (!novaSenha.matches(".*[!@#$%^&*(),.?\"':{}|<>].*")) {
+        if (!novaSenha.matches(".*[!@#$%^&*(),.?\":{}|<>].*")) {
             throw new RuntimeException("A senha deve conter pelo menos 1 caractere especial");
         }
         

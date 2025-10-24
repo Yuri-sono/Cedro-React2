@@ -1,6 +1,7 @@
 package com.cedro.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class UpdatePerfilRequest {
@@ -13,6 +14,10 @@ public class UpdatePerfilRequest {
     private String genero;
     private String endereco;
     private String bio;
+    private String especialidade;
+    
+    @JsonProperty("preco_sessao")
+    private BigDecimal precoSessao;
     
     public String getNome() { return nome; }
     public void setNome(String nome) { this.nome = nome; }
@@ -31,4 +36,10 @@ public class UpdatePerfilRequest {
     
     public String getBio() { return bio; }
     public void setBio(String bio) { this.bio = bio; }
+    
+    public String getEspecialidade() { return especialidade; }
+    public void setEspecialidade(String especialidade) { this.especialidade = especialidade; }
+    
+    public BigDecimal getPrecoSessao() { return precoSessao; }
+    public void setPrecoSessao(BigDecimal precoSessao) { this.precoSessao = precoSessao; }
 }

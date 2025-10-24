@@ -30,7 +30,7 @@ function Login() {
     
     if (name === 'senha' && !isLogin) {
       setSenhaValidacao({
-        minLength: value.length >= 5,
+        minLength: value.length >= 6,
         hasNumber: /\d/.test(value),
         hasSpecial: /[!@#$%^&*(),.?":{}|<>]/.test(value)
       });
@@ -215,7 +215,7 @@ function Login() {
                       <div className="mt-2">
                         <small className={senhaValidacao.minLength ? 'text-success' : 'text-danger'}>
                           <i className={`bi bi-${senhaValidacao.minLength ? 'check-circle-fill' : 'x-circle-fill'} me-1`}></i>
-                          Mínimo 5 caracteres
+                          Mínimo 6 caracteres
                         </small><br/>
                         <small className={senhaValidacao.hasNumber ? 'text-success' : 'text-danger'}>
                           <i className={`bi bi-${senhaValidacao.hasNumber ? 'check-circle-fill' : 'x-circle-fill'} me-1`}></i>

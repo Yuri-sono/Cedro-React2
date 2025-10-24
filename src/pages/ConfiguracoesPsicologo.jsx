@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext.jsx';
 import NavbarPsicologo from '../components/NavbarPsicologo.jsx';
 import SidebarPsicologo from '../components/SidebarPsicologo.jsx';
 import axios from 'axios';
+import API_BASE_URL from '../config.js';
 
 const ConfiguracoesPsicologo = () => {
   const [psicologo, setPsicologo] = useState(null);
@@ -24,24 +26,23 @@ const ConfiguracoesPsicologo = () => {
     hasSpecial: false
   });
   const navigate = useNavigate();
+  const { user, updateUser } = useAuth();
 
   useEffect(() => {
-    const psicologoLogado = localStorage.getItem('psicologoLogado');
-    if (!psicologoLogado) {
+    if (!user || user.tipoUsuario !== 'psicologo') {
       navigate('/login-psicologo');
       return;
     }
-    const data = JSON.parse(psicologoLogado);
-    setPsicologo(data);
+    setPsicologo(user);
     setConfig({
-      nome: data.nome || '',
-      email: data.email || '',
-      telefone: data.telefone || '',
-      especialidade: data.especialidade || '',
-      preco_sessao: data.preco_sessao || '',
-      bio: data.bio || ''
+      nome: user.nome || '',
+      email: user.email || '',
+      telefone: user.telefone || '',
+      especialidade: user.especialidade || '',
+      preco_sessao: user.precoSessao || '',
+      bio: user.bio || ''
     });
-  }, [navigate]);
+  }, [user, navigate]);
 
   const handleChange = (e) => {
     setConfig({ ...config, [e.target.name]: e.target.value });
@@ -50,18 +51,24 @@ const ConfiguracoesPsicologo = () => {
   const handleSalvar = async () => {
     try {
       const token = localStorage.getItem('token');
-      await axios.put(`${import.meta.env.VITE_API_URL}/api/auth/perfil`, config, {
+      await axios.put(`${API_BASE_URL}/api/auth/perfil`, {
+        nome: config.nome,
+        telefone: config.telefone,
+        bio: config.bio,
+        especialidade: config.especialidade,
+        preco_sessao: config.preco_sessao ? parseFloat(config.preco_sessao) : null
+      }, {
         headers: { Authorization: `Bearer ${token}` }
       });
       
-      const updatedData = { ...psicologo, ...config };
-      localStorage.setItem('psicologoLogado', JSON.stringify(updatedData));
+      const updatedData = { ...psicologo, ...config, precoSessao: config.preco_sessao };
+      updateUser(updatedData);
       setPsicologo(updatedData);
       setEditando(false);
       alert('Configurações atualizadas com sucesso!');
     } catch (error) {
       console.error('Erro ao salvar:', error);
-      alert('Erro ao salvar configurações.');
+      alert(error.response?.data?.error || 'Erro ao salvar configurações.');
     }
   };
 
@@ -78,7 +85,7 @@ const ConfiguracoesPsicologo = () => {
     
     try {
       const token = localStorage.getItem('token');
-      await axios.put(`${import.meta.env.VITE_API_URL}/api/auth/alterar-senha`, {
+      await axios.put(`${API_BASE_URL}/api/auth/alterar-senha`, {
         senhaAtual,
         novaSenha
       }, {
@@ -89,13 +96,22 @@ const ConfiguracoesPsicologo = () => {
       setSenhaAtual('');
       setNovaSenha('');
       setConfirmarSenha('');
+      setSenhaValidacao({ minLength: false, hasNumber: false, hasSpecial: false });
     } catch (error) {
       console.error('Erro ao alterar senha:', error);
-      alert('Erro ao alterar senha. Verifique a senha atual.');
+      alert(error.response?.data?.error || 'Erro ao alterar senha. Verifique a senha atual.');
     }
   };
 
-  if (!psicologo) return <div>Carregando...</div>;
+  if (!psicologo) {
+    return (
+      <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
+        <div className="spinner-border text-primary" role="status">
+          <span className="visually-hidden">Carregando...</span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="dashboard-psicologo">
@@ -233,7 +249,7 @@ const ConfiguracoesPsicologo = () => {
                         const value = e.target.value;
                         setNovaSenha(value);
                         setSenhaValidacao({
-                          minLength: value.length >= 5,
+                          minLength: value.length >= 6,
                           hasNumber: /\d/.test(value),
                           hasSpecial: /[!@#$%^&*(),.?":{}|<>]/.test(value)
                         });
@@ -242,7 +258,7 @@ const ConfiguracoesPsicologo = () => {
                     {novaSenha && (
                       <div className="mt-1">
                         <small className={senhaValidacao.minLength ? 'text-success' : 'text-danger'}>
-                          <i className={`bi bi-${senhaValidacao.minLength ? 'check-circle-fill' : 'x-circle-fill'}`}></i> 5+ caracteres
+                          <i className={`bi bi-${senhaValidacao.minLength ? 'check-circle-fill' : 'x-circle-fill'}`}></i> 6+ caracteres
                         </small>{' '}
                         <small className={senhaValidacao.hasNumber ? 'text-success' : 'text-danger'}>
                           <i className={`bi bi-${senhaValidacao.hasNumber ? 'check-circle-fill' : 'x-circle-fill'}`}></i> 1 número

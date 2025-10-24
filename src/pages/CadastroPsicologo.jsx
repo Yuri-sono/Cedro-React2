@@ -33,7 +33,7 @@ const CadastroPsicologo = () => {
     
     if (name === 'senha') {
       setSenhaValidacao({
-        minLength: value.length >= 5,
+        minLength: value.length >= 6,
         hasNumber: /\d/.test(value),
         hasSpecial: /[!@#$%^&*(),.?":{}|<>]/.test(value)
       });
@@ -58,17 +58,20 @@ const CadastroPsicologo = () => {
     }
 
     try {
-      await axios.post(`${API_BASE_URL}/api/auth/register`, {
+      const payload = {
         nome: formData.nome,
         email: formData.email,
         senha: formData.senha,
         telefone: formData.telefone,
         dataNascimento: formData.dataNascimento,
         genero: formData.genero,
-        especialidade: formData.especialidade,
-        precoSessao: formData.preco_sessao ? parseFloat(formData.preco_sessao) : null,
         tipoUsuario: 'psicologo'
-      });
+      };
+      
+      if (formData.especialidade) payload.especialidade = formData.especialidade;
+      if (formData.preco_sessao) payload.precoSessao = parseFloat(formData.preco_sessao);
+      
+      await axios.post(`${API_BASE_URL}/api/auth/register`, payload);
       alert('Cadastro realizado com sucesso!');
       navigate('/login-psicologo');
     } catch (error) {
@@ -140,7 +143,7 @@ const CadastroPsicologo = () => {
                       {formData.senha && (
                         <div className="mt-1">
                           <small className={senhaValidacao.minLength ? 'text-success' : 'text-danger'}>
-                            <i className={`bi bi-${senhaValidacao.minLength ? 'check-circle-fill' : 'x-circle-fill'}`}></i> 5+ caracteres
+                            <i className={`bi bi-${senhaValidacao.minLength ? 'check-circle-fill' : 'x-circle-fill'}`}></i> 6+ caracteres
                           </small>{' '}
                           <small className={senhaValidacao.hasNumber ? 'text-success' : 'text-danger'}>
                             <i className={`bi bi-${senhaValidacao.hasNumber ? 'check-circle-fill' : 'x-circle-fill'}`}></i> 1 número

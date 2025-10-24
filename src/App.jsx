@@ -50,6 +50,7 @@ import AgendarSessao from './pages/AgendarSessao.jsx';
 import Chat from './pages/Chat.jsx';
 import Premium from './pages/Premium.jsx';
 import AdBanner from './components/AdBanner.jsx';
+import NotFound from './pages/NotFound.jsx';
 
 function AppContent() {
   const location = useLocation();
@@ -149,6 +150,7 @@ function AppContent() {
               </ProtectedRoute>
             } />
             <Route path="/premium" element={<Premium />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
           <Footer />
           <BackToTop />

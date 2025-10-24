@@ -106,12 +106,12 @@ const ChatEmergencia = () => {
             <div className="card border-0 shadow">
               <div className="card-header bg-success text-white py-3">
                 <div className="d-flex align-items-center">
-                  <div className="ai-avatar me-3">
+                  <div className="support-avatar me-3">
                     <i className="bi bi-chat-heart fs-4"></i>
                   </div>
                   <div>
-                    <h2 className="h4 mb-0">Apoio Psicológico - Cedro</h2>
-                    <small className="opacity-75">Respostas Automáticas • Apoio Inicial</small>
+                    <h2 className="h4 mb-0">Sistema de Apoio - Cedro</h2>
+                    <small className="opacity-75">Orientações Automáticas • Apoio Inicial</small>
                   </div>
                   <div className="ms-auto">
                     <span className="badge bg-light text-success">
