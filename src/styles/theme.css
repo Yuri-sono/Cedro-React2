@@ -789,7 +789,7 @@ body {
 @media (max-width: 768px) {
   .theme-toggle {
     top: 15px;
-    right: 15px;
+    right: 70px;
   }
   
   .navbar-toggler {
