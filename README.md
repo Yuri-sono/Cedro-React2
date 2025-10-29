@@ -1,51 +1,44 @@
-# 🌳 Cedro - Apoio Psicológico
+# Cedro - Apoio Psicológico
 
-Plataforma completa de apoio psicológico desenvolvida com React e Spring Boot.
+Plataforma de apoio psicológico com React e Spring Boot.
 
-## ✨ Funcionalidades
+## Funcionalidades
 
-- ✅ Sistema de autenticação (JWT + Google OAuth)
-- ✅ Perfis de usuário (Paciente, Psicólogo, Admin)
-- ✅ Agendamento de sessões
-- ✅ Lista de psicólogos
-- ✅ Dashboard do psicólogo
-- ✅ Chat de emergência
-- ✅ Modo escuro completo
-- ✅ Recuperação de senha
-- ✅ Responsivo mobile
+- Autenticação JWT + Google OAuth
+- Perfis: Paciente, Psicólogo, Admin
+- Agendamento de sessões
+- Lista de psicólogos
+- Dashboard do psicólogo
+- Chat de emergência
+- Modo escuro
+- Recuperação de senha
+- Responsivo
 
-## 🚀 Como executar
+## Como rodar
 
-### Pré-requisitos
-- Node.js (versão 16 ou superior)
-- npm ou yarn
+### Precisa ter
+- Node.js 16+
+- npm
 
 ### Instalação
 ```bash
-# Instalar dependências do frontend
 npm install
 
-# Configurar variáveis de ambiente do Spring Boot
-cp backend/cedro-backend/.env.example backend/cedro-backend/.env
-# Edite o arquivo .env com suas configurações
-
-# Executar frontend (porta 3000)
+# Frontend (porta 3000)
 npm run dev
 
-# Executar backend Spring Boot (porta 3001)
+# Backend (porta 3001)
 cd backend/cedro-backend
-# Windows:
-run.bat
-# Linux/Mac:
-./mvnw spring-boot:run
+run.bat  # Windows
+./mvnw spring-boot:run  # Linux/Mac
 ```
 
-### Scripts disponíveis
-- `npm run dev` - Inicia o servidor de desenvolvimento
-- `npm run build` - Gera build de produção
-- `npm run preview` - Visualiza a build de produção
+### Scripts
+- `npm run dev` - Dev server
+- `npm run build` - Build produção
+- `npm run preview` - Preview build
 
-## 🛠️ Tecnologias
+## Stack
 
 ### Frontend
 - React 18
@@ -63,12 +56,12 @@ run.bat
 - SQL Server
 - Maven
 
-## 🌐 Deploy
+## Deploy
 
-- **Frontend:** Vercel - https://cedro-eight.vercel.app
-- **Backend:** Render - https://cedro-backend-tsyg.onrender.com
+- Frontend: https://cedro-eight.vercel.app
+- Backend: https://cedro-backend-tsyg.onrender.com
 
-## 📁 Estrutura do projeto
+## Estrutura
 ```
 src/
 ├── components/     # Componentes reutilizáveis
@@ -90,11 +83,9 @@ backend/cedro-backend/
 └── pom.xml         # Dependências Maven
 ```
 
-## 🔒 Segurança
+## Segurança
 
-**IMPORTANTE:** Antes de usar em produção, leia o arquivo [SECURITY.md](SECURITY.md)
-
-- Configure o arquivo `.env` com suas próprias credenciais
-- Use senhas fortes para o banco de dados
-- Configure HTTPS em produção
-- Mantenha as dependências atualizadas
+- Configure suas credenciais no `.env`
+- Use senhas fortes
+- HTTPS em produção
+- Mantenha dependências atualizadas
