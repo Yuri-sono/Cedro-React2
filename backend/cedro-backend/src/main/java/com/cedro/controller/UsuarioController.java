@@ -63,7 +63,7 @@ public class UsuarioController {
                 .map(usuario -> {
                     usuario.setAtivo(body.get("ativo"));
                     usuarioRepository.save(usuario);
-                    return ResponseEntity.ok(Map.of("message", "Status atualizado"));
+                    return ResponseEntity.ok(Map.of("message", "ok"));
                 })
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -78,7 +78,7 @@ public class UsuarioController {
                     mensagemRepository.deleteByRemetenteId(id);
                     mensagemRepository.deleteByDestinatarioId(id);
                     usuarioRepository.delete(usuario);
-                    return ResponseEntity.ok(Map.of("message", "Usuário deletado"));
+                    return ResponseEntity.ok(Map.of("message", "Deletado"));
                 })
                 .orElse(ResponseEntity.notFound().build());
     }

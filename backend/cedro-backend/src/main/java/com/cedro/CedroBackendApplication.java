@@ -11,11 +11,11 @@ public class CedroBackendApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(CedroBackendApplication.class, args);
-		System.out.println("🚀 API Cedro rodando na porta 3001");
+		System.out.println("[Cedro] Rodando na :3001");
 	}
 
 	@GetMapping("/")
 	public String home() {
-		return "API Cedro rodando!";
+		return "ok";
 	}
 }

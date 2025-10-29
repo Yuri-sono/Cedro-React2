@@ -36,20 +36,19 @@ public class MensagemService {
     }
     
     public void marcarComoLida(Integer mensagemId) {
-        Mensagem mensagem = mensagemRepository.findById(mensagemId)
-                .orElseThrow(() -> new RuntimeException("Mensagem não encontrada"));
-        
-        mensagem.setLida(true);
-        mensagemRepository.save(mensagem);
+        Mensagem msg = mensagemRepository.findById(mensagemId)
+                .orElseThrow(() -> new RuntimeException("Não encontrada"));
+        msg.setLida(true);
+        mensagemRepository.save(msg);
     }
     
     public void marcarTodasComoLidas(Integer usuarioId, Integer remetenteId) {
-        List<Mensagem> mensagens = mensagemRepository.findConversaBetween(usuarioId, remetenteId);
-        mensagens.stream()
-                .filter(m -> m.getDestinatarioId().equals(usuarioId) && !m.getLida())
-                .forEach(m -> {
-                    m.setLida(true);
-                    mensagemRepository.save(m);
-                });
+        List<Mensagem> msgs = mensagemRepository.findConversaBetween(usuarioId, remetenteId);
+        msgs.stream()
+            .filter(m -> m.getDestinatarioId().equals(usuarioId) && !m.getLida())
+            .forEach(m -> {
+                m.setLida(true);
+                mensagemRepository.save(m);
+            });
     }
 }

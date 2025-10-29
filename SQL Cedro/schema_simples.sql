@@ -1,8 +1,5 @@
--- ============================================
--- Banco de Dados Cedro - Schema Completo
--- Sistema de Apoio Psicológico
--- SQL Server 2019+
--- ============================================
+-- Schema Cedro
+-- SQL Server
 
 -- Dropar todas as constraints de foreign key primeiro
 DECLARE @sql NVARCHAR(MAX) = '';
@@ -253,7 +250,7 @@ CREATE TABLE reproducoes (
     data_reproducao DATETIME DEFAULT GETDATE()
 );
 
--- Índices para melhorar performance
+-- Índices
 CREATE INDEX idx_usuarios_email ON usuarios(email);
 CREATE INDEX idx_usuarios_tipo ON usuarios(tipo_usuario);
 CREATE INDEX idx_usuarios_ativo ON usuarios(ativo);

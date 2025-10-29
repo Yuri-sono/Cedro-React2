@@ -69,7 +69,6 @@ public class Usuario {
     @Column(name = "data_criacao", nullable = false)
     private LocalDateTime dataCriacao = LocalDateTime.now();
     
-    // Constructors
     public Usuario() {}
     
     public Usuario(String nome, String email, String senhaHash, TipoUsuario tipoUsuario) {
@@ -78,8 +77,6 @@ public class Usuario {
         this.senhaHash = senhaHash;
         this.tipoUsuario = tipoUsuario;
     }
-    
-    // Getters and Setters
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
     

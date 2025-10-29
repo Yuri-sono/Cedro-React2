@@ -28,7 +28,7 @@ public class SessaoService {
     
     public Sessao buscarPorId(Integer id) {
         return sessaoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Sessão não encontrada"));
+                .orElseThrow(() -> new RuntimeException("Não encontrada"));
     }
     
     public Sessao criar(SessaoRequest request) {

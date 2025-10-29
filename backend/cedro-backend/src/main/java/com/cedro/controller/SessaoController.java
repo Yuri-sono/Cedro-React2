@@ -40,31 +40,19 @@ public class SessaoController {
     
     @PostMapping
     public ResponseEntity<Sessao> criar(@RequestBody SessaoRequest request) {
-        try {
-            Sessao sessao = sessaoService.criar(request);
-            return ResponseEntity.status(201).body(sessao);
-        } catch (Exception e) {
-            return ResponseEntity.status(400).build();
-        }
+        Sessao sessao = sessaoService.criar(request);
+        return ResponseEntity.status(201).body(sessao);
     }
     
     @PutMapping("/{id}")
     public ResponseEntity<Sessao> atualizar(@PathVariable Integer id, @RequestBody SessaoRequest request) {
-        try {
-            Sessao sessao = sessaoService.atualizar(id, request);
-            return ResponseEntity.ok(sessao);
-        } catch (Exception e) {
-            return ResponseEntity.status(400).build();
-        }
+        Sessao sessao = sessaoService.atualizar(id, request);
+        return ResponseEntity.ok(sessao);
     }
     
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deletar(@PathVariable Integer id) {
-        try {
-            sessaoService.deletar(id);
-            return ResponseEntity.ok(Map.of("message", "Sessão deletada com sucesso"));
-        } catch (Exception e) {
-            return ResponseEntity.status(400).body(Map.of("error", e.getMessage()));
-        }
+        sessaoService.deletar(id);
+        return ResponseEntity.ok(Map.of("message", "Deletada"));
     }
 }

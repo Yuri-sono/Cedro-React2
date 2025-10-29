@@ -22,128 +22,85 @@ public class AuthController {
     
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
-        try {
-            LoginResponse response = authService.login(request);
-            return ResponseEntity.ok(response);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(401).build();
-        }
+        LoginResponse response = authService.login(request);
+        return ResponseEntity.ok(response);
     }
     
     @PostMapping("/register")
     public ResponseEntity<Map<String, String>> register(@Valid @RequestBody RegisterRequest request) {
-        try {
-            authService.register(request);
-            return ResponseEntity.status(201)
-                    .body(Map.of("message", "Usuário criado com sucesso!"));
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(400)
-                    .body(Map.of("error", e.getMessage()));
-        }
+        authService.register(request);
+        return ResponseEntity.status(201).body(Map.of("message", "Conta criada!"));
     }
     
     @PostMapping("/google")
     public ResponseEntity<?> googleLogin(@RequestBody Map<String, String> request) {
-        try {
-            String email = request.get("email");
-            String nome = request.get("nome");
-            
-            if (email == null || nome == null) {
-                return ResponseEntity.status(400)
-                        .body(Map.of("error", "Email e nome são obrigatórios"));
-            }
-            
-            LoginResponse response = authService.googleLogin(email, nome);
-            return ResponseEntity.ok(response);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(400)
-                    .body(Map.of("error", e.getMessage()));
+        String email = request.get("email");
+        String nome = request.get("nome");
+        
+        if (email == null || nome == null) {
+            return ResponseEntity.badRequest().body(Map.of("error", "Faltam dados"));
         }
+        
+        LoginResponse response = authService.googleLogin(email, nome);
+        return ResponseEntity.ok(response);
     }
     
     @GetMapping("/")
     public ResponseEntity<String> test() {
-        return ResponseEntity.ok("API Cedro rodando!");
+        return ResponseEntity.ok("ok");
     }
     
     @PutMapping("/perfil")
     public ResponseEntity<?> updatePerfil(
             @RequestHeader("Authorization") String authHeader,
             @RequestBody UpdatePerfilRequest request) {
-        try {
-            String token = authHeader.replace("Bearer ", "");
-            Integer userId = jwtUtil.extractUserId(token);
-            
-            Map<String, Object> response = authService.updatePerfil(userId, request);
-            return ResponseEntity.ok(response);
-        } catch (Exception e) {
-            return ResponseEntity.status(400)
-                    .body(Map.of("error", e.getMessage()));
-        }
+        String token = authHeader.replace("Bearer ", "");
+        Integer userId = jwtUtil.extractUserId(token);
+        
+        authService.updatePerfil(userId, request);
+        return ResponseEntity.ok(Map.of("message", "Perfil atualizado"));
     }
     
     @PutMapping("/alterar-senha")
     public ResponseEntity<?> alterarSenha(
             @RequestHeader("Authorization") String authHeader,
             @RequestBody AlterarSenhaRequest request) {
-        try {
-            String token = authHeader.replace("Bearer ", "");
-            Integer userId = jwtUtil.extractUserId(token);
-            
-            Map<String, Object> response = authService.alterarSenha(userId, request);
-            return ResponseEntity.ok(response);
-        } catch (Exception e) {
-            return ResponseEntity.status(400)
-                    .body(Map.of("error", e.getMessage()));
-        }
+        String token = authHeader.replace("Bearer ", "");
+        Integer userId = jwtUtil.extractUserId(token);
+        
+        authService.alterarSenha(userId, request);
+        return ResponseEntity.ok(Map.of("message", "Senha alterada"));
     }
     
     @DeleteMapping("/conta")
     public ResponseEntity<?> excluirConta(@RequestHeader("Authorization") String authHeader) {
-        try {
-            String token = authHeader.replace("Bearer ", "");
-            Integer userId = jwtUtil.extractUserId(token);
-            
-            authService.excluirConta(userId);
-            return ResponseEntity.ok(Map.of("message", "Conta excluída com sucesso"));
-        } catch (Exception e) {
-            return ResponseEntity.status(400)
-                    .body(Map.of("error", e.getMessage()));
-        }
+        String token = authHeader.replace("Bearer ", "");
+        Integer userId = jwtUtil.extractUserId(token);
+        
+        authService.excluirConta(userId);
+        return ResponseEntity.ok(Map.of("message", "Conta excluída"));
     }
     
     @PostMapping("/recuperar-senha")
     public ResponseEntity<?> recuperarSenha(@RequestBody Map<String, String> request) {
-        try {
-            String email = request.get("email");
-            if (email == null || email.isEmpty()) {
-                return ResponseEntity.status(400)
-                        .body(Map.of("error", "Email é obrigatório"));
-            }
-            
-            authService.recuperarSenha(email);
-            return ResponseEntity.ok(Map.of("message", "Senha temporária gerada. Verifique o console do servidor."));
-        } catch (Exception e) {
-            return ResponseEntity.status(400)
-                    .body(Map.of("error", e.getMessage()));
+        String email = request.get("email");
+        if (email == null || email.isEmpty()) {
+            return ResponseEntity.badRequest().body(Map.of("error", "Informe o email"));
         }
+        
+        authService.recuperarSenha(email);
+        return ResponseEntity.ok(Map.of("message", "Nova senha enviada (verifique o console)"));
     }
     
     @PutMapping("/foto-perfil")
     public ResponseEntity<?> updateFotoPerfil(
             @RequestHeader("Authorization") String authHeader,
             @RequestBody Map<String, String> request) {
-        try {
-            String token = authHeader.replace("Bearer ", "");
-            Integer userId = jwtUtil.extractUserId(token);
-            String fotoUrl = request.get("foto_url");
-            
-            Map<String, Object> response = authService.updateFotoPerfil(userId, fotoUrl);
-            return ResponseEntity.ok(response);
-        } catch (Exception e) {
-            return ResponseEntity.status(400)
-                    .body(Map.of("error", e.getMessage()));
-        }
+        String token = authHeader.replace("Bearer ", "");
+        Integer userId = jwtUtil.extractUserId(token);
+        String fotoUrl = request.get("foto_url");
+        
+        authService.updateFotoPerfil(userId, fotoUrl);
+        return ResponseEntity.ok(Map.of("message", "Foto atualizada", "foto_url", fotoUrl));
     }
 }

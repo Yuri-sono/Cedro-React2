@@ -35,10 +35,10 @@ public class AuthService {
     
     public LoginResponse login(LoginRequest request) {
         Usuario usuario = usuarioRepository.findByEmailAndAtivoTrue(request.getEmail())
-                .orElseThrow(() -> new RuntimeException("Credenciais inválidas"));
+                .orElseThrow(() -> new RuntimeException("Email ou senha incorretos"));
         
         if (!passwordEncoder.matches(request.getSenha(), usuario.getSenhaHash())) {
-            throw new RuntimeException("Credenciais inválidas");
+            throw new RuntimeException("Email ou senha incorretos");
         }
         
         String token = jwtUtil.generateToken(
@@ -67,18 +67,18 @@ public class AuthService {
     
     public void register(RegisterRequest request) {
         if (usuarioRepository.existsByEmail(request.getEmail())) {
-            throw new RuntimeException("Email já cadastrado");
+            throw new RuntimeException("Esse email já tá em uso");
         }
         
         String senha = request.getSenha();
         if (senha.length() < 6) {
-            throw new RuntimeException("A senha deve ter no mínimo 6 caracteres");
+            throw new RuntimeException("Senha muito curta (mín. 6 caracteres)");
         }
         if (!senha.matches(".*\\d.*")) {
-            throw new RuntimeException("A senha deve conter pelo menos 1 número");
+            throw new RuntimeException("Precisa ter pelo menos 1 número");
         }
         if (!senha.matches(".*[!@#$%^&*(),.?\":{}|<>].*")) {
-            throw new RuntimeException("A senha deve conter pelo menos 1 caractere especial");
+            throw new RuntimeException("Precisa ter pelo menos 1 caractere especial");
         }
         
         Usuario usuario = new Usuario();
@@ -135,7 +135,7 @@ public class AuthService {
         return new LoginResponse(token, usuarioResponse);
     }
     
-    public Map<String, Object> updatePerfil(Integer userId, UpdatePerfilRequest request) {
+    public void updatePerfil(Integer userId, UpdatePerfilRequest request) {
         Usuario usuario = usuarioRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
         
@@ -149,37 +149,29 @@ public class AuthService {
         if (request.getPrecoSessao() != null) usuario.setPrecoSessao(request.getPrecoSessao());
         
         usuarioRepository.save(usuario);
-        
-        Map<String, Object> response = new HashMap<>();
-        response.put("message", "Perfil atualizado com sucesso");
-        return response;
     }
     
-    public Map<String, Object> alterarSenha(Integer userId, AlterarSenhaRequest request) {
+    public void alterarSenha(Integer userId, AlterarSenhaRequest request) {
         Usuario usuario = usuarioRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
         
         if (!passwordEncoder.matches(request.getSenhaAtual(), usuario.getSenhaHash())) {
-            throw new RuntimeException("Senha atual incorreta");
+            throw new RuntimeException("Senha atual tá errada");
         }
         
         String novaSenha = request.getNovaSenha();
         if (novaSenha.length() < 6) {
-            throw new RuntimeException("A senha deve ter no mínimo 6 caracteres");
+            throw new RuntimeException("Senha muito curta (mín. 6 caracteres)");
         }
         if (!novaSenha.matches(".*\\d.*")) {
-            throw new RuntimeException("A senha deve conter pelo menos 1 número");
+            throw new RuntimeException("Precisa ter pelo menos 1 número");
         }
         if (!novaSenha.matches(".*[!@#$%^&*(),.?\":{}|<>].*")) {
-            throw new RuntimeException("A senha deve conter pelo menos 1 caractere especial");
+            throw new RuntimeException("Precisa ter pelo menos 1 caractere especial");
         }
         
         usuario.setSenhaHash(passwordEncoder.encode(request.getNovaSenha()));
         usuarioRepository.save(usuario);
-        
-        Map<String, Object> response = new HashMap<>();
-        response.put("message", "Senha alterada com sucesso");
-        return response;
     }
     
     @Transactional
@@ -196,30 +188,20 @@ public class AuthService {
     
     public void recuperarSenha(String email) {
         Usuario usuario = usuarioRepository.findByEmailAndAtivoTrue(email)
-                .orElseThrow(() -> new RuntimeException("Email não encontrado"));
+                .orElseThrow(() -> new RuntimeException("Email não cadastrado"));
         
-        // Gera senha temporária
         String senhaTemporaria = "Temp@" + System.currentTimeMillis() % 10000;
         usuario.setSenhaHash(passwordEncoder.encode(senhaTemporaria));
         usuarioRepository.save(usuario);
         
-        System.out.println("====================================");
-        System.out.println("RECUPERAÇÃO DE SENHA");
-        System.out.println("Email: " + email);
-        System.out.println("Senha temporária: " + senhaTemporaria);
-        System.out.println("====================================");
+        System.out.println("\n[RECUPERAÇÃO] " + email + " -> " + senhaTemporaria + "\n");
     }
     
-    public Map<String, Object> updateFotoPerfil(Integer userId, String fotoUrl) {
+    public void updateFotoPerfil(Integer userId, String fotoUrl) {
         Usuario usuario = usuarioRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
         
         usuario.setFotoUrl(fotoUrl);
         usuarioRepository.save(usuario);
-        
-        Map<String, Object> response = new HashMap<>();
-        response.put("message", "Foto de perfil atualizada com sucesso");
-        response.put("foto_url", fotoUrl);
-        return response;
     }
 }

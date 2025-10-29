@@ -77,7 +77,7 @@ function Login() {
       navigate('/');
     } catch (error) {
       console.error('Erro no login Google:', error);
-      alert('Erro ao fazer login com Google');
+      alert('Deu ruim no login com Google');
     }
   };
 
@@ -86,7 +86,7 @@ function Login() {
     
     if (!isLogin) {
       if (!senhaValidacao.minLength || !senhaValidacao.hasNumber || !senhaValidacao.hasSpecial) {
-        alert('A senha não atende aos requisitos mínimos de segurança.');
+        alert('Senha fraca demais');
         return;
       }
     }
@@ -110,12 +110,12 @@ function Login() {
         login(response.data.usuario, response.data.token);
         navigate('/');
       } else {
-        alert('Cadastro realizado com sucesso!');
+        alert('Conta criada!');
         setIsLogin(true);
       }
     } catch (error) {
       console.error('Erro:', error);
-      const errorMessage = error.response?.data?.error || 'Erro na operação';
+      const errorMessage = error.response?.data?.error || 'Algo deu errado';
       alert(errorMessage);
     } finally {
       setLoading(false);
@@ -131,8 +131,8 @@ function Login() {
               <div className="card-body">
                 <div className="text-center mb-4">
                   <i className="bi bi-heart-pulse text-primary" style={{ fontSize: '3rem' }}></i>
-                  <h2 className="fw-bold mt-3">{isLogin ? 'Bem-vindo de volta' : 'Criar conta'}</h2>
-                  <p className="text-muted">{isLogin ? 'Acesse sua conta' : 'Junte-se à nossa comunidade'}</p>
+                  <h2 className="fw-bold mt-3">{isLogin ? 'Olá novamente' : 'Criar conta'}</h2>
+                  <p className="text-muted">{isLogin ? 'Faça login' : 'Cadastre-se'}</p>
                 </div>
                 
                 <form onSubmit={handleSubmit}>
@@ -292,7 +292,7 @@ function Login() {
                           <button type="button" className="btn-close" onClick={() => setShowRecuperarSenha(false)}></button>
                         </div>
                         <div className="modal-body">
-                          <p className="text-muted">Digite seu email para receber instruções de recuperação de senha.</p>
+                          <p className="text-muted">Informe seu email pra gente te ajudar.</p>
                           <input
                             type="email"
                             className="form-control"
@@ -309,11 +309,11 @@ function Login() {
                             onClick={async () => {
                               try {
                                 await axios.post(`${API_BASE_URL}/api/auth/recuperar-senha`, { email: emailRecuperacao });
-                                alert('Senha temporária gerada! Entre em contato com o suporte.');
+                                alert('Senha temporária gerada! Fala com o suporte.');
                                 setShowRecuperarSenha(false);
                                 setEmailRecuperacao('');
                               } catch (error) {
-                                alert('Erro. Verifique se o email está correto.');
+                                alert('Email não encontrado');
                               }
                             }}
                           >

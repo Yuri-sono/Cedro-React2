@@ -32,70 +32,46 @@ public class MensagemController {
     public ResponseEntity<?> enviarMensagem(
             @RequestHeader("Authorization") String authHeader,
             @Valid @RequestBody MensagemRequest request) {
-        try {
-            Integer remetenteId = getUserIdFromToken(authHeader);
-            Mensagem mensagem = mensagemService.enviarMensagem(remetenteId, request);
-            return ResponseEntity.ok(mensagem);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
-        }
+        Integer remetenteId = getUserIdFromToken(authHeader);
+        Mensagem mensagem = mensagemService.enviarMensagem(remetenteId, request);
+        return ResponseEntity.ok(mensagem);
     }
     
     @GetMapping("/conversa/{userId}")
     public ResponseEntity<?> listarConversa(
             @RequestHeader("Authorization") String authHeader,
             @PathVariable Integer userId) {
-        try {
-            Integer meuId = getUserIdFromToken(authHeader);
-            List<Mensagem> mensagens = mensagemService.listarConversa(meuId, userId);
-            return ResponseEntity.ok(mensagens);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
-        }
+        Integer meuId = getUserIdFromToken(authHeader);
+        List<Mensagem> mensagens = mensagemService.listarConversa(meuId, userId);
+        return ResponseEntity.ok(mensagens);
     }
     
     @GetMapping("/nao-lidas")
     public ResponseEntity<?> listarMensagensNaoLidas(@RequestHeader("Authorization") String authHeader) {
-        try {
-            Integer usuarioId = getUserIdFromToken(authHeader);
-            List<Mensagem> mensagens = mensagemService.listarMensagensNaoLidas(usuarioId);
-            return ResponseEntity.ok(mensagens);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
-        }
+        Integer usuarioId = getUserIdFromToken(authHeader);
+        List<Mensagem> mensagens = mensagemService.listarMensagensNaoLidas(usuarioId);
+        return ResponseEntity.ok(mensagens);
     }
     
     @GetMapping("/nao-lidas/count")
     public ResponseEntity<?> contarMensagensNaoLidas(@RequestHeader("Authorization") String authHeader) {
-        try {
-            Integer usuarioId = getUserIdFromToken(authHeader);
-            long count = mensagemService.contarMensagensNaoLidas(usuarioId);
-            return ResponseEntity.ok(Map.of("count", count));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
-        }
+        Integer usuarioId = getUserIdFromToken(authHeader);
+        long count = mensagemService.contarMensagensNaoLidas(usuarioId);
+        return ResponseEntity.ok(Map.of("count", count));
     }
     
     @PutMapping("/{id}/lida")
     public ResponseEntity<?> marcarComoLida(@PathVariable Integer id) {
-        try {
-            mensagemService.marcarComoLida(id);
-            return ResponseEntity.ok(Map.of("message", "Mensagem marcada como lida"));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
-        }
+        mensagemService.marcarComoLida(id);
+        return ResponseEntity.ok(Map.of("message", "ok"));
     }
     
     @PutMapping("/marcar-lidas/{remetenteId}")
     public ResponseEntity<?> marcarTodasComoLidas(
             @RequestHeader("Authorization") String authHeader,
             @PathVariable Integer remetenteId) {
-        try {
-            Integer usuarioId = getUserIdFromToken(authHeader);
-            mensagemService.marcarTodasComoLidas(usuarioId, remetenteId);
-            return ResponseEntity.ok(Map.of("message", "Mensagens marcadas como lidas"));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
-        }
+        Integer usuarioId = getUserIdFromToken(authHeader);
+        mensagemService.marcarTodasComoLidas(usuarioId, remetenteId);
+        return ResponseEntity.ok(Map.of("message", "ok"));
     }
 }
