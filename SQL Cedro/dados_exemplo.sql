@@ -46,7 +46,7 @@ VALUES
 -- Inserir Admin
 INSERT INTO usuarios (nome, email, senha_hash, tipo_usuario, ativo)
 VALUES 
-('Administrador', 'admin@cedro.com', '$2b$10$exemplo7', 'admin', 1);
+('Administrador', 'admin@cedro.com', '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjefYRIs1WlsqRQqTvNv3euKB4s1aGy', 'admin', 1);
 
 -- Inserir Sessões
 INSERT INTO sessoes (paciente_id, psicologo_id, data_sessao, valor, status_sessao)
