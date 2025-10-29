@@ -265,3 +265,6 @@ CREATE INDEX idx_grupos_psicologo ON grupos_terapia(psicologo_id);
 CREATE INDEX idx_webinars_data ON webinars(data_webinar);
 CREATE INDEX idx_emergencias_status ON emergencias(status);
 CREATE INDEX idx_pagamentos_status ON pagamentos(status_pagamento);
+
+
+SELECT*from usuarios
