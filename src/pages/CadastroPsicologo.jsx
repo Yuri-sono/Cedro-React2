@@ -7,6 +7,7 @@ const CadastroPsicologo = () => {
   const [formData, setFormData] = useState({
     nome: '',
     email: '',
+    crp: '',
     senha: '',
     confirmarSenha: '',
     telefone: '',
@@ -61,6 +62,7 @@ const CadastroPsicologo = () => {
       const payload = {
         nome: formData.nome,
         email: formData.email,
+        crp: formData.crp,
         senha: formData.senha,
         telefone: formData.telefone,
         dataNascimento: formData.dataNascimento,
@@ -115,6 +117,22 @@ const CadastroPsicologo = () => {
                       />
                     </div>
                     <div className="col-md-6 mb-3">
+                      <label htmlFor="crp" className="form-label">CRP *</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="crp"
+                        name="crp"
+                        placeholder="Ex: 06/123456"
+                        value={formData.crp}
+                        onChange={handleChange}
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div className="row">
+                    <div className="col-md-6 mb-3">
                       <label htmlFor="email" className="form-label">Email *</label>
                       <input
                         type="email"
@@ -122,6 +140,18 @@ const CadastroPsicologo = () => {
                         id="email"
                         name="email"
                         value={formData.email}
+                        onChange={handleChange}
+                        required
+                      />
+                    </div>
+                    <div className="col-md-6 mb-3">
+                      <label htmlFor="telefone" className="form-label">Telefone *</label>
+                      <input
+                        type="tel"
+                        className="form-control"
+                        id="telefone"
+                        name="telefone"
+                        value={formData.telefone}
                         onChange={handleChange}
                         required
                       />
@@ -170,18 +200,6 @@ const CadastroPsicologo = () => {
 
                   <div className="row">
                     <div className="col-md-6 mb-3">
-                      <label htmlFor="telefone" className="form-label">Telefone *</label>
-                      <input
-                        type="tel"
-                        className="form-control"
-                        id="telefone"
-                        name="telefone"
-                        value={formData.telefone}
-                        onChange={handleChange}
-                        required
-                      />
-                    </div>
-                    <div className="col-md-6 mb-3">
                       <label htmlFor="dataNascimento" className="form-label">Data de Nascimento *</label>
                       <input
                         type="date"
@@ -193,9 +211,6 @@ const CadastroPsicologo = () => {
                         required
                       />
                     </div>
-                  </div>
-
-                  <div className="row">
                     <div className="col-md-6 mb-3">
                       <label htmlFor="genero" className="form-label">Gênero *</label>
                       <select
@@ -212,6 +227,9 @@ const CadastroPsicologo = () => {
                         <option value="outro">Outro</option>
                       </select>
                     </div>
+                  </div>
+
+                  <div className="row">
                     <div className="col-md-6 mb-3">
                       <label htmlFor="especialidade" className="form-label">Especialidade</label>
                       <input
@@ -224,23 +242,22 @@ const CadastroPsicologo = () => {
                         onChange={handleChange}
                       />
                     </div>
+                    <div className="col-md-6 mb-3">
+                      <label htmlFor="preco_sessao" className="form-label">Valor da Sessão (R$)</label>
+                      <input
+                        type="number"
+                        className="form-control"
+                        id="preco_sessao"
+                        name="preco_sessao"
+                        min="0"
+                        step="0.01"
+                        value={formData.preco_sessao}
+                        onChange={handleChange}
+                      />
+                    </div>
                   </div>
 
-                  <div className="mb-4">
-                    <label htmlFor="preco_sessao" className="form-label">Valor da Sessão (R$)</label>
-                    <input
-                      type="number"
-                      className="form-control"
-                      id="preco_sessao"
-                      name="preco_sessao"
-                      min="0"
-                      step="0.01"
-                      value={formData.preco_sessao}
-                      onChange={handleChange}
-                    />
-                  </div>
-
-                  <div className="d-grid mb-3">
+                  <div className="d-grid mb-3 mt-2">
                     <button 
                       type="submit" 
                       className="btn btn-primary btn-lg"
