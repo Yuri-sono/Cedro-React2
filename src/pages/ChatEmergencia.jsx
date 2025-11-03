@@ -117,7 +117,7 @@ const ChatEmergencia = () => {
   };
 
   return (
-    <section className="chat-section py-5" style={{ background: 'linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%)', minHeight: '100vh' }}>
+    <section className="chat-section py-5">
       <div className="container">
         <div className="row justify-content-center">
           <div className="col-lg-8">
@@ -129,8 +129,8 @@ const ChatEmergencia = () => {
               <p className="text-muted">Estamos aqui para te ajudar 24 horas por dia</p>
             </div>
             
-            <div className="card border-0 shadow-lg" style={{ borderRadius: '20px', overflow: 'hidden' }}>
-              <div className="card-header text-white py-4" style={{ background: 'linear-gradient(135deg, #2e7d32 0%, #43a047 100%)' }}>
+            <div className="card border-0 shadow-lg chat-card">
+              <div className="card-header text-white py-4 chat-header">
                 <div className="d-flex align-items-center">
                   <div className="position-relative me-3">
                     <div className="bg-white bg-opacity-25 rounded-circle d-flex align-items-center justify-content-center" style={{ width: '50px', height: '50px' }}>
@@ -154,8 +154,8 @@ const ChatEmergencia = () => {
                 </div>
               </div>
               
-              <div className="card-body p-0" style={{ background: '#fafafa' }}>
-                <div className="chat-container p-4" style={{ height: '500px', overflowY: 'auto' }}>
+              <div className="card-body p-0 chat-body">
+                <div className="chat-container p-4">
                   {messages.map(message => (
                     <div key={message.id} className={`d-flex mb-4 ${message.isUser ? 'justify-content-end' : 'justify-content-start'}`}>
                       {!message.isUser && (
@@ -165,8 +165,8 @@ const ChatEmergencia = () => {
                           </div>
                         </div>
                       )}
-                      <div className={`message-bubble ${message.isUser ? 'user-message' : 'bot-message'}`} style={{ maxWidth: '75%' }}>
-                        <div className={`p-3 rounded-3 ${message.isUser ? 'bg-primary text-white' : 'bg-white border'}`} style={{ borderRadius: message.isUser ? '20px 20px 5px 20px' : '20px 20px 20px 5px' }}>
+                      <div className={`message-bubble ${message.isUser ? 'user-message' : 'bot-message'}`}>
+                        <div className={`p-3 rounded-3 message-content-bubble ${message.isUser ? 'user-bubble' : 'bot-bubble'}`}>
                           <p className="mb-0" style={{ whiteSpace: 'pre-line', lineHeight: '1.5' }}>{message.text}</p>
                           
                           {message.showMenu && (
@@ -215,7 +215,7 @@ const ChatEmergencia = () => {
                   <div ref={messagesEndRef} />
                 </div>
                 
-                <div className="options-menu p-4 bg-white border-top">
+                <div className="options-menu p-4 border-top">
                   <h6 className="text-muted mb-3 fw-semibold">Como posso te ajudar hoje?</h6>
                   <div className="row g-3">
                     {questionOptions.map(option => (
