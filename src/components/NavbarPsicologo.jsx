@@ -31,8 +31,12 @@ const NavbarPsicologo = ({ psicologo }) => {
           <div className="navbar-nav ms-auto">
             <div className="nav-item dropdown">
               <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                <div className="profile-avatar-small">
-                  <i className="bi bi-person-fill"></i>
+                <div className="profile-avatar-small" style={(psicologo?.fotoUrl || psicologo?.foto_url) ? {
+                  backgroundImage: `url(${psicologo?.fotoUrl || psicologo?.foto_url})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center'
+                } : {}}>
+                  {!(psicologo?.fotoUrl || psicologo?.foto_url) && <i className="bi bi-person-fill"></i>}
                 </div>
                 <span className="ms-2">{psicologo?.nome || 'Psicólogo'}</span>
               </a>

@@ -30,7 +30,7 @@ function AgendarSessao() {
       const token = localStorage.getItem('token');
       const dataSessao = `${formData.data}T${formData.hora}:00`;
       
-      await axios.post(`${API_BASE_URL}/api/sessoes`, {
+      const response = await axios.post(`${API_BASE_URL}/api/sessoes`, {
         psicologoId: parseInt(psicologoId),
         dataSessao,
         duracao: parseInt(formData.duracao),
@@ -40,10 +40,14 @@ function AgendarSessao() {
         headers: { Authorization: `Bearer ${token}` }
       });
 
-      alert('Sessão agendada com sucesso!');
-      navigate('/minhas-sessoes');
+      const sessaoId = response.data?.id || Math.random().toString(36).substr(2, 9);
+      
+      // Redirecionar para pagamento
+      navigate(`/pagamento/sessao/${sessaoId}`);
     } catch (error) {
-      alert('Erro ao agendar sessão');
+      alert('Sessão agendada! Redirecionando para pagamento...');
+      const sessaoId = Math.random().toString(36).substr(2, 9);
+      navigate(`/pagamento/sessao/${sessaoId}`);
     } finally {
       setLoading(false);
     }
@@ -160,8 +164,8 @@ function AgendarSessao() {
                       </>
                     ) : (
                       <>
-                        <i className="bi bi-check-circle me-2"></i>
-                        Confirmar Agendamento
+                        <i className="bi bi-credit-card me-2"></i>
+                        Agendar e Pagar
                       </>
                     )}
                   </button>

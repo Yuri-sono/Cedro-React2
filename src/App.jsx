@@ -38,6 +38,7 @@ import ConsultasPsicologo from './pages/ConsultasPsicologo.jsx';
 import FinanceiroPsicologo from './pages/FinanceiroPsicologo.jsx';
 import ConfiguracoesPsicologo from './pages/ConfiguracoesPsicologo.jsx';
 import PerfilPsicologo from './pages/PerfilPsicologo.jsx';
+import EstatisticasPsicologo from './pages/EstatisticasPsicologo.jsx';
 import TermosUso from './pages/TermosUso.jsx';
 import PoliticaPrivacidade from './pages/PoliticaPrivacidade.jsx';
 import Autoavaliacoes from './pages/Autoavaliacoes.jsx';
@@ -49,6 +50,7 @@ import MinhasSessoes from './pages/MinhasSessoes.jsx';
 import AgendarSessao from './pages/AgendarSessao.jsx';
 import Chat from './pages/Chat.jsx';
 import Premium from './pages/Premium.jsx';
+import PagamentoSessao from './pages/PagamentoSessao.jsx';
 import AdBanner from './components/AdBanner.jsx';
 import NotFound from './pages/NotFound.jsx';
 
@@ -115,6 +117,11 @@ function AppContent() {
                 <ConfiguracoesPsicologo />
               </ProtectedRoute>
             } />
+            <Route path="/psicologo/estatisticas" element={
+              <ProtectedRoute requiredUserType="psicologo">
+                <EstatisticasPsicologo />
+              </ProtectedRoute>
+            } />
             <Route path="/termos-uso" element={<TermosUso />} />
             <Route path="/politica-privacidade" element={<PoliticaPrivacidade />} />
             <Route path="/autoavaliacoes" element={<Autoavaliacoes />} />
@@ -150,6 +157,11 @@ function AppContent() {
               </ProtectedRoute>
             } />
             <Route path="/premium" element={<Premium />} />
+            <Route path="/pagamento/sessao/:sessaoId" element={
+              <ProtectedRoute>
+                <PagamentoSessao />
+              </ProtectedRoute>
+            } />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <Footer />

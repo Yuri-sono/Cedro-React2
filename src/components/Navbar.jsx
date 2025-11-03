@@ -50,8 +50,12 @@ const Navbar = () => {
             {isUserLoggedIn ? (
               <li className="nav-item dropdown">
                 <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                  <div className="profile-avatar-small">
-                    <i className="bi bi-person-fill"></i>
+                  <div className="profile-avatar-small" style={(user?.fotoUrl || user?.foto_url) ? {
+                    backgroundImage: `url(${user?.fotoUrl || user?.foto_url})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center'
+                  } : {}}>
+                    {!(user?.fotoUrl || user?.foto_url) && <i className="bi bi-person-fill"></i>}
                   </div>
                   <span className="ms-2">{user?.nome || 'Usuário'}</span>
                 </a>

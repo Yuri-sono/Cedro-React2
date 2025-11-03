@@ -1,15 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import '../styles/chat-emergencia.css';
 
 const ChatEmergencia = () => {
   const [messages, setMessages] = useState([
     {
       id: 1,
-      text: "Olá! Escolha uma das opções abaixo para receber apoio:",
-      isUser: false
+      text: "Olá! Sou o assistente virtual do Cedro. Estou aqui para te ajudar. Escolha uma das opções abaixo:",
+      isUser: false,
+      timestamp: new Date()
     }
   ]);
   const [currentStep, setCurrentStep] = useState('menu');
+  const [isTyping, setIsTyping] = useState(false);
+  const messagesEndRef = useRef(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   const questionOptions = [
     {
@@ -55,105 +66,178 @@ const ChatEmergencia = () => {
   ];
 
   const handleOptionClick = (option) => {
-    // Adicionar pergunta do usuário
     const userMessage = {
       id: Date.now(),
       text: option.text,
-      isUser: true
+      isUser: true,
+      timestamp: new Date()
     };
     
     setMessages(prev => [...prev, userMessage]);
+    setIsTyping(true);
     
-    // Adicionar resposta após delay
     setTimeout(() => {
+      setIsTyping(false);
       const botMessage = {
         id: Date.now() + 1,
         text: option.response,
-        isUser: false
+        isUser: false,
+        timestamp: new Date()
       };
       
       setMessages(prev => [...prev, botMessage]);
       
-      // Mostrar opção de voltar ao menu
       setTimeout(() => {
         const menuMessage = {
           id: Date.now() + 2,
           text: "Posso te ajudar com mais alguma coisa?",
           isUser: false,
-          showMenu: true
+          showMenu: true,
+          timestamp: new Date()
         };
         setMessages(prev => [...prev, menuMessage]);
       }, 1000);
-    }, 1500);
+    }, 2000);
   };
 
   const resetChat = () => {
     setMessages([
       {
         id: 1,
-        text: "Olá! Escolha uma das opções abaixo para receber apoio:",
-        isUser: false
+        text: "Olá! Sou o assistente virtual do Cedro. Estou aqui para te ajudar. Escolha uma das opções abaixo:",
+        isUser: false,
+        timestamp: new Date()
       }
     ]);
     setCurrentStep('menu');
   };
 
+  const formatTime = (date) => {
+    return date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+  };
+
   return (
-    <section className="chat-section py-5">
+    <section className="chat-section py-5" style={{ background: 'linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%)', minHeight: '100vh' }}>
       <div className="container">
         <div className="row justify-content-center">
           <div className="col-lg-8">
-            <div className="card border-0 shadow">
-              <div className="card-header bg-success text-white py-3">
+            <div className="text-center mb-4">
+              <div className="d-inline-flex align-items-center justify-content-center bg-success rounded-circle mb-3" style={{ width: '80px', height: '80px' }}>
+                <i className="bi bi-heart-pulse text-white" style={{ fontSize: '2.5rem' }}></i>
+              </div>
+              <h1 className="h2 fw-bold text-success mb-2">Chat de Apoio Emocional</h1>
+              <p className="text-muted">Estamos aqui para te ajudar 24 horas por dia</p>
+            </div>
+            
+            <div className="card border-0 shadow-lg" style={{ borderRadius: '20px', overflow: 'hidden' }}>
+              <div className="card-header text-white py-4" style={{ background: 'linear-gradient(135deg, #2e7d32 0%, #43a047 100%)' }}>
                 <div className="d-flex align-items-center">
-                  <div className="support-avatar me-3">
-                    <i className="bi bi-chat-heart fs-4"></i>
+                  <div className="position-relative me-3">
+                    <div className="bg-white bg-opacity-25 rounded-circle d-flex align-items-center justify-content-center" style={{ width: '50px', height: '50px' }}>
+                      <i className="bi bi-robot fs-4 text-white"></i>
+                    </div>
+                    <div className="position-absolute bottom-0 end-0 bg-success border border-2 border-white rounded-circle" style={{ width: '16px', height: '16px' }}></div>
                   </div>
-                  <div>
-                    <h2 className="h4 mb-0">Sistema de Apoio - Cedro</h2>
-                    <small className="opacity-75">Orientações Automáticas • Apoio Inicial</small>
+                  <div className="flex-grow-1">
+                    <h3 className="h5 mb-1 fw-bold">Assistente Cedro</h3>
+                    <small className="opacity-90">
+                      <i className="bi bi-circle-fill me-1" style={{ fontSize: '8px' }}></i>
+                      Online • Resposta imediata
+                    </small>
                   </div>
-                  <div className="ms-auto">
-                    <span className="badge bg-light text-success">
-                      <i className="bi bi-circle-fill me-1" style={{fontSize: '8px'}}></i>
-                      Online
-                    </span>
+                  <div className="text-end">
+                    <button className="btn btn-light btn-sm rounded-pill" onClick={resetChat}>
+                      <i className="bi bi-arrow-clockwise me-1"></i>
+                      Reiniciar
+                    </button>
                   </div>
                 </div>
               </div>
               
-              <div className="card-body p-0">
-                <div className="chat-container" style={{height: '400px', overflowY: 'auto'}}>
+              <div className="card-body p-0" style={{ background: '#fafafa' }}>
+                <div className="chat-container p-4" style={{ height: '500px', overflowY: 'auto' }}>
                   {messages.map(message => (
-                    <div key={message.id} className={`chat-message ${message.isUser ? 'user' : 'bot'}`}>
-                      <div className="message-content">
-                        <p className="mb-0" style={{whiteSpace: 'pre-line'}}>{message.text}</p>
-                        
-                        {message.showMenu && (
-                          <div className="mt-3">
-                            <button 
-                              className="btn btn-outline-success btn-sm"
-                              onClick={resetChat}
-                            >
-                              🔄 Voltar ao menu principal
-                            </button>
+                    <div key={message.id} className={`d-flex mb-4 ${message.isUser ? 'justify-content-end' : 'justify-content-start'}`}>
+                      {!message.isUser && (
+                        <div className="me-3">
+                          <div className="bg-success rounded-circle d-flex align-items-center justify-content-center text-white" style={{ width: '40px', height: '40px', minWidth: '40px' }}>
+                            <i className="bi bi-robot"></i>
                           </div>
-                        )}
+                        </div>
+                      )}
+                      <div className={`message-bubble ${message.isUser ? 'user-message' : 'bot-message'}`} style={{ maxWidth: '75%' }}>
+                        <div className={`p-3 rounded-3 ${message.isUser ? 'bg-primary text-white' : 'bg-white border'}`} style={{ borderRadius: message.isUser ? '20px 20px 5px 20px' : '20px 20px 20px 5px' }}>
+                          <p className="mb-0" style={{ whiteSpace: 'pre-line', lineHeight: '1.5' }}>{message.text}</p>
+                          
+                          {message.showMenu && (
+                            <div className="mt-3">
+                              <button 
+                                className="btn btn-success btn-sm rounded-pill"
+                                onClick={resetChat}
+                              >
+                                <i className="bi bi-arrow-clockwise me-1"></i>
+                                Voltar ao menu
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                        <small className={`d-block mt-1 text-muted ${message.isUser ? 'text-end' : 'text-start'}`}>
+                          {formatTime(message.timestamp)}
+                        </small>
                       </div>
+                      {message.isUser && (
+                        <div className="ms-3">
+                          <div className="bg-primary rounded-circle d-flex align-items-center justify-content-center text-white" style={{ width: '40px', height: '40px', minWidth: '40px' }}>
+                            <i className="bi bi-person-fill"></i>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   ))}
+                  
+                  {isTyping && (
+                    <div className="d-flex justify-content-start mb-4">
+                      <div className="me-3">
+                        <div className="bg-success rounded-circle d-flex align-items-center justify-content-center text-white" style={{ width: '40px', height: '40px' }}>
+                          <i className="bi bi-robot"></i>
+                        </div>
+                      </div>
+                      <div className="bg-white border rounded-3 p-3" style={{ borderRadius: '20px 20px 20px 5px' }}>
+                        <div className="typing-indicator">
+                          <span></span>
+                          <span></span>
+                          <span></span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                  
+                  <div ref={messagesEndRef} />
                 </div>
                 
-                {/* Menu de Opções */}
-                <div className="options-menu p-3 border-top bg-light">
-                  <div className="row g-2">
+                <div className="options-menu p-4 bg-white border-top">
+                  <h6 className="text-muted mb-3 fw-semibold">Como posso te ajudar hoje?</h6>
+                  <div className="row g-3">
                     {questionOptions.map(option => (
                       <div key={option.id} className="col-md-6">
                         <button 
-                          className="btn btn-outline-primary w-100 text-start"
+                          className="btn btn-outline-success w-100 text-start p-3 border-2 rounded-3"
                           onClick={() => handleOptionClick(option)}
+                          style={{ transition: 'all 0.3s ease', borderRadius: '15px' }}
+                          onMouseEnter={(e) => {
+                            e.target.style.transform = 'translateY(-2px)';
+                            e.target.style.boxShadow = '0 4px 12px rgba(46, 125, 50, 0.2)';
+                          }}
+                          onMouseLeave={(e) => {
+                            e.target.style.transform = 'translateY(0)';
+                            e.target.style.boxShadow = 'none';
+                          }}
                         >
-                          {option.text}
+                          <div className="d-flex align-items-center">
+                            <span className="me-2" style={{ fontSize: '1.2rem' }}>{option.text.split(' ')[0]}</span>
+                            <span className="flex-grow-1">{option.text.substring(option.text.indexOf(' ') + 1)}</span>
+                            <i className="bi bi-arrow-right-short text-muted"></i>
+                          </div>
                         </button>
                       </div>
                     ))}

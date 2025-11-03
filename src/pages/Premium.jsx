@@ -1,15 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext.jsx';
+import PagamentoModal from '../components/PagamentoModal.jsx';
 import '../styles/premium.css';
 
 const Premium = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const [showPagamento, setShowPagamento] = useState(false);
+  const [planoSelecionado, setPlanoSelecionado] = useState(null);
 
   const handleAssinar = () => {
-    // Implementar lógica de pagamento futuramente
-    alert('Funcionalidade de pagamento em desenvolvimento');
+    if (!user) {
+      alert('Faça login para assinar o Premium');
+      navigate('/login');
+      return;
+    }
+    
+    setPlanoSelecionado({
+      nome: 'Premium',
+      preco: '13,90'
+    });
+    setShowPagamento(true);
   };
 
   return (
@@ -74,7 +86,7 @@ const Premium = () => {
               <div className="plan-footer">
                 <button className="btn btn-premium w-100" onClick={handleAssinar}>
                   <i className="bi bi-star-fill me-2"></i>
-                  Assinar Premium
+                  {user?.plano === 'premium' ? 'Plano Ativo' : 'Assinar Premium'}
                 </button>
               </div>
             </div>
@@ -114,6 +126,12 @@ const Premium = () => {
           </div>
         </div>
       </div>
+      
+      <PagamentoModal 
+        show={showPagamento}
+        onClose={() => setShowPagamento(false)}
+        plano={planoSelecionado}
+      />
     </div>
   );
 };
